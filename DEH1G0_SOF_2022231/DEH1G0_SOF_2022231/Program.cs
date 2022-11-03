@@ -15,10 +15,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<AppUser>(options =>
 {
+    // Password policy reduction for early stage
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;
 
 })
     .AddEntityFrameworkStores<ApplicationDbContext>();
