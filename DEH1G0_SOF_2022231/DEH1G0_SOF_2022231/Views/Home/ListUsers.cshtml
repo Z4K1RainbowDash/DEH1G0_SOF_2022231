@@ -1,0 +1,19 @@
+﻿@model IEnumerable<AppUser>
+
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @if (item.PhotoContentType?.Length > 3)
+            {
+                <img class="user-list-image" src="@Url.Action("GetImage", "Home",new {userid = item.Id})">
+            }
+            <div>
+            <span>@item.FirstName @item.LastName</span>
+            <span>Role</span>
+        </div>
+    </li>
+
+    }
+</ul>
