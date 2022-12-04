@@ -4,7 +4,7 @@ using RestSharp;
 
 namespace NcoreGrpcService.Logic
 {
-    public class NcoreWebScraping
+    public class NcoreWebScraping: INcoreWebScraping
     {
         private readonly IConfiguration _configuration;
         // TODO: readonly?
