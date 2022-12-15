@@ -10,7 +10,7 @@ namespace NcoreGrpcService.Logic
         // TODO: readonly?
         private RestClient client = new RestClient("https://ncore.pro"); 
 
-        private List<KeyValuePair<string, string>> defaultHeaders = new List<KeyValuePair<string, string>>()
+        private readonly List<KeyValuePair<string, string>> defaultHeaders = new List<KeyValuePair<string, string>>()
             {
                 new KeyValuePair<string, string>("Accept" , "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" ),
                 new KeyValuePair<string, string>("Accept-Encoding" , "gzip, deflate, br" ),
@@ -30,24 +30,30 @@ namespace NcoreGrpcService.Logic
                 new KeyValuePair<string, string>("Upgrade-Insecure-Requests" , "1")
             };
 
+        private readonly string _ncoreUsername; 
+        private readonly string _ncorePassword;
+
         public NcoreWebScraping(IConfiguration configuration)
         {
-            _configuration = configuration;
+            this._configuration = configuration;
+            this._ncoreUsername = this._configuration.GetConnectionString("NcoreUsername");
+            this._ncorePassword = this._configuration.GetConnectionString("NcorePassword");
+
         }
 
         private void Login()
         {
 
             var req = new RestRequest("login.php", Method.Post);
-
+            
             foreach (var item in defaultHeaders)
             {
                 req.AddHeader(item.Key, item.Value);
             }
 
             string urlParameters = $"set_lang=hu&submitted=1" +
-                $"&nev={this._configuration.GetConnectionString("NcoreUsername")}" +
-                $"&pass={this._configuration.GetConnectionString("NcorePassword")}";
+                $"&nev={this._ncoreUsername}" +
+                $"&pass={this._ncorePassword}";
 
             req.AddParameter("application/x-www-form-urlencoded",urlParameters , ParameterType.RequestBody);
 
