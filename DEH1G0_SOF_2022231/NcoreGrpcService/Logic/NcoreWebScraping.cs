@@ -32,12 +32,14 @@ namespace NcoreGrpcService.Logic
 
         private readonly string _ncoreUsername; 
         private readonly string _ncorePassword;
+        private readonly string _ncoreKey;
 
         public NcoreWebScraping(IConfiguration configuration)
         {
             this._configuration = configuration;
             this._ncoreUsername = this._configuration.GetConnectionString("NcoreUsername");
             this._ncorePassword = this._configuration.GetConnectionString("NcorePassword");
+            this._ncoreKey = this._configuration.GetConnectionString("NcoreKey");
 
         }
 
@@ -176,7 +178,7 @@ namespace NcoreGrpcService.Logic
         public byte[]? DownloadTorrent(string id)
         {
             string link = $"https://ncore.pro/torrents.php?action=download&id={id}" +
-                $"&key={this._configuration.GetConnectionString("NcoreKey")}";
+                $"&key={this._ncoreKey}";
 
             var request = new RestRequest(link, Method.Get);
             var response = client.DownloadData(request);
