@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option csharp_namespace = "NcoreGrpcService.Protos";
+package ncore;
+
+service Ncore{
+
+    rpc TorrentSearch(SearchRequest) returns (stream TorrentDataReply);
+    rpc TorrentDownload(TorrentRequest) returns(stream TorrentFileResponse);
+}
+
+message SearchRequest{
+    string searchText = 1;
+    string formData = 2;
+}
+
+message TorrentDataReply{
+    string id = 1;
+    string name = 2;
+    string image = 3;
+    string date = 4;
+    string size = 5;
+    string downloads = 6;
+    string seeders = 7;
+    string leechers = 8;
+}
+
+message TorrentRequest{
+    string id = 1;
+}
+
+message TorrentFileResponse{
+    bytes dataChunk = 1;
+}
