@@ -15,10 +15,19 @@ namespace DEH1G0_SOF_2022231.Models
         [StringLength(200, MinimumLength = 3)]
         public string SearchText { get; set; }
 
-        /// <summary>
-        /// A list of torrent categories
-        /// </summary>
-        public List<TorrentCategory> TorrentCategories { get; init; }
+       
+
+        public Movies Movies { get; set; }
+
+        public Series Series { get; set; }
+
+        public Musics Musics { get; set; }
+
+        public Games Games { get; set; }
+        public Programs Programs { get; set; }
+
+        public Books Books { get; set; }
+
     }
 
 }
