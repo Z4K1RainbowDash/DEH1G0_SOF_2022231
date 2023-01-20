@@ -7,7 +7,7 @@ namespace DEH1G0_SOF_2022231.Logic
     /// <summary>
     /// Contains the logic for building Ncore Url
     /// </summary>
-    public class TorrentLogic
+    public class TorrentLogic : ITorrentLogic
     {
         private readonly INcoreUrlBuilder _builder;
 
