@@ -5,7 +5,7 @@ using NcoreGrpcService.Protos;
 
 namespace DEH1G0_SOF_2022231.Logic
 {
-    public class GrpcLogic
+    public class GrpcLogic : IGrpcLogic
     {
         private string _serverAddress;
         private Ncore.NcoreClient _client;
