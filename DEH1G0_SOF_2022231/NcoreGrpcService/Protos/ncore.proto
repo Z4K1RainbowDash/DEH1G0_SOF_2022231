@@ -10,8 +10,7 @@ service Ncore{
 }
 
 message SearchRequest{
-    string searchText = 1;
-    string formData = 2;
+    string url = 1;
 }
 
 message TorrentDataReply{
