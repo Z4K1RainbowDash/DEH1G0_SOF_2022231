@@ -300,6 +300,18 @@
                 <input asp-for="SearchText" class="form-control" />
                 <span asp-validation-for="SearchText" class="text-danger"></span>
 
+                @for (int i = 0; i < Model.Torrents.Count; i++)
+                {
+                    @Html.HiddenFor(model => Model.Torrents[i])
+                    @Html.HiddenFor(model => Model.Torrents[i].NcoreId)
+                    @Html.HiddenFor(model => Model.Torrents[i].Name)
+                    @Html.HiddenFor(model => Model.Torrents[i].ImageUrl)
+                    @Html.HiddenFor(model => Model.Torrents[i].Size)
+                    @Html.HiddenFor(model => Model.Torrents[i].Downloads)
+                    @Html.HiddenFor(model => Model.Torrents[i].Seeders)
+                    @Html.HiddenFor(model => Model.Torrents[i].Leechers)
+                }
+
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -307,6 +319,33 @@
         </form>
     </div>
 </div>
+
+@if (Model.Torrents?.Count > 0)
+{
+    <div>
+        <table class="torrent-table">
+            <th>
+                Name
+            </th>
+            <th>Created</th>
+            <th>Size</th>
+            <th>Downloads</th>
+            <th>Seeders</th>
+            <th>Leechers</th>
+            @foreach (var item in Model.Torrents)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.CreatedDateTime</td>
+                    <td>@item.Size</td>
+                    <td>@item.Downloads</td>
+                    <td>@item.Seeders</td>
+                    <td>@item.Leechers</td>
+                </tr>
+            }
+        </table>
+    </div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
