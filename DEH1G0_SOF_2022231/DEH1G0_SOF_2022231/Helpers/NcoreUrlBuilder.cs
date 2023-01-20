@@ -6,7 +6,7 @@ namespace DEH1G0_SOF_2022231.Helpers
     /// <summary>
     /// URL builder for Ncore.
     /// </summary>
-    public class NcoreUrlBuilder
+    public class NcoreUrlBuilder : INcoreUrlBuilder
     {
         private const string _basicUrl = "/torrents.php?oldal=1&tipus=kivalasztottak_kozott&kivalasztott_tipus=";
         private StringBuilder _stringBuilder;
@@ -161,7 +161,7 @@ namespace DEH1G0_SOF_2022231.Helpers
                 this.TestAndSet(games.Rip, "game_iso,");
                 this.TestAndSet(games.Iso, "game_rip,");
                 this.TestAndSet(games.Console, "console,");
-;
+                ;
 
             }
 
