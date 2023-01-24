@@ -64,6 +64,7 @@ namespace DEH1G0_SOF_2022231.Controllers
                     NcoreId = int.Parse(x.Id),  
                     Name = x.Name,
                     ImageUrl = x.Image,
+                    CreatedDateTime = x.Date,
                     Size = x.Size,
                     Downloads = x.Downloads,
                     Seeders = int.Parse(x.Seeders),
@@ -71,6 +72,17 @@ namespace DEH1G0_SOF_2022231.Controllers
 
                 }).ToList();
             return View(vm);
+
+        }
+
+        public async Task<IActionResult> DownloadTorrent(string id, string name)
+        {
+            
+            var memoryStream = await this._grpcLogic.DownloadTorrent(id);
+            string torrentName = name + ".torrent";
+
+            
+            return File(memoryStream, "application/octet-stream", torrentName);
 
         }
 
