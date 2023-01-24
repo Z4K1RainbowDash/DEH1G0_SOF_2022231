@@ -1,4 +1,6 @@
 using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Helpers;
+using DEH1G0_SOF_2022231.Logic;
 using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
    {
        options
-            .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=UserManagerDB;Trusted_Connection=True;MultipleActiveResultSets=true")
+            .UseSqlServer(builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection"))
             .UseLazyLoadingProxies();
    });
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -25,7 +27,10 @@ builder.Services.AddDefaultIdentity<AppUser>(options =>
 
 }).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(); 
+builder.Services.AddScoped<INcoreUrlBuilder, NcoreUrlBuilder>();
+builder.Services.AddScoped<ITorrentLogic, TorrentLogic>();
+builder.Services.AddScoped<IGrpcLogic>(s => new GrpcLogic(builder.Configuration.GetValue<string>("ConnectionStrings:GrpcServerAddress")));
 
 var app = builder.Build();
 
