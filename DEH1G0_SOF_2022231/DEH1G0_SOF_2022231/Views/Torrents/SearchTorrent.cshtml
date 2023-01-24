@@ -299,19 +299,20 @@
                 <label asp-for="SearchText" class="control-label"></label>
                 <input asp-for="SearchText" class="form-control" />
                 <span asp-validation-for="SearchText" class="text-danger"></span>
-
-                @for (int i = 0; i < Model.Torrents.Count; i++)
+                @if (Model.Torrents?.Count > 0)
                 {
-                    @Html.HiddenFor(model => Model.Torrents[i])
-                    @Html.HiddenFor(model => Model.Torrents[i].NcoreId)
-                    @Html.HiddenFor(model => Model.Torrents[i].Name)
-                    @Html.HiddenFor(model => Model.Torrents[i].ImageUrl)
-                    @Html.HiddenFor(model => Model.Torrents[i].Size)
-                    @Html.HiddenFor(model => Model.Torrents[i].Downloads)
-                    @Html.HiddenFor(model => Model.Torrents[i].Seeders)
-                    @Html.HiddenFor(model => Model.Torrents[i].Leechers)
+                    @for (int i = 0; i < Model.Torrents.Count; i++)
+                    {
+                        @Html.HiddenFor(model => Model.Torrents[i])
+                        @Html.HiddenFor(model => Model.Torrents[i].NcoreId)
+                        @Html.HiddenFor(model => Model.Torrents[i].Name)
+                        @Html.HiddenFor(model => Model.Torrents[i].ImageUrl)
+                        @Html.HiddenFor(model => Model.Torrents[i].Size)
+                        @Html.HiddenFor(model => Model.Torrents[i].Downloads)
+                        @Html.HiddenFor(model => Model.Torrents[i].Seeders)
+                        @Html.HiddenFor(model => Model.Torrents[i].Leechers)
+                    }
                 }
-
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -336,11 +337,12 @@
             {
                 <tr>
                     <td>@item.Name</td>
-                    <td>@item.CreatedDateTime</td>
+                    <td>@item.NcoreId</td>
                     <td>@item.Size</td>
                     <td>@item.Downloads</td>
                     <td>@item.Seeders</td>
                     <td>@item.Leechers</td>
+                    <td><a href="/Torrents/DownloadTorrent?id=@item.NcoreId&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a></td>
                 </tr>
             }
         </table>
