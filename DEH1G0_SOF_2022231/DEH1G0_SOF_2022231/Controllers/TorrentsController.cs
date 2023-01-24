@@ -61,7 +61,7 @@ namespace DEH1G0_SOF_2022231.Controllers
             vm.Torrents = torrents
                 .Select(
                 x => new Torrent { 
-                    NcoreId = int.Parse(x.Id),  
+                    NcoreId = x.Id,  
                     Name = x.Name,
                     ImageUrl = x.Image,
                     CreatedDateTime = x.Date,
