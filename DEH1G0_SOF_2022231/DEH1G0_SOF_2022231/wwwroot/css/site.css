@@ -16,3 +16,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.user-picture-size
+{
+    width: 45px;
+    height:45px;
+}
+
+.category-checkbox {
+    display: table;
+}
