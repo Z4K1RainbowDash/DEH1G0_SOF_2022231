@@ -5,20 +5,13 @@
         <th>
             Name
         </th>
-        <th>Created</th>
-        <th>Size</th>
-        <th>Downloads</th>
-        <th>Seeders</th>
-        <th>Leechers</th>
+        <th>ID</th>
+
         @foreach (var item in Model)
         {
             <tr>
                 <td>@item.Name</td>
                 <td>@item.NcoreId</td>
-                <td>@item.Size</td>
-                <td>@item.Downloads</td>
-                <td>@item.Seeders</td>
-                <td>@item.Leechers</td>
                 <td><a href="/Torrents/DownloadTorrent?id=@item.NcoreId&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a></td>
             </tr>
         }
