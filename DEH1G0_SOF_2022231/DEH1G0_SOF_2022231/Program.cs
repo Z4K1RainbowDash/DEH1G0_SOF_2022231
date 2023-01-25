@@ -31,6 +31,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<INcoreUrlBuilder, NcoreUrlBuilder>();
 builder.Services.AddScoped<ITorrentLogic, TorrentLogic>();
 builder.Services.AddScoped<IGrpcLogic>(s => new GrpcLogic(builder.Configuration.GetValue<string>("ConnectionStrings:GrpcServerAddress")));
+builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
+builder.Services.AddScoped<ITorrentLogRepository, TorrentLogRepository>();
+builder.Services.AddScoped<ITorrentRepository, TorrentRepository>();
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
