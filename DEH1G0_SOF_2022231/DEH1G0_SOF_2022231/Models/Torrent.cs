@@ -6,8 +6,7 @@ namespace DEH1G0_SOF_2022231.Models
     public class Torrent
     {
         [Key]
-        [Required]
-        public int NcoreId { get; set; }
+        public string NcoreId { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
 
