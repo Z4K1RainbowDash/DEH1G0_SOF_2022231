@@ -11,51 +11,56 @@
                 <table class="category-checkbox">
                     <tr>
                         <td>
+                            <div class="checkbox-display">
                             <div class="form-group form-check">
                                 <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="@Model.Movies.IsSelected" /> @Html.DisplayNameFor(model => model.Movies.IsSelected)
+                                    <input class="form-check-input" asp-for="@Model.Movies.IsSelected" id="MoviesCheckboxId" onchange="toggleElement('MoviesCheckboxId','MoviesSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Movies.IsSelected)
                                 </label>
                             </div>
+                        
+
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.IsSelected" id="SeriesCheckboxId" onchange="toggleElement('SeriesCheckboxId','SeriesSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Series.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Musics.IsSelected" id="MusicsCheckboxId" onchange="toggleElement('MusicsCheckboxId','MusicsSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Musics.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Games.IsSelected" id="GamesCheckboxId" onchange="toggleElement('GamesCheckboxId','GamesSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Games.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Programs.IsSelected" id="ProgramsCheckboxId" onchange="toggleElement('ProgramsCheckboxId','ProgramsSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Programs.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Books.IsSelected" id="BooksCheckboxId" onchange="toggleElement('BooksCheckboxId','BooksSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Books.IsSelected)
+                                </label>
+                                </div>
+                            </div>
+                            
                         </td>
 
-                        <td>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="@Model.Series.IsSelected" /> @Html.DisplayNameFor(model => model.Series.IsSelected)
-                                </label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="@Model.Musics.IsSelected" /> @Html.DisplayNameFor(model => model.Musics.IsSelected)
-                                </label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="@Model.Games.IsSelected" /> @Html.DisplayNameFor(model => model.Games.IsSelected)
-                                </label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="@Model.Programs.IsSelected" /> @Html.DisplayNameFor(model => model.Programs.IsSelected)
-                                </label>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-group form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" asp-for="@Model.Books.IsSelected" /> @Html.DisplayNameFor(model => model.Books.IsSelected)
-                                </label>
-                            </div>
-                        </td>
                     </tr>
 
-                    <tr>
+                    <tr id="MoviesSubcategoriesId" class="hide-element">
+                        
                         <td><label>Movies:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -119,9 +124,11 @@
                             </div>
                         </td>
 
-
+                        
                     </tr>
-                    <tr>
+
+                    
+                    <tr id="SeriesSubcategoriesId" class="hide-element">
                         <td><label>Series:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -175,7 +182,7 @@
 
 
                     </tr>
-                    <tr>
+                    <tr id="MusicsSubcategoriesId" class="hide-element">
                         <td><label>Musics:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -219,7 +226,7 @@
                         </td>
 
                     </tr>
-                    <tr>
+                    <tr id="GamesSubcategoriesId" class="hide-element">
                         <td><label>Games:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -247,7 +254,7 @@
                         </td>
 
                     </tr>
-                    <tr>
+                    <tr id="ProgramsSubcategoriesId" class="hide-element">
                         <td><label>Programs:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -274,7 +281,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="BooksSubcategoriesId" class="hide-element">
                         <td><label>Books:</label></td>
 
                         <td>
@@ -315,7 +322,7 @@
                 }
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Search" class="btn btn-primary" />
             </div>
         </form>
     </div>
