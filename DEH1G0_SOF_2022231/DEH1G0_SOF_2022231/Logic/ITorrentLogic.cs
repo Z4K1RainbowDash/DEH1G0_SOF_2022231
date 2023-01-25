@@ -20,5 +20,7 @@ namespace DEH1G0_SOF_2022231.Logic
         /// <param name="books">An object of Books class that contains the selected book categories</param>
         /// <returns>The NcoreUrl object containing the built URL</returns>
         NcoreUrl GetNcoreUrl(string searchText, Movies movies, Series series, Musics musics, Programs programs, Games games, Books books);
+
+        Task CreateIdentities(string torrentId, string torrentName, string userId);
     }
 }

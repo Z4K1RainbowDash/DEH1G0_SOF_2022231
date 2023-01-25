@@ -1,6 +1,9 @@
-﻿using DEH1G0_SOF_2022231.Helpers;
+﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Helpers;
 using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Helpers;
+using System.Reflection.Metadata;
+using System.Xml.Linq;
 
 namespace DEH1G0_SOF_2022231.Logic
 {
@@ -11,14 +14,21 @@ namespace DEH1G0_SOF_2022231.Logic
     {
         private readonly INcoreUrlBuilder _builder;
 
+        private readonly IAppUserRepository _userRepository;
+        private readonly ITorrentRepository _torrentRepository;
+        private readonly ITorrentLogRepository _torrentLogRepository;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TorrentLogic"/> class.
         /// </summary>
         /// <param name="builder">An object of INcoreUrlBuilder that is used for building the Ncore Url</param>
         /// <exception cref="ArgumentNullException">Thrown if the builder parameter is null</exception>
-        public TorrentLogic(INcoreUrlBuilder builder)
+        public TorrentLogic(INcoreUrlBuilder builder, ITorrentRepository torrentRepository, IAppUserRepository appUserRepository, ITorrentLogRepository torrentLogRepository)
         {
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
+            _torrentRepository = torrentRepository;
+            _userRepository = appUserRepository;
+            _torrentLogRepository = torrentLogRepository;
         }
 
         /// <summary>
@@ -47,6 +57,41 @@ namespace DEH1G0_SOF_2022231.Logic
 
             return this._builder.Build();
         }
+
+        public async Task CreateIdentities(string torrentId, string torrentName, string userId)
+        {
+            Torrent torrent = await this._torrentRepository.GetByIdAsync(torrentId);
+
+            if (torrent == null)
+            {
+                torrent = new Torrent
+                {
+                    NcoreId = torrentId,
+                    Name = torrentName
+                };
+                await this._torrentRepository.AddAsync(torrent);
+            }
+
+            var user = await this._userRepository.GetByIdAsync(userId);
+
+            torrent.AppUsers.Add(user);
+            await this._torrentRepository.UpdateAsync(torrent);
+
+
+            TorrentLog torrentLog = new TorrentLog()
+            {
+                Created = DateTime.Now,
+                TorrentId = torrentId,
+                UserId = userId
+            };
+
+            await this._torrentLogRepository.AddAsync(torrentLog);
+        }
+
+        
+
+
+         
     }
 
 }
