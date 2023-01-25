@@ -1,4 +1,5 @@
 ﻿using DEH1G0_SOF_2022231.Models.Helpers;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace DEH1G0_SOF_2022231.Models
@@ -13,6 +14,7 @@ namespace DEH1G0_SOF_2022231.Models
         /// </summary>
         [Required]
         [StringLength(200, MinimumLength = 3)]
+        [DisplayName("Search Field:")]
         public string SearchText { get; set; }
 
        
