@@ -1,7 +1,9 @@
 ﻿using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Diagnostics;
 
 namespace DEH1G0_SOF_2022231.Controllers
@@ -9,14 +11,14 @@ namespace DEH1G0_SOF_2022231.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
+        private readonly IAppUserRepository _userRepo;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _logger = logger;
-            _db = db;
+            _userRepo = userRepository;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -30,11 +32,62 @@ namespace DEH1G0_SOF_2022231.Controllers
         {
             return View();
         }
-
-        public IActionResult ListUsers()
+        [Authorize]
+        public async Task<IActionResult> ListUsers()
         {
-            return View(this._db.Users);
+            return View(await this._userRepo.GetAllAsync());
         }
+
+
+        [Authorize]
+        public async Task<IActionResult> DeleteUser()
+        {
+            var user = await this._userRepo.GetByIdAsync(_userManager.GetUserId(this.User));
+            if (user != null)
+            {
+                await this._userRepo.DeleteAsync(user);
+            }
+
+            return RedirectToAction(nameof(ListUsers));
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUserByAdmin(string userid)
+        {
+            var user = await this._userRepo.GetByIdAsync(userid);
+            if (user != null)
+            {
+                await this._userRepo.DeleteAsync(user);
+            }
+
+            return RedirectToAction(nameof(ListUsers));
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantAdmin(string userid)
+        {
+            var user = this._userManager.Users.FirstOrDefault(t => t.Id == userid);
+            if (user != null)
+            {
+                await _userManager.AddToRoleAsync(user, "Admin");
+            }
+            return RedirectToAction(nameof(ListUsers));
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveAdmin(string userid)
+        {
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            if (user != null)
+            {
+                await _userManager.RemoveFromRoleAsync(user, "Admin");
+            }
+            return RedirectToAction(nameof(ListUsers));
+
+        }
+
+
+
+
 
         public IActionResult GetImage(string userid)
         {

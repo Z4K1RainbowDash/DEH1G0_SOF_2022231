@@ -26,3 +26,11 @@ body {
 .category-checkbox {
     display: table;
 }
+
+.hide-element {
+    display:none
+}
+
+.checkbox-display{
+    display: flex;
+}

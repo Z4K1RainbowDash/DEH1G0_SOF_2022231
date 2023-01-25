@@ -3,10 +3,10 @@ using DEH1G0_SOF_2022231.Helpers;
 using DEH1G0_SOF_2022231.Logic;
 using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
    {
@@ -19,7 +19,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<AppUser>(options =>
 {
     // Password policy reduction for early stage
-    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
@@ -31,6 +31,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<INcoreUrlBuilder, NcoreUrlBuilder>();
 builder.Services.AddScoped<ITorrentLogic, TorrentLogic>();
 builder.Services.AddScoped<IGrpcLogic>(s => new GrpcLogic(builder.Configuration.GetValue<string>("ConnectionStrings:GrpcServerAddress")));
+builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
+builder.Services.AddScoped<ITorrentLogRepository, TorrentLogRepository>();
+builder.Services.AddScoped<ITorrentRepository, TorrentRepository>();
+
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 
 var app = builder.Build();
 
