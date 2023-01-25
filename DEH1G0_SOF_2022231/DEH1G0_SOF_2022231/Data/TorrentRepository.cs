@@ -22,7 +22,7 @@ namespace DEH1G0_SOF_2022231.Data
         /// </summary>
         /// <param name="id">The ID of the <see cref="Torrent"/> to retrieve <see cref="AppUser"/>s for.</param>
         /// <returns>A collection of <see cref="AppUser"/>s associated with the <see cref="Torrent"/>.</returns>
-        public async Task<ICollection<AppUser>> GetUsersByTorrentId(int id)
+        public async Task<ICollection<AppUser>> GetUsersByTorrentId(string id)
         {
             var torrent = await this.GetByIdAsync(id);
             return torrent.AppUsers;
