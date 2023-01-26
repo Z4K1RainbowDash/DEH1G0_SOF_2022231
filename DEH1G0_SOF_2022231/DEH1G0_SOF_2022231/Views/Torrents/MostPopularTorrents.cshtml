@@ -21,7 +21,7 @@
 
                 @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
                 {
-                    <td><a href="/Torrents/TorrentUsersByTorrent?torrentId=@item.NcoreId&name=@item.Name.Replace(" ","_")" class="btn btn-primary">TorrentUsers</a></td>
+                    <td><a href="/Torrents/TorrentUsersByTorrent?torrentId=@item.NcoreId" class="btn btn-primary">Get TorrentUsers</a></td>
                 }
             </tr>
         }
