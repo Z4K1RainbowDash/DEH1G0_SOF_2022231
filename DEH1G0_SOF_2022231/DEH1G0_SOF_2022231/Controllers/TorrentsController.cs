@@ -110,7 +110,7 @@ namespace DEH1G0_SOF_2022231.Controllers
             return View(sortedUsers);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> MostPopularTorrents()
         {
             var torrent = await this._torrentRepository.GetAllAsync();
