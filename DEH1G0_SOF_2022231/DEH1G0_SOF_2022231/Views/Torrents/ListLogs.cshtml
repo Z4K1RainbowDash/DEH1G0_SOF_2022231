@@ -1,0 +1,20 @@
+﻿@model IEnumerable<TorrentLog>
+
+<div>
+    <table >
+        <th>
+            Created
+        </th>
+        <th>TorrentId</th>
+        <th>UserId</th>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Created</td>
+                <td>@item.TorrentId</td>
+                <td>@item.UserId</td>
+            </tr>
+        }
+    </table>
+</div>

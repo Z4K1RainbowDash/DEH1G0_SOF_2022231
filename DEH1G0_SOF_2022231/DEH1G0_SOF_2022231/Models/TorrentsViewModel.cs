@@ -1,4 +1,5 @@
 ﻿using DEH1G0_SOF_2022231.Models.Helpers;
+using NcoreGrpcService.Protos;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,7 +31,7 @@ namespace DEH1G0_SOF_2022231.Models
 
         public Books Books { get; set; }
 
-        public List<Torrent>  Torrents { get; set; }
+        public List<TorrentDataReply>  Torrents { get; set; }
 
     }
 

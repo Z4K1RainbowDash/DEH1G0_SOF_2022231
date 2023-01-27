@@ -311,9 +311,9 @@
                     @for (int i = 0; i < Model.Torrents.Count; i++)
                     {
                         @Html.HiddenFor(model => Model.Torrents[i])
-                        @Html.HiddenFor(model => Model.Torrents[i].NcoreId)
+                        @Html.HiddenFor(model => Model.Torrents[i].Id)
                         @Html.HiddenFor(model => Model.Torrents[i].Name)
-                        @Html.HiddenFor(model => Model.Torrents[i].ImageUrl)
+                        @Html.HiddenFor(model => Model.Torrents[i].Image)
                         @Html.HiddenFor(model => Model.Torrents[i].Size)
                         @Html.HiddenFor(model => Model.Torrents[i].Downloads)
                         @Html.HiddenFor(model => Model.Torrents[i].Seeders)
@@ -344,12 +344,12 @@
             {
                 <tr>
                     <td>@item.Name</td>
-                    <td>@item.NcoreId</td>
+                    <td>@item.Date</td>
                     <td>@item.Size</td>
                     <td>@item.Downloads</td>
                     <td>@item.Seeders</td>
                     <td>@item.Leechers</td>
-                    <td><a href="/Torrents/DownloadTorrent?id=@item.NcoreId&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a></td>
+                    <td><a href="/Torrents/DownloadTorrent?torrentId=@item.Id&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a></td>
                 </tr>
             }
         </table>
