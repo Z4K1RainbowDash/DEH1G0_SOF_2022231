@@ -9,6 +9,9 @@ using System.Data;
 
 namespace DEH1G0_SOF_2022231.Controllers
 {
+    /// <summary>
+    /// Controller for handling Torrent related actions, such as searching, downloading, and listing logs.
+    /// </summary>
     public class TorrentsController : Controller
     {
         private readonly ITorrentLogic _torrentLogic;
@@ -18,6 +21,16 @@ namespace DEH1G0_SOF_2022231.Controllers
         private readonly ITorrentLogRepository _torrentLogRepository;
         private readonly IAppUserRepository _appUserRepository;
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TorrentsController"/> class.
+        /// </summary>
+        /// <param name="torrentLogic">The logic for handling torrent related actions.</param>
+        /// <param name="grpcLogic">The logic for communicating with the gRPC service.</param>
+        /// <param name="torrentRepository">The repository for accessing torrent related data.</param>
+        /// <param name="userManager">The manager for handling user related actions.</param>
+        /// <param name="torrentLogRepository">The repository for accessing torrent log data.</param>
+        /// <param name="appUserRepository">The repository for accessing user related data.</param>
         public TorrentsController(ITorrentLogic torrentLogic, IGrpcLogic grpcLogic, ITorrentRepository torrentRepository, UserManager<AppUser> userManager, ITorrentLogRepository torrentLogRepository, IAppUserRepository appUserRepository)
         {
             _torrentLogic = torrentLogic;
@@ -28,43 +41,27 @@ namespace DEH1G0_SOF_2022231.Controllers
             _appUserRepository = appUserRepository;
         }
 
+        /// <summary>
+        /// Method that handles the GET request to search for torrents.
+        /// </summary>
+        /// <returns>A view displaying the search form.</returns>
         [Authorize]
         public IActionResult SearchTorrent()
         {
             TorrentsViewModel vm = new TorrentsViewModel();
 
 
-            /* Testing data
-            List<Torrent> t = new List<Torrent>
-            {
-                new Torrent {
-                    Name = "N1",
-                    ImageUrl = "asd",
-                    Size= "1 gb",
-                    Downloads= "100",
-                    Seeders = 10,
-                    Leechers = 10
-
-                },
-
-                new Torrent {
-                    Name = "N2",
-                    ImageUrl = "asd2",
-                    Size= "12 gb",
-                    Downloads= "100",
-                    Seeders = 10,
-                    Leechers = 10
-
-                }
-            };
-            
-
-            vm.Torrents = t;*/
+           
             
             return View(vm);
             
         }
 
+        /// <summary>
+        /// Method that handles the POST request to search for torrents.
+        /// </summary>
+        /// <param name="vm">The view model containing the search parameters.</param>
+        /// <returns>A view displaying the search form and the search results (if any).</returns>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> SearchTorrent(TorrentsViewModel vm)
@@ -84,8 +81,8 @@ namespace DEH1G0_SOF_2022231.Controllers
             var userId = this._userManager.GetUserId(this.User);
 
             await this._torrentLogic.CreateIdentities(torrentId, realName, userId);
-          
 
+            
 
             var memoryStream = await this._grpcLogic.DownloadTorrent(torrentId);
             string torrentName = name + ".torrent";

@@ -1,5 +1,6 @@
 ﻿using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,18 @@ namespace DEH1G0_SOF_2022231.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SignInManager<AppUser> _signManager;
         private readonly IAppUserRepository _userRepo;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager)
         {
             _logger = logger;
             _userRepo = userRepository;
             _userManager = userManager;
             _roleManager = roleManager;
+            _signManager = signInManager;
         }
 
         public IActionResult Index()
@@ -42,13 +45,19 @@ namespace DEH1G0_SOF_2022231.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteUser()
         {
-            var user = await this._userRepo.GetByIdAsync(_userManager.GetUserId(this.User));
+            var user = await _userManager.FindByIdAsync(_userManager.GetUserId(this.User));
+            var roles = await _userManager.GetRolesAsync(user);
+            
+                    
             if (user != null)
             {
-                await this._userRepo.DeleteAsync(user);
+                await _signManager.SignOutAsync();
+                
+                await _userManager.DeleteAsync(user);
+                
+            
             }
-
-            return RedirectToAction(nameof(ListUsers));
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "Admin")]
@@ -57,7 +66,7 @@ namespace DEH1G0_SOF_2022231.Controllers
             var user = await this._userRepo.GetByIdAsync(userid);
             if (user != null)
             {
-                await this._userRepo.DeleteAsync(user);
+                await _userManager.DeleteAsync(user);
             }
 
             return RedirectToAction(nameof(ListUsers));
