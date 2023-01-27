@@ -1,7 +1,9 @@
 ﻿using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Helpers;
+using DEH1G0_SOF_2022231.Hubs;
 using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Helpers;
+using Microsoft.AspNetCore.SignalR;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 
@@ -17,18 +19,20 @@ namespace DEH1G0_SOF_2022231.Logic
         private readonly IAppUserRepository _userRepository;
         private readonly ITorrentRepository _torrentRepository;
         private readonly ITorrentLogRepository _torrentLogRepository;
+        private readonly IHubContext<EventHub> _hub;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TorrentLogic"/> class.
         /// </summary>
         /// <param name="builder">An object of INcoreUrlBuilder that is used for building the Ncore Url</param>
         /// <exception cref="ArgumentNullException">Thrown if the builder parameter is null</exception>
-        public TorrentLogic(INcoreUrlBuilder builder, ITorrentRepository torrentRepository, IAppUserRepository appUserRepository, ITorrentLogRepository torrentLogRepository)
+        public TorrentLogic(INcoreUrlBuilder builder, ITorrentRepository torrentRepository, IAppUserRepository appUserRepository, ITorrentLogRepository torrentLogRepository, IHubContext<EventHub> hub)
         {
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
             _torrentRepository = torrentRepository;
             _userRepository = appUserRepository;
             _torrentLogRepository = torrentLogRepository;
+            _hub = hub;
         }
 
         /// <summary>
@@ -58,6 +62,14 @@ namespace DEH1G0_SOF_2022231.Logic
             return this._builder.Build();
         }
 
+        /// <summary>
+        /// This method creates identities for a specific torrent by searching for the torrent by id, creating a new torrent if it does not exist,
+        /// linking the torrent to a user, and creating a new log entry for the torrent.
+        /// </summary>
+        /// <param name="torrentId">Id of the torrent</param>
+        /// <param name="torrentName">Name of the torrent</param>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task CreateIdentities(string torrentId, string torrentName, string userId)
         {
             Torrent torrent = await this._torrentRepository.GetByIdAsync(torrentId);
@@ -86,6 +98,7 @@ namespace DEH1G0_SOF_2022231.Logic
             };
 
             await this._torrentLogRepository.AddAsync(torrentLog);
+            await this._hub.Clients.All.SendAsync("logCreated", torrentLog);
         }
 
         

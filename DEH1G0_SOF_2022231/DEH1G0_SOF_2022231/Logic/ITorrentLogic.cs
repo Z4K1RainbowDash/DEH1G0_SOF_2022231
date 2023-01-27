@@ -21,6 +21,14 @@ namespace DEH1G0_SOF_2022231.Logic
         /// <returns>The NcoreUrl object containing the built URL</returns>
         NcoreUrl GetNcoreUrl(string searchText, Movies movies, Series series, Musics musics, Programs programs, Games games, Books books);
 
+        /// <summary>
+        /// This method creates identities for a specific torrent by searching for the torrent by id, creating a new torrent if it does not exist,
+        /// linking the torrent to a user, and creating a new log entry for the torrent.
+        /// </summary>
+        /// <param name="torrentId">Id of the torrent</param>
+        /// <param name="torrentName">Name of the torrent</param>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         Task CreateIdentities(string torrentId, string torrentName, string userId);
     }
 }
