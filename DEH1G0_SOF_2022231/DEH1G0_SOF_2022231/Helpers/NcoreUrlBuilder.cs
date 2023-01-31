@@ -62,7 +62,7 @@ namespace DEH1G0_SOF_2022231.Helpers
         /// <returns>The <see cref="NcoreUrlBuilder"/>.</returns>
         public NcoreUrlBuilder SetSearchText(string searchText)
         {
-            this._searchText = searchText;
+            this._searchText = searchText.Replace(' ', '+');
             return this;
         }
 
