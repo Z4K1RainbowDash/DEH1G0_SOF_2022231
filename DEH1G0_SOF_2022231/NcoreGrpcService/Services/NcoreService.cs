@@ -34,9 +34,11 @@ namespace NcoreGrpcService.Services
         public override async Task TorrentDownload(TorrentRequest request, IServerStreamWriter<TorrentFileResponse> responseStream, ServerCallContext context)
         {
             byte[]? bb = this._webScraping.DownloadTorrent(request.Id);
+            this._logger.LogInformation("Torrent with ID {request.Id} has been downloaded.", request.Id);
 
             // max file size: 4 MB
             await responseStream.WriteAsync(new TorrentFileResponse { DataChunk = Google.Protobuf.ByteString.CopyFrom(bb) });
+            this._logger.LogInformation("Torrent with ID {request.Id} has been sent to the stream.", request.Id);
         }
 
         /// <summary>
@@ -48,8 +50,9 @@ namespace NcoreGrpcService.Services
         /// <param name="context">The ServerCallContext object that contains the context for the gRPC call.</param>
         public override async Task TorrentSearch(SearchRequest request, IServerStreamWriter<TorrentDataReply> responseStream, ServerCallContext context)
         {
+            this._logger.LogInformation("Searching for torrents with URL: {0}", request.Url);
             var searchResults = this._webScraping.Searching(request);
-
+            
             foreach (TorrentDataReply r in searchResults)
             {
                 await responseStream.WriteAsync(r);
