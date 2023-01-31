@@ -60,3 +60,34 @@ body {
     margin-right: 10px;
 }
 
+.privacy {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.privacy h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.privacy h2 {
+    font-size: 18px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.privacy ul {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+}
+
+.privacy a {
+    color: #4903fc;
+    text-decoration: none;
+}
+
