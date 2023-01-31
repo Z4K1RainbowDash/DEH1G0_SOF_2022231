@@ -1,5 +1,6 @@
 ﻿@page
 @model RegisterModel
+
 @{
     ViewData["Title"] = "Register";
 }
@@ -42,7 +43,7 @@
             </div>
 
             <div class="form-floating">
-                <input type="file" asp-for="Input.File" />
+                <input type="file" asp-for="Input.File" accept="image/jpeg, image/png"/>
 
             </div>
 
@@ -70,7 +71,17 @@
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    @if (provider.DisplayName == "Facebook")
+                                    {
+                                        <button class="facebook-button" name="prpvider" title="Log in using your Facebook account">
+                                            <img src="~/images/facebook.png" alt="Facebook Icon">
+                                            Register with Facebook
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
                                 }
                             </p>
                         </div>

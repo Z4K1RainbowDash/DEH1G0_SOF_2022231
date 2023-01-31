@@ -153,7 +153,7 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var defaultrole = _roleManager.FindByNameAsync("Normal User").Result;
+                    var defaultrole = await _roleManager.FindByNameAsync("Normal User");
 
                     if (defaultrole != null)
                     {
