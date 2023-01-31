@@ -78,7 +78,7 @@ namespace NcoreGrpcService.Logic
         {
             
             this.Login();
-            return GetTorrents(request.SearchText);
+            return GetTorrents(request.Url);
 
         }
 

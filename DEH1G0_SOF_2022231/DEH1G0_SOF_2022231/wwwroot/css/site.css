@@ -22,3 +22,15 @@ body {
     width: 45px;
     height:45px;
 }
+
+.category-checkbox {
+    display: table;
+}
+
+.hide-element {
+    display:none
+}
+
+.checkbox-display{
+    display: flex;
+}

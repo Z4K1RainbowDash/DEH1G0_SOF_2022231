@@ -1,0 +1,361 @@
+﻿@model DEH1G0_SOF_2022231.Models.TorrentsViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SearchTorrent">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                
+                
+
+                <table class="category-checkbox">
+                    <tr>
+                        <td>
+                            <div class="checkbox-display">
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.IsSelected" id="MoviesCheckboxId" onchange="toggleElement('MoviesCheckboxId','MoviesSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Movies.IsSelected)
+                                </label>
+                            </div>
+                        
+
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.IsSelected" id="SeriesCheckboxId" onchange="toggleElement('SeriesCheckboxId','SeriesSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Series.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Musics.IsSelected" id="MusicsCheckboxId" onchange="toggleElement('MusicsCheckboxId','MusicsSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Musics.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Games.IsSelected" id="GamesCheckboxId" onchange="toggleElement('GamesCheckboxId','GamesSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Games.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Programs.IsSelected" id="ProgramsCheckboxId" onchange="toggleElement('ProgramsCheckboxId','ProgramsSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Programs.IsSelected)
+                                </label>
+                            </div>
+                        
+                        
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Books.IsSelected" id="BooksCheckboxId" onchange="toggleElement('BooksCheckboxId','BooksSubcategoriesId')" /> @Html.DisplayNameFor(model => model.Books.IsSelected)
+                                </label>
+                                </div>
+                            </div>
+                            
+                        </td>
+
+                    </tr>
+
+                    <tr id="MoviesSubcategoriesId" class="hide-element">
+                        
+                        <td><label>Movies:</label></td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.SdHu" /> @Html.DisplayNameFor(model => model.Movies.SdHu)
+                                </label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.SdEn" /> @Html.DisplayNameFor(model => model.Movies.SdEn)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.DvdrHu" /> @Html.DisplayNameFor(model => model.Movies.DvdrHu)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.DvdrEn" /> @Html.DisplayNameFor(model => model.Movies.DvdrEn)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.Dvd9Hu" /> @Html.DisplayNameFor(model => model.Movies.Dvd9Hu)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.Dvd9En" /> @Html.DisplayNameFor(model => model.Movies.Dvd9En)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.HdHu" /> @Html.DisplayNameFor(model => model.Movies.HdHu)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Movies.HdEn" /> @Html.DisplayNameFor(model => model.Movies.HdEn)
+                                </label>
+                            </div>
+                        </td>
+
+                        
+                    </tr>
+
+                    
+                    <tr id="SeriesSubcategoriesId" class="hide-element">
+                        <td><label>Series:</label></td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.SdHu" /> @Html.DisplayNameFor(model => model.Series.SdHu)
+                                </label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.SdEn" /> @Html.DisplayNameFor(model => model.Series.SdEn)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.DvdrHu" /> @Html.DisplayNameFor(model => model.Series.DvdrHu)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.DvdrEn" /> @Html.DisplayNameFor(model => model.Series.DvdrEn)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.HdHu" /> @Html.DisplayNameFor(model => model.Series.HdHu)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Series.HdEn" /> @Html.DisplayNameFor(model => model.Series.HdEn)
+                                </label>
+                            </div>
+                        </td>
+
+
+                    </tr>
+                    <tr id="MusicsSubcategoriesId" class="hide-element">
+                        <td><label>Musics:</label></td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Musics.Mp3Hu" /> @Html.DisplayNameFor(model => model.Musics.Mp3Hu)
+                                </label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Musics.Mp3En" /> @Html.DisplayNameFor(model => model.Musics.Mp3En)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Musics.LosslessHu" /> @Html.DisplayNameFor(model => model.Musics.LosslessHu)
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Musics.LosslessEn" /> @Html.DisplayNameFor(model => model.Musics.LosslessEn)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Musics.Clip" /> @Html.DisplayNameFor(model => model.Musics.Clip)
+                                </label>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr id="GamesSubcategoriesId" class="hide-element">
+                        <td><label>Games:</label></td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Games.Iso" /> @Html.DisplayNameFor(model => model.Games.Iso)
+                                </label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Games.Rip" /> @Html.DisplayNameFor(model => model.Games.Rip)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Games.Console" /> @Html.DisplayNameFor(model => model.Games.Console)
+                                </label>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr id="ProgramsSubcategoriesId" class="hide-element">
+                        <td><label>Programs:</label></td>
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Programs.Iso" /> @Html.DisplayNameFor(model => model.Programs.Iso)
+                                </label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Programs.Rip" /> @Html.DisplayNameFor(model => model.Programs.Rip)
+                                </label>
+                            </div>
+                        </td>
+
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Programs.Mobile" /> @Html.DisplayNameFor(model => model.Programs.Mobile)
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="BooksSubcategoriesId" class="hide-element">
+                        <td><label>Books:</label></td>
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Books.EBookHu" /> @Html.DisplayNameFor(model => model.Books.EBookHu)
+                                </label>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="form-group form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" asp-for="@Model.Books.EBookEn" /> @Html.DisplayNameFor(model => model.Books.EBookEn)
+                                </label>
+                            </div>
+                        </td>
+
+                    </tr>
+                    
+                </table>
+                <label asp-for="SearchText" class="control-label"></label>
+                <input asp-for="SearchText" class="form-control" />
+                <span asp-validation-for="SearchText" class="text-danger"></span>
+                @if (Model.Torrents?.Count > 0)
+                {
+                    @for (int i = 0; i < Model.Torrents.Count; i++)
+                    {
+                        @Html.HiddenFor(model => Model.Torrents[i])
+                        @Html.HiddenFor(model => Model.Torrents[i].Id)
+                        @Html.HiddenFor(model => Model.Torrents[i].Name)
+                        @Html.HiddenFor(model => Model.Torrents[i].Image)
+                        @Html.HiddenFor(model => Model.Torrents[i].Size)
+                        @Html.HiddenFor(model => Model.Torrents[i].Downloads)
+                        @Html.HiddenFor(model => Model.Torrents[i].Seeders)
+                        @Html.HiddenFor(model => Model.Torrents[i].Leechers)
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Torrents?.Count > 0)
+{
+    <div>
+        <table class="torrent-table">
+            <th>
+                Name
+            </th>
+            <th>Created</th>
+            <th>Size</th>
+            <th>Downloads</th>
+            <th>Seeders</th>
+            <th>Leechers</th>
+            @foreach (var item in Model.Torrents)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Date</td>
+                    <td>@item.Size</td>
+                    <td>@item.Downloads</td>
+                    <td>@item.Seeders</td>
+                    <td>@item.Leechers</td>
+                    <td><a href="/Torrents/DownloadTorrent?torrentId=@item.Id&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -4,22 +4,20 @@ using DEH1G0_SOF_2022231.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DEH1G0_SOF_2022231.Data.Migrations
+namespace DEH1G0_SOF_2022231.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221102100731_CreateAppUserAndTorrent")]
-    partial class CreateAppUserAndTorrent
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -29,52 +27,53 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
                     b.Property<string>("AppUsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("TorrentsId")
-                        .HasColumnType("int");
+                    b.Property<string>("TorrentsNcoreId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("AppUsersId", "TorrentsId");
+                    b.HasKey("AppUsersId", "TorrentsNcoreId");
 
-                    b.HasIndex("TorrentsId");
+                    b.HasIndex("TorrentsNcoreId");
 
                     b.ToTable("TorrentUser", (string)null);
                 });
 
             modelBuilder.Entity("DEH1G0_SOF_2022231.Models.Torrent", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Downloads")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Leechers")
-                        .HasColumnType("int");
+                    b.Property<string>("NcoreId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NcoreId")
-                        .HasColumnType("int");
+                    b.HasKey("NcoreId");
 
-                    b.Property<int>("Seeders")
-                        .HasColumnType("int");
+                    b.ToTable("Torrents");
+                });
 
-                    b.Property<string>("Size")
+            modelBuilder.Entity("DEH1G0_SOF_2022231.Models.TorrentLog", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TorrentId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Torrents");
+                    b.HasIndex("TorrentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TorrentLogs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -102,6 +101,20 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Normal User",
+                            NormalizedName = "NORMAL USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -262,6 +275,13 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "ca47f611-7ede-46f5-a777-ab332c28a126",
+                            RoleId = "1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -307,6 +327,25 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.HasDiscriminator().HasValue("AppUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ca47f611-7ede-46f5-a777-ab332c28a126",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "334941d9-c94b-481e-aee1-130388f1e732",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPf/EZahl0z4dP9rrHtAtOAIqLBgBYyibmBSxZALbO0BZ6Fyl90tCQmt1vBeg65eUw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "a5a697f7-c8d5-4cd5-8e8f-f2f497699f6b",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com",
+                            FirstName = "Admin",
+                            LastName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("AppUserTorrent", b =>
@@ -319,9 +358,26 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
 
                     b.HasOne("DEH1G0_SOF_2022231.Models.Torrent", null)
                         .WithMany()
-                        .HasForeignKey("TorrentsId")
+                        .HasForeignKey("TorrentsNcoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DEH1G0_SOF_2022231.Models.TorrentLog", b =>
+                {
+                    b.HasOne("DEH1G0_SOF_2022231.Models.Torrent", "Torrent")
+                        .WithMany()
+                        .HasForeignKey("TorrentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DEH1G0_SOF_2022231.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Torrent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

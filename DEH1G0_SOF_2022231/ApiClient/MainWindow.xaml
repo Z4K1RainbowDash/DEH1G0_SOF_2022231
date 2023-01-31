@@ -1,0 +1,24 @@
+﻿<Window x:Class="ApiClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ApiClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox Text="Torrent Logs:" FontWeight="Bold"/>
+        <ListBox ItemsSource="{Binding Logs, UpdateSourceTrigger=PropertyChanged}" Margin="0,23,0,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label Content="{Binding Id}" ContentStringFormat="Id: {0}" />
+                        <Label Content="{Binding Created}" ContentStringFormat="Created: {0}" />
+                        <Label Content="{Binding TorrentId}" ContentStringFormat="TorrentId: {0}" />
+                        <Label Content="{Binding UserId}" ContentStringFormat="UserId: {0}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>

@@ -8,7 +8,6 @@ service Ncore{
     rpc TorrentSearch(SearchRequest) returns (stream TorrentDataReply);
     rpc TorrentDownload(TorrentRequest) returns(stream TorrentFileResponse);
 }
-
 message SearchRequest{
     string url = 1;
 }
