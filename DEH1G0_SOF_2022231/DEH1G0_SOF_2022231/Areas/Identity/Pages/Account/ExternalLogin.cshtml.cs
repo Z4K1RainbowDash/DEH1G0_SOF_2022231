@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
 {
@@ -30,13 +32,17 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<AppUser> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _config;
 
         public ExternalLoginModel(
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
             IUserStore<AppUser> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration config)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -44,6 +50,8 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
+            _config = config;
         }
 
         /// <summary>
@@ -72,6 +80,12 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+        public class TokenModel
+        {
+            public string access_token { get; set; }
+            public string token_type { get; set; }
+        }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -85,6 +99,36 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            
+
+            [Required]
+            [StringLength(200)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(200)]
+            public string LastName { get; set; }
+
+            public string PictureUrl { get; set; }
+
+            public byte[] PictureData { get; set; }
+
+            [StringLength(200)]
+            public string PictureContentType { get; set; }
+
+            public string BytesAsString
+            {
+                get
+                {
+                    if (PictureData != null)
+                    {
+                        return Convert.ToBase64String(PictureData);
+                    }
+                    else return "";
+
+                }
+            }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -99,6 +143,9 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
+            IConfigurationSection FBAuthNSection = this._config.GetSection("Authentication:FB");
+            string facebookAppId = FBAuthNSection["ClientId"];
+            string facebookAppSecret = FBAuthNSection["ClientSecret"];
             returnUrl = returnUrl ?? Url.Content("~/");
             if (remoteError != null)
             {
@@ -130,10 +177,19 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
+                    var id = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
                     Input = new InputModel
                     {
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                        LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName),
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email)
                     };
+                    if (info.ProviderDisplayName == "Facebook")
+                    {
+                        var access_token_json = new WebClient().DownloadString($"https://graph.facebook.com/oauth/access_token?client_id={facebookAppId}&client_secret={facebookAppSecret}&grant_type=client_credentials");
+                        var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
+                        Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
+                    }
                 }
                 return Page();
             }
@@ -153,7 +209,23 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
 
+                if (info.ProviderDisplayName == "Facebook")
+                {
+                    var wc = new WebClient();
+                    user.PhotoData = wc.DownloadData(Input.PictureUrl);
+                    user.PhotoContentType = wc.ResponseHeaders["Content-Type"];
+                    user.EmailConfirmed = true;
+                }
+
+                var defaultrole = await _roleManager.FindByNameAsync("Normal User");
+
+                if (defaultrole != null)
+                {
+                    await _userManager.AddToRoleAsync(user, defaultrole.Name);
+                }
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
@@ -164,25 +236,26 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-
-                        var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
-
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                        // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        if (!user.EmailConfirmed)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
-                        }
+                            var userId = await _userManager.GetUserIdAsync(user);
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { area = "Identity", userId = userId, code = code },
+                                protocol: Request.Scheme);
 
+                            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                            // If account confirmation is required, we need to show the link if we don't have a real email sender
+                            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                            {
+                                return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            }
+                        }
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);
                     }

@@ -34,3 +34,29 @@ body {
 .checkbox-display{
     display: flex;
 }
+
+
+
+.facebook-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4267b2;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 7px;
+    border-width: 0px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.facebook-button:hover {
+    background-color: #3b5998;
+}
+
+.facebook-button img {
+    height: 20px;
+    margin-right: 10px;
+}
+
