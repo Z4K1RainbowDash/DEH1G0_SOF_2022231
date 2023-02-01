@@ -1,6 +1,6 @@
 ﻿@model DEH1G0_SOF_2022231.Models.TorrentsViewModel
 
-<div class="row">
+<div class="row centerElement">
     <div class="col-md-4">
         <form asp-action="SearchTorrent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -59,7 +59,11 @@
 
                     </tr>
 
-                    <tr id="MoviesSubcategoriesId" class="hide-element">
+                    <tr id="MoviesSubcategoriesId" class="hide-element" 
+                        @if(Model.Movies!= null && Model.Movies.IsSelected)
+                        {
+                            @:style="display: block;"
+                        }>
                         
                         <td><label>Movies:</label></td>
                         <td>
@@ -128,7 +132,11 @@
                     </tr>
 
                     
-                    <tr id="SeriesSubcategoriesId" class="hide-element">
+                    <tr id="SeriesSubcategoriesId" class="hide-element"
+                        @if(Model.Series!= null && Model.Series.IsSelected)
+                        {
+                        @:style="display: block;"
+                        }>
                         <td><label>Series:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -182,7 +190,11 @@
 
 
                     </tr>
-                    <tr id="MusicsSubcategoriesId" class="hide-element">
+                    <tr id="MusicsSubcategoriesId" class="hide-element"
+                        @if(Model.Musics!= null && Model.Musics.IsSelected)
+                        {
+                            @:style="display: block;"
+                        }>
                         <td><label>Musics:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -226,7 +238,11 @@
                         </td>
 
                     </tr>
-                    <tr id="GamesSubcategoriesId" class="hide-element">
+                    <tr id="GamesSubcategoriesId" class="hide-element"
+                        @if(Model.Games!= null && Model.Games.IsSelected)
+                        {
+                        @:style="display: block;"
+                        }>
                         <td><label>Games:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -254,7 +270,11 @@
                         </td>
 
                     </tr>
-                    <tr id="ProgramsSubcategoriesId" class="hide-element">
+                    <tr id="ProgramsSubcategoriesId" class="hide-element"
+                        @if(Model.Programs != null && Model.Programs.IsSelected)
+                        {
+                        @:style="display: block;"
+                        }>
                         <td><label>Programs:</label></td>
                         <td>
                             <div class="form-group form-check">
@@ -281,7 +301,11 @@
                             </div>
                         </td>
                     </tr>
-                    <tr id="BooksSubcategoriesId" class="hide-element">
+                    <tr id="BooksSubcategoriesId" class="hide-element"
+                        @if(Model.Books!= null && Model.Books.IsSelected)
+                        {
+                        @:style="display: block;"
+                        }>
                         <td><label>Books:</label></td>
 
                         <td>
@@ -304,22 +328,13 @@
                     
                 </table>
                 <label asp-for="SearchText" class="control-label"></label>
-                <input asp-for="SearchText" class="form-control" />
+                <input asp-for="SearchText" class="form-control" value="@Model.SearchText"
+                       data-val="true"
+                       data-val-required="The Search field is required."
+                       data-val-length-min="3"
+                       data-val-length-max="200" />
                 <span asp-validation-for="SearchText" class="text-danger"></span>
-                @if (Model.Torrents?.Count > 0)
-                {
-                    @for (int i = 0; i < Model.Torrents.Count; i++)
-                    {
-                        @Html.HiddenFor(model => Model.Torrents[i])
-                        @Html.HiddenFor(model => Model.Torrents[i].Id)
-                        @Html.HiddenFor(model => Model.Torrents[i].Name)
-                        @Html.HiddenFor(model => Model.Torrents[i].Image)
-                        @Html.HiddenFor(model => Model.Torrents[i].Size)
-                        @Html.HiddenFor(model => Model.Torrents[i].Downloads)
-                        @Html.HiddenFor(model => Model.Torrents[i].Seeders)
-                        @Html.HiddenFor(model => Model.Torrents[i].Leechers)
-                    }
-                }
+                
             </div>
             <div class="form-group">
                 <input type="submit" value="Search" class="btn btn-primary" />
@@ -328,10 +343,10 @@
     </div>
 </div>
 
-@if (Model.Torrents?.Count > 0)
+@if (Model?.Torrents?.Count > 0)
 {
-    <div>
-        <table class="torrent-table">
+    <div class="MyTableList">
+        <table>
             <th>
                 Name
             </th>
@@ -340,6 +355,7 @@
             <th>Downloads</th>
             <th>Seeders</th>
             <th>Leechers</th>
+            <th>Actions</th>
             @foreach (var item in Model.Torrents)
             {
                 <tr>
