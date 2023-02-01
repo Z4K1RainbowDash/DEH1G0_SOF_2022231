@@ -1,4 +1,6 @@
 ﻿using DEH1G0_SOF_2022231.Models.Helpers;
+using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
 using NcoreGrpcService.Protos;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +10,7 @@ namespace DEH1G0_SOF_2022231.Models
     /// <summary>
     /// The class represents the view model for displaying torrents
     /// </summary>
+    [ModelBinder(BinderType = typeof(TorrentsViewModelBinder))]
     public class TorrentsViewModel
     {
         /// <summary>

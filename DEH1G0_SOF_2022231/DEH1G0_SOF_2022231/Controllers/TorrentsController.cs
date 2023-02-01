@@ -66,6 +66,10 @@ namespace DEH1G0_SOF_2022231.Controllers
         [Authorize]
         public async Task<IActionResult> SearchTorrent(TorrentsViewModel vm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
             var url = this._torrentLogic.GetNcoreUrl(vm.SearchText, vm.Movies, vm.Series, vm.Musics, vm.Programs, vm.Games, vm.Books);
             var torrents = await this._grpcLogic.TorrentSearch(url);
             vm.Torrents = torrents;
