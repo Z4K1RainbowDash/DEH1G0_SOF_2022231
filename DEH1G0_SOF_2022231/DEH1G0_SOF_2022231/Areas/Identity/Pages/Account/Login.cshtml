@@ -14,12 +14,19 @@
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true"
+                           data-val="true"
+                           data-val-required="The Email field is required." />
                     <label asp-for="Input.Email" class="form-label"></label>
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-floating">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true"
+                           data-val="true"
+                           data-val-required="The Password field is required."
+                           data-val-length-min="6" 
+                           data-val-length-max="100" />
+
                     <label asp-for="Input.Password" class="form-label"></label>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
@@ -71,7 +78,7 @@
                                     {
                                         @if (provider.DisplayName == "Facebook")
                                         {
-                                            <button class="facebook-button" name="prpvider" title="Log in using your Facebook account">
+                                        <button type="submit" class="facebook-button" name="provider" value="@provider.Name" title="Log in using your Facebook account">
                                                     <img src="~/images/facebook.png" alt="Facebook Icon">
                                                     Login with Facebook
                                                 </button>

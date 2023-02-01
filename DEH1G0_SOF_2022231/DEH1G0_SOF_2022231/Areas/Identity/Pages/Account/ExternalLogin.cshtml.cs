@@ -98,16 +98,19 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
             
 
             [Required]
-            [StringLength(200)]
+            [StringLength(200, MinimumLength = 2)]
+            [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required]
-            [StringLength(200)]
+            [StringLength(200, MinimumLength = 2)]
+            [Display(Name = "Last Name")]
             public string LastName { get; set; }
 
             public string PictureUrl { get; set; }

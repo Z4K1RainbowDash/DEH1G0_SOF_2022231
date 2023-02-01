@@ -20,19 +20,31 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
             <div class="form-floating">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" aria-required="true" />
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" aria-required="true"
+                       data-val="true"
+                       data-val-required="The First Name field is required."
+                       data-val-length="The First Name field must be between 2 and 200 characters."
+                       data-val-length-min="2"
+                       data-val-length-max="200" />
                 <label asp-for="Input.FirstName"></label>
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
 
             <div class="form-floating">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true" />
+                <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true"
+                       data-val="true"
+                       data-val-required="The Last Name field is required."
+                       data-val-length="The Last Name field must be between 2 and 200 characters."
+                       data-val-length-min="2"
+                       data-val-length-max="200" />
                 <label asp-for="Input.LastName"></label>
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
 
             <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true"
+                       data-val="true"
+                       data-val-required="The Email field is required." />
                 <label asp-for="Input.Email"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>

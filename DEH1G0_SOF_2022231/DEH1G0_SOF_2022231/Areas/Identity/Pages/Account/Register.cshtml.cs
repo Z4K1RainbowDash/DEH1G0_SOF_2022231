@@ -76,12 +76,12 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
         {
 
             [Required]
-            [StringLength(100)]
+            [StringLength(200, MinimumLength = 2)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required]
-            [StringLength(100)]
+            [StringLength(200, MinimumLength = 2)]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
 

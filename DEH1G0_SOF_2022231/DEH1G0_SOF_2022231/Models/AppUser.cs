@@ -7,11 +7,11 @@ namespace DEH1G0_SOF_2022231.Models
     public class AppUser : IdentityUser
     {
 
-        [StringLength(200)]
+        [StringLength(200, MinimumLength = 2)]
         [Required]
         public string FirstName { get; set; }
 
-        [StringLength(200)]
+        [StringLength(200, MinimumLength = 2)]
         [Required]
         public string LastName { get; set; }
 
