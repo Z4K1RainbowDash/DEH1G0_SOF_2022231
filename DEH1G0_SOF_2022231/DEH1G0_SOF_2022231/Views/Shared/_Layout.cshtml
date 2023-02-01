@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,6 +29,28 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ListUsers">List User</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Torrents" asp-action="SearchTorrent">Search Torrent</a>
+                            </li>
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Torrents" asp-action="MostPopularTorrents">Popular Torrents</a>
+                            </li>
+                            @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+                            {
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Torrents" asp-action="MostActiveUsersByDownloads"> Ordered users</a>
+                                </li>
+
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Torrents" asp-action="ListLogs">List Logs</a>
+                                </li>
+                            }
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

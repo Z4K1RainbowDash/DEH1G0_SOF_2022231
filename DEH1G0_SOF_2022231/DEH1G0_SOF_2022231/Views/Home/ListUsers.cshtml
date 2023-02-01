@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<AppUser>
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+
+<table class="table align-middle mb-0 bg-white">
+  <thead class="bg-light">
+      <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Actions</th>
+      </tr>
+  </thead>
+  <tbody>
+        @foreach (var item in Model)
+        {
+      <tr>
+        <td>
+            <div class="d-flex align-items-center">
+                        @if (item.PhotoContentType?.Length > 3)
+                        {
+                            <img src="@Url.Action("GetImage", "Home",new {userid = item.Id})" class="rounded-circle user-picture-size"></img>
+                        }
+                        else
+                        {
+                                            <img src="~/images/default_image.png" class="rounded-circle user-picture-size" alt="My image" />
+                        }
+                    <div class="ms-3">
+                    <p class="fw-bold mb-1">@item.FirstName @item.LastName</p>
+                    <p class="text-muted mb-0">@item.Email</p>
+                </div>
+            </div>
+        </td>
+        
+
+                @{
+                    var user = await UserManager.FindByIdAsync(item.Id);
+
+                    var roles = await UserManager.GetRolesAsync(user);
+                            @:<td>
+                            if (roles.Count > 0)
+                            {
+                                @roles[0]
+                            }
+                            else
+                            {
+                                string s = "None";
+                                @s
+                            }
+                            @:</td>
+                }
+        <td>
+                    @if (@UserManager.GetUserId(User) == item.Id)
+                    {
+                        <a class="btn btn-primary" href="/Home/DeleteUser">Delete</a>
+                        if (await UserManager.IsInRoleAsync(item, "Admin"))
+                        {
+                            <a class="btn btn-primary" href="/Home/RemoveAdmin?userid=@item.Id">Remove Admin</a>
+                        }
+                    }
+                    else
+                    {
+                        @if (await UserManager.IsInRoleAsync(await @UserManager.GetUserAsync(User), "Admin"))
+                        {
+
+                            <a class="btn btn-primary" href="/Home/DeleteUserByAdmin?userid=@item.Id">Delete User</a>
+                            if (await UserManager.IsInRoleAsync(item, "Admin"))
+                            {
+                                <a class="btn btn-primary" href="/Home/RemoveAdmin?userid=@item.Id">Remove Admin</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary" href="/Home/GrantAdmin?userid=@item.Id">Grant Admin</a>
+                            }
+                            
+
+                        }
+                    }
+
+        </td>
+      </tr>
+      }
+  </tbody>
+ </table>

@@ -4,20 +4,22 @@ using DEH1G0_SOF_2022231.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DEH1G0_SOF_2022231.Data.Migrations
+namespace DEH1G0_SOF_2022231.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230124190032_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.9")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -27,23 +29,24 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
                     b.Property<string>("AppUsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("TorrentsId")
-                        .HasColumnType("int");
+                    b.Property<string>("TorrentsNcoreId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("AppUsersId", "TorrentsId");
+                    b.HasKey("AppUsersId", "TorrentsNcoreId");
 
-                    b.HasIndex("TorrentsId");
+                    b.HasIndex("TorrentsNcoreId");
 
                     b.ToTable("TorrentUser", (string)null);
                 });
 
             modelBuilder.Entity("DEH1G0_SOF_2022231.Models.Torrent", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("NcoreId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("CreatedDateTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Downloads")
                         .IsRequired()
@@ -60,9 +63,6 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NcoreId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Seeders")
                         .HasColumnType("int");
 
@@ -70,9 +70,34 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("NcoreId");
 
                     b.ToTable("Torrents");
+                });
+
+            modelBuilder.Entity("DEH1G0_SOF_2022231.Models.TorrentLog", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TorrentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TorrentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TorrentLogs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -317,9 +342,26 @@ namespace DEH1G0_SOF_2022231.Data.Migrations
 
                     b.HasOne("DEH1G0_SOF_2022231.Models.Torrent", null)
                         .WithMany()
-                        .HasForeignKey("TorrentsId")
+                        .HasForeignKey("TorrentsNcoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DEH1G0_SOF_2022231.Models.TorrentLog", b =>
+                {
+                    b.HasOne("DEH1G0_SOF_2022231.Models.Torrent", "Torrent")
+                        .WithMany()
+                        .HasForeignKey("TorrentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DEH1G0_SOF_2022231.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Torrent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
