@@ -27,6 +27,14 @@ body {
     display: table;
 }
 
+.category-checkbox tr {
+    border-bottom: 1px solid black;
+}
+
+.category-checkbox label{
+    margin:1px 3px 2px 3px;
+}
+
 .hide-element {
     display:none
 }
@@ -35,6 +43,10 @@ body {
     display: flex;
 }
 
+.centerElement {
+    margin: 50px auto;
+    width: 80%;
+}
 
 
 .facebook-button {
@@ -91,3 +103,41 @@ body {
     text-decoration: none;
 }
 
+.MyTableList {
+    margin: 50px auto;
+    width: 80%;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.MyTableList table {
+    margin: 0 auto;
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0px 0px 10px #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.MyTableList th, .MyTableList td {
+    padding: 20px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.MyTableList th {
+    background-color: #3f51b5;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.MyTableList tr:hover {
+    background-color: #f2f2f2;
+}
+
+.MyTableList tr:nth-child(even) {
+    background-color: #fafafa;
+}

@@ -1,6 +1,6 @@
 ﻿@model DEH1G0_SOF_2022231.Models.TorrentsViewModel
 
-<div class="row">
+<div class="row centerElement">
     <div class="col-md-4">
         <form asp-action="SearchTorrent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -345,8 +345,8 @@
 
 @if (Model?.Torrents?.Count > 0)
 {
-    <div>
-        <table class="torrent-table">
+    <div class="MyTableList">
+        <table>
             <th>
                 Name
             </th>
@@ -355,6 +355,7 @@
             <th>Downloads</th>
             <th>Seeders</th>
             <th>Leechers</th>
+            <th>Actions</th>
             @foreach (var item in Model.Torrents)
             {
                 <tr>

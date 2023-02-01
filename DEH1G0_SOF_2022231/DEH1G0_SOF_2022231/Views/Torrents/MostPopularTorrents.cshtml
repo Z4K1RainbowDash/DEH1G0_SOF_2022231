@@ -4,24 +4,30 @@
 @inject UserManager<AppUser> UserManager
 
 
-<div>
-    <table class="torrent-table">
+<div class="MyTableList">
+    <table>
         <th>
             Name
         </th>
         <th>ID</th>
+        <th>Actions</th>
 
         @foreach (var item in Model)
         {
             <tr>
                 <td>@item.Name</td>
                 <td>@item.NcoreId</td>
-                <td><a href="/Torrents/DownloadTorrent?id=@item.NcoreId&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a></td>
-            
-
+                
                 @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
                 {
-                    <td><a href="/Torrents/TorrentUsersByTorrent?torrentId=@item.NcoreId" class="btn btn-primary">Get TorrentUsers</a></td>
+                    <td>
+                        <a href="/Torrents/DownloadTorrent?id=@item.NcoreId&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a>
+                        <a href="/Torrents/TorrentUsersByTorrent?torrentId=@item.NcoreId" class="btn btn-primary">Get TorrentUsers</a>
+                    </td>
+                }
+                else
+                {
+                    <td><a href="/Torrents/DownloadTorrent?id=@item.NcoreId&name=@item.Name.Replace(" ","_")" class="btn btn-primary">Download</a></td>
                 }
             </tr>
         }
