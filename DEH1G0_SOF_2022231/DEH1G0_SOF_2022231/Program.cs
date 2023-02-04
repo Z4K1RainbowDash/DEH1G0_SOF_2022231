@@ -6,6 +6,8 @@ using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetValue<string>("ConnectionStrings:DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
@@ -41,12 +43,36 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSignalR();
 
-builder.Services.AddAuthentication().AddFacebook(t =>
-{
-    IConfigurationSection FBAuthNSection = builder.Configuration.GetSection("Authentication:FB");
-    t.AppId = FBAuthNSection["ClientId"];
-    t.AppSecret = FBAuthNSection["ClientSecret"];
-});
+builder.Services.AddAuthentication()
+    .AddFacebook(t =>
+    {
+        IConfigurationSection FBAuthNSection = builder.Configuration.GetSection("Authentication:FB");
+        t.AppId = FBAuthNSection["ClientId"];
+        t.AppSecret = FBAuthNSection["ClientSecret"];
+    })
+    .AddMicrosoftAccount(t => 
+    {
+        IConfigurationSection MSSection = builder.Configuration.GetSection("Authentication:Microsoft");
+        t.ClientId = MSSection["ClientId"];
+        t.ClientSecret = MSSection["ClientSecret"];
+        t.SaveTokens = true; //for profil picture
+    })
+    .AddGoogle(t =>
+    {
+        var googleAuth = builder.Configuration.GetSection("Authentication:Google");
+        t.ClientId = googleAuth["ClientId"];
+        t.ClientSecret = googleAuth["ClientSecret"];
+        t.SignInScheme = IdentityConstants.ExternalScheme;
+        t.Scope.Add("profile");
+        t.Events.OnCreatingTicket = (context) =>
+        {
+            var picture = context.User.GetProperty("picture").GetString();
+
+            context.Identity.AddClaim(new Claim("picture", picture));
+
+            return Task.CompletedTask;
+        };
+    });
 
 var app = builder.Build();
 

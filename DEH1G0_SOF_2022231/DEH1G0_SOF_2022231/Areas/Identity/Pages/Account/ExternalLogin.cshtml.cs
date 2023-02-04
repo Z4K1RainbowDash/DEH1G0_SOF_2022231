@@ -86,6 +86,15 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
             public string token_type { get; set; }
         }
 
+        public class MsMetaData
+        {
+            [JsonProperty("@odata.mediaContentType")]
+            public string odatamediaContentType { get; set; }
+            public string id { get; set; }
+            public int width { get; set; }
+            public int height { get; set; }
+        }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -193,6 +202,27 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
                         var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
                         Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
                     }
+                    else if (info.ProviderDisplayName == "Microsoft")
+                    {
+                        try {
+                            var wc = new WebClient();
+                            wc.Headers.Add("Authorization", "Bearer " + info.AuthenticationTokens.FirstOrDefault().Value);
+                            Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/beta/users/{id}/photo/$value");
+                            var metadata = wc.DownloadString($"https://graph.microsoft.com/beta/users/{id}/photo/");
+                            var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
+                            Input.PictureContentType = mdjson.odatamediaContentType;
+                        }
+                        catch(System.Net.WebException ex) 
+                        {
+                            // error while downloading user's image
+                        }
+                    }
+
+                    else if (info.ProviderDisplayName == "Google")
+                    {
+                        Input.PictureUrl =  info.Principal.FindFirstValue("picture");
+                    }
+
                 }
                 return Page();
             }
@@ -220,6 +250,18 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
                     var wc = new WebClient();
                     user.PhotoData = wc.DownloadData(Input.PictureUrl);
                     user.PhotoContentType = wc.ResponseHeaders["Content-Type"];
+                    user.EmailConfirmed = true;
+                }
+                else if (info.ProviderDisplayName == "Microsoft")
+                {
+                    user.PhotoData = Input.PictureData;
+                    user.PhotoContentType = Input.PictureContentType;
+                    user.EmailConfirmed = true;
+                }
+                else if (info.ProviderDisplayName == "Google")
+                {
+                    user.PhotoData = Input.PictureData;
+                    user.PhotoContentType = Input.PictureContentType;
                     user.EmailConfirmed = true;
                 }
 
@@ -296,5 +338,7 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<AppUser>)_userStore;
         }
+
+       
     }
 }
