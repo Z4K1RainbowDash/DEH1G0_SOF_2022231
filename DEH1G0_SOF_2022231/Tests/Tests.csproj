@@ -10,6 +10,8 @@
 
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="6.9.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
         <PackageReference Include="Moq" Version="4.18.4" />
         <PackageReference Include="NUnit" Version="3.13.3" />
@@ -36,9 +38,5 @@
 
     <ItemGroup>
       <ProjectReference Include="..\DEH1G0_SOF_2022231\DEH1G0_SOF_2022231.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="WebsiteTests\IntegrationTests\" />
     </ItemGroup>
 </Project>
