@@ -1,8 +1,11 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Tests.WebsiteTests.TestHelpers;
@@ -43,5 +46,27 @@ namespace Tests.WebsiteTests.IntegrationTests
             response.EnsureSuccessStatusCode();
             response.Content.Headers.ContentType.ToString().Should().Be("text/html; charset=utf-8");
         }
+
+        [Test]
+        [TestCase("/Home/ListUsers")]
+        public async Task GetEndpoints_WhenCalledWithValidUrl_SecurePageRedirectsAnUnauthenticatedUser(string url)
+        {
+            // Arrange
+            var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
+            {
+                AllowAutoRedirect = false
+            });
+            
+            // Act
+            var response = await client.GetAsync(url);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Redirect);
+            response.Headers.Location.OriginalString.Should()
+                .StartWith("http://localhost/Identity/Account/Login");
+            
+        }
+
+        
     }
 }
