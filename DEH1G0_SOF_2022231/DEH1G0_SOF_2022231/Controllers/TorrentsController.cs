@@ -66,6 +66,10 @@ namespace DEH1G0_SOF_2022231.Controllers
         [Authorize]
         public async Task<IActionResult> SearchTorrent(TorrentsViewModel vm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
             var url = this._torrentLogic.GetNcoreUrl(vm.SearchText, vm.Movies, vm.Series, vm.Musics, vm.Programs, vm.Games, vm.Books);
             var torrents = await this._grpcLogic.TorrentSearch(url);
             vm.Torrents = torrents;
@@ -74,6 +78,12 @@ namespace DEH1G0_SOF_2022231.Controllers
 
         }
 
+        /// <summary>
+        /// Downloads the torrent with the specified ID.
+        /// </summary>
+        /// <param name="torrentId">The ID of the torrent to download.</param>
+        /// <param name="name">The name of the torrent file to download.</param>
+        /// <returns>The torrent file in `application/octet-stream` format.</returns>
         [Authorize]
         public async Task<IActionResult> DownloadTorrent(string torrentId, string name)
         {
@@ -92,6 +102,10 @@ namespace DEH1G0_SOF_2022231.Controllers
 
         }
 
+        /// <summary>
+        /// Returns a list of all logs. Accessible only to users with the "Admin" role.
+        /// </summary>
+        /// <returns>A list of logs.</returns>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListLogs()
         {
@@ -99,6 +113,10 @@ namespace DEH1G0_SOF_2022231.Controllers
             return View(await this._torrentLogRepository.GetAllAsync());
         }
 
+        /// <summary>
+        /// Returns a list of the most active users based on the number of downloads. Accessible only to users with the "Admin" role.
+        /// </summary>
+        /// <returns>A list of the most active users.</returns>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> MostActiveUsersByDownloads()
         {
@@ -107,6 +125,10 @@ namespace DEH1G0_SOF_2022231.Controllers
             return View(sortedUsers);
         }
 
+        /// <summary>
+        /// Returns a list of the most popular torrents based on the number of downloads.
+        /// </summary>
+        /// <returns>A list of the most popular torrents.</returns>
         [Authorize]
         public async Task<IActionResult> MostPopularTorrents()
         {
@@ -116,6 +138,11 @@ namespace DEH1G0_SOF_2022231.Controllers
             return View(sortedTorrents);
         }
 
+        /// <summary>
+        /// Returns a list of users who have downloaded a specific torrent. Accessible only to users with the "Admin" role.
+        /// </summary>
+        /// <param name="torrentId">The ID of the torrent.</param>
+        /// <returns>A list of users who have downloaded the specified torrent.</returns>
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> TorrentUsersByTorrent(string torrentId)
         {

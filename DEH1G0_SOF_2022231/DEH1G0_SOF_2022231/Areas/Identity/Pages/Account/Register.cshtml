@@ -1,5 +1,6 @@
 ﻿@page
 @model RegisterModel
+
 @{
     ViewData["Title"] = "Register";
 }
@@ -14,35 +15,53 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-floating">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" aria-required="true" />
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" aria-required="true" 
+                        data-val="true"
+                        data-val-required="The First Name field is required."
+                        data-val-length="The First Name field must be between 2 and 200 characters."
+                        data-val-length-min="2"
+                        data-val-length-max="200" />
                 <label asp-for="Input.FirstName"></label>
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
 
             <div class="form-floating">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true" />
+                <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true"
+                       data-val="true"
+                       data-val-required="The Last Name field is required."
+                       data-val-length="The Last Name field must be between 2 and 200 characters."
+                       data-val-length-min="2"
+                       data-val-length-max="200" />
                 <label asp-for="Input.LastName"></label>
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
 
             <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true"
+                       data-val="true"
+                       data-val-required="The Email field is required." />
                 <label asp-for="Input.Email"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true"
+                       data-val="true"
+                       data-val-required="The Password field is required." 
+                       data-val-length-min="6"
+                       data-val-length-max="100" />
                 <label asp-for="Input.Password"></label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-floating">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true"
+                       data-val="true"
+                       data-val-required="The ConfirmPassword field is required." />
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
             <div class="form-floating">
-                <input type="file" asp-for="Input.File" />
+                <input type="file" asp-for="Input.File" accept="image/jpeg, image/png"/>
 
             </div>
 
@@ -70,7 +89,17 @@
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    @if (provider.DisplayName == "Facebook")
+                                    {
+                                        <button type="submit" class="facebook-button" name="provider" value="@provider.Name" title="Log in using your Facebook account">
+                                            <img src="~/images/facebook.png" alt="Facebook Icon">
+                                            Register with Facebook
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
                                 }
                             </p>
                         </div>

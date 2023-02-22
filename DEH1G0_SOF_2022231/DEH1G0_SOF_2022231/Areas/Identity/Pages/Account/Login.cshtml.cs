@@ -67,6 +67,7 @@ namespace DEH1G0_SOF_2022231.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
             /// <summary>

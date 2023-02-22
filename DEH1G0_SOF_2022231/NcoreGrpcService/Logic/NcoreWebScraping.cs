@@ -4,11 +4,14 @@ using RestSharp;
 
 namespace NcoreGrpcService.Logic
 {
-    public class NcoreWebScraping: INcoreWebScraping
+    /// <summary>
+    /// This class perform web scraping operations on Ncore.
+    /// </summary>
+    public class NcoreWebScraping : INcoreWebScraping
     {
         private readonly IConfiguration _configuration;
         // TODO: readonly?
-        private RestClient client = new RestClient("https://ncore.pro"); 
+        private RestClient client = new RestClient("https://ncore.pro");
 
         private readonly List<KeyValuePair<string, string>> defaultHeaders = new List<KeyValuePair<string, string>>()
             {
@@ -30,24 +33,33 @@ namespace NcoreGrpcService.Logic
                 new KeyValuePair<string, string>("Upgrade-Insecure-Requests" , "1")
             };
 
-        private readonly string _ncoreUsername; 
+        private readonly string _ncoreUsername;
         private readonly string _ncorePassword;
         private readonly string _ncoreKey;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NcoreWebScraping"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration object containing Ncore settings.</param>
         public NcoreWebScraping(IConfiguration configuration)
         {
             this._configuration = configuration;
-            this._ncoreUsername = this._configuration.GetConnectionString("NcoreUsername");
-            this._ncorePassword = this._configuration.GetConnectionString("NcorePassword");
-            this._ncoreKey = this._configuration.GetConnectionString("NcoreKey");
+            IConfigurationSection NcoreSection = this._configuration.GetSection("Ncore");
 
+            // Retrieve Ncore settings from the configuration object
+            this._ncoreUsername = NcoreSection["Username"];
+            this._ncorePassword = NcoreSection["Password"];
+            this._ncoreKey = NcoreSection["Key"];
         }
 
+        /// <summary>
+        /// Login to the Ncore website.
+        /// </summary>
         private void Login()
         {
 
             var req = new RestRequest("login.php", Method.Post);
-            
+
             foreach (var item in defaultHeaders)
             {
                 req.AddHeader(item.Key, item.Value);
@@ -57,7 +69,7 @@ namespace NcoreGrpcService.Logic
                 $"&nev={this._ncoreUsername}" +
                 $"&pass={this._ncorePassword}";
 
-            req.AddParameter("application/x-www-form-urlencoded",urlParameters , ParameterType.RequestBody);
+            req.AddParameter("application/x-www-form-urlencoded", urlParameters, ParameterType.RequestBody);
 
             var response = client.Execute(req);
 
@@ -67,6 +79,11 @@ namespace NcoreGrpcService.Logic
 
         }
 
+        /// <summary>
+        /// Gets the response for a given URL using the GET method.
+        /// </summary>
+        /// <param name="url">The URL to send the GET request to.</param>
+        /// <returns>The response received from the URL.</returns>
         private RestResponse GetResponse(string url)
         {
             var req = new RestRequest(url, Method.Get);
@@ -74,15 +91,27 @@ namespace NcoreGrpcService.Logic
             return client.Execute(req);
         }
 
+
+        /// <summary>
+        /// Performs a search using the specified <see cref="SearchRequest"/> and logs in if necessary.
+        /// </summary>
+        /// <param name="request">The search request to perform.</param>
+        /// <returns>A list of <see cref="TorrentDataReply"/> objects representing the search results.</returns>
         public List<TorrentDataReply> Searching(SearchRequest request)
         {
-            
+
             this.Login();
             return GetTorrents(request.Url);
 
         }
 
 
+
+        /// <summary>
+        /// Gets the torrents by sending GET request to url and parsing the content.
+        /// </summary>
+        /// <param name="url">The URL of the page to scrape torrent data from.</param>
+        /// <returns>A list of <see cref="TorrentDataReply"/> objects containing information about torrents.</returns>
         private List<TorrentDataReply> GetTorrents(string url)
         {
             List<TorrentDataReply> torrents = new List<TorrentDataReply>();
@@ -105,14 +134,30 @@ namespace NcoreGrpcService.Logic
 
         }
 
+        /// <summary>
+        /// Parses the HTML content and scrapes the torrent data.
+        /// </summary>
+        /// <param name="content">The HTML content to be parsed and scraped.</param>
+        /// <returns>A list of torrent data scraped from the HTML content.</returns>
         private List<TorrentDataReply> HtmlScrapping(string content)
         {
             List<TorrentDataReply> torrentDatas = new List<TorrentDataReply>();
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(content);
-            var torrents = htmlDoc.DocumentNode.SelectNodes("//div[@class='box_torrent_all']/div[@class='box_torrent']").ToList();
 
-            var idNodeList = htmlDoc.DocumentNode.SelectNodes("//div[@class='torrent_lenyilo' or @class='torrent_lenyilo2']").ToList();
+            List<HtmlNode> torrents;
+            List<HtmlNode> idNodeList;
+
+            try
+            {
+                torrents = htmlDoc.DocumentNode.SelectNodes("//div[@class='box_torrent_all']/div[@class='box_torrent']").ToList();
+
+                idNodeList = htmlDoc.DocumentNode.SelectNodes("//div[@class='torrent_lenyilo' or @class='torrent_lenyilo2']").ToList();
+            }
+            catch (ArgumentNullException)
+            {
+                return torrentDatas;
+            }
 
             int i = 0;
             foreach (var torrent in torrents)
@@ -155,6 +200,11 @@ namespace NcoreGrpcService.Logic
             return torrentDatas;
         }
 
+        /// <summary>
+        /// Finds and adds other page URLs from the html page to the links list.
+        /// </summary>
+        /// <param name="htmlPage">HTML content of a page</param>
+        /// <param name="links">List of links to be appended</param>
         private void FindOtherPages(string htmlPage, List<string> links)
         {
 
@@ -175,6 +225,11 @@ namespace NcoreGrpcService.Logic
             }
         }
 
+        /// <summary>
+        /// Downloads a torrent file for the given torrent ID.
+        /// </summary>
+        /// <param name="id">The ID of the torrent to download.</param>
+        /// <returns>A byte array representing the torrent file, or null if the download failed.</returns>
         public byte[]? DownloadTorrent(string id)
         {
             string link = $"https://ncore.pro/torrents.php?action=download&id={id}" +
