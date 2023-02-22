@@ -30,11 +30,11 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <param name="signInManager">The sign in manager used to manage sign in data.</param>
         public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager)
         {
-            _logger = logger;
-            _userRepo = userRepository;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _signManager = signInManager;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
+            _userRepo = userRepository ?? throw new ArgumentNullException(nameof(userRepository)); ;
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager)); ;
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager)); ;
+            _signManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager)); ;
         }
 
         /// <summary>
@@ -66,23 +66,20 @@ namespace DEH1G0_SOF_2022231.Controllers
 
 
         /// <summary>
-        /// The DeleteUser action deletes the current user and logs the user out.
+        /// This action deletes the current user and logs the user out.
         /// </summary>
         /// <returns>The Index action.</returns>
         [Authorize]
         public async Task<IActionResult> DeleteUser()
         {
             var user = await _userManager.FindByIdAsync(_userManager.GetUserId(this.User));
-            var roles = await _userManager.GetRolesAsync(user);
-            
-                    
+                
             if (user != null)
             {
                 await _signManager.SignOutAsync();
                 
                 await _userManager.DeleteAsync(user);
-                
-            
+               
             }
             return RedirectToAction(nameof(Index));
         }
@@ -94,7 +91,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUserByAdmin(string userid)
         {
-            var user = await this._userRepo.GetByIdAsync(userid);
+            var user = await this._userManager.FindByIdAsync(userid);
             if (user != null)
             {
                 await _userManager.DeleteAsync(user);
@@ -111,7 +108,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantAdmin(string userid)
         {
-            var user = this._userManager.Users.FirstOrDefault(t => t.Id == userid);
+            var user = await this._userManager.FindByIdAsync(userid);
             if (user != null)
             {
                 await _userManager.AddToRoleAsync(user, "Admin");
@@ -127,7 +124,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveAdmin(string userid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            var user = await _userManager.FindByIdAsync(userid);
             if (user != null)
             {
                 await _userManager.RemoveFromRoleAsync(user, "Admin");

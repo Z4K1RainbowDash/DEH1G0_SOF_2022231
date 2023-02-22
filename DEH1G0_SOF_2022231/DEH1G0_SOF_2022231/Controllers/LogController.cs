@@ -21,7 +21,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <param name="torrentLogRepository">ITorrentLogRepository interface for handling TorrentLog related operations</param>
         public LogController(ITorrentLogRepository torrentLogRepository)
         {
-            this._torrentLogRepository = torrentLogRepository;
+            this._torrentLogRepository = torrentLogRepository ?? throw new ArgumentNullException(nameof(torrentLogRepository));
         }
 
         /// <summary>

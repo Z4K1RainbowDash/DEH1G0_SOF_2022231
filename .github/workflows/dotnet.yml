@@ -1,0 +1,38 @@
+name: .NET Core Build and Test
+on:
+  push:
+    branches: [ develope ]
+    
+env:
+  DOTNET_VERSION: '6.0.x'
+  WORKING_DIRECTORY_NAME: './DEH1G0_SOF_2022231'
+jobs:
+  build:
+    runs-on: Linux
+    steps:
+    - name: Checkout GutHub actions
+      uses: actions/checkout@v2
+      with:
+        ref: 'develope'
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+            ${{ runner.os }}-nuget
+    - name: Display dotnet version
+      run: dotnet --version
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: ${{ env.WORKING_DIRECTORY_NAME }}
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ${{ env.WORKING_DIRECTORY_NAME }}
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+      working-directory: ${{ env.WORKING_DIRECTORY_NAME }}
+      

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DEH1G0_SOF_2022231", "DEH1G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NcoreGrpcService", "NcoreGrpcService\NcoreGrpcService.csproj", "{4FBE2CE7-CF50-406E-862A-461DEB80EDB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiClient", "ApiClient\ApiClient.csproj", "{3BD6E293-D0EC-46D9-95F3-38098D6FAA7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{6DF97786-E5F1-4CDD-8B15-3F92E9013959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{4FBE2CE7-CF50-406E-862A-461DEB80EDB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FBE2CE7-CF50-406E-862A-461DEB80EDB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FBE2CE7-CF50-406E-862A-461DEB80EDB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BD6E293-D0EC-46D9-95F3-38098D6FAA7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BD6E293-D0EC-46D9-95F3-38098D6FAA7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BD6E293-D0EC-46D9-95F3-38098D6FAA7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BD6E293-D0EC-46D9-95F3-38098D6FAA7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF97786-E5F1-4CDD-8B15-3F92E9013959}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF97786-E5F1-4CDD-8B15-3F92E9013959}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF97786-E5F1-4CDD-8B15-3F92E9013959}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF97786-E5F1-4CDD-8B15-3F92E9013959}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
