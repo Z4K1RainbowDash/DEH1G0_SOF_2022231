@@ -1,1 +1,1 @@
-# DEH1G0_SOF_2022231
+# DEH1G0_SOF_2022231 [![.NET Core Build and Test](https://github.com/Z4K1RainbowDash/DEH1G0_SOF_2022231/actions/workflows/dotnet.yml/badge.svg?event=push)](https://github.com/Z4K1RainbowDash/DEH1G0_SOF_2022231/actions/workflows/dotnet.yml)
