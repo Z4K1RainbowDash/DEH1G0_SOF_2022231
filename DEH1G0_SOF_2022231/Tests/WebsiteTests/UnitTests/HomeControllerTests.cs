@@ -123,7 +123,6 @@ namespace Tests.WebsiteTests.UnitTests
         {
             // Arrange
             AppUser user = (AppUser)null;
-            string role = "Admin";
             this._userManager.Setup(x => x.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(user);
             
             // Act
@@ -141,7 +140,6 @@ namespace Tests.WebsiteTests.UnitTests
         public async Task DeleteUserByAdmin_WhenCalledWithValidUserId_ShouldDeletesUserFromRepository()
         {
             // Arrange
-            string role = "Admin";
             var user = new AppUser { Id = "3", FirstName = "fName", LastName = "lName" };
             this._userManager.Setup(x=> x.FindByIdAsync(user.Id)).ReturnsAsync(user);
 
@@ -159,7 +157,6 @@ namespace Tests.WebsiteTests.UnitTests
         public async Task DeleteUserByAdmin_WhenCalledWithInvalidUserId_ShouldNotDeletesUserFromRepository()
         {
             // Arrange
-            string role = "Admin";
             AppUser user = (AppUser)null;
             this._userManager.Setup(x => x.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(user);
 
