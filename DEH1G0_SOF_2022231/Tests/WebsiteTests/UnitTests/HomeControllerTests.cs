@@ -2,20 +2,14 @@
 using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
 using FluentAssertions;
-using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using Tests.WebsiteTests.TestHelpers;
 
 namespace Tests.WebsiteTests.UnitTests
@@ -129,7 +123,6 @@ namespace Tests.WebsiteTests.UnitTests
         {
             // Arrange
             AppUser user = (AppUser)null;
-            string role = "Admin";
             this._userManager.Setup(x => x.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(user);
             
             // Act
@@ -147,7 +140,6 @@ namespace Tests.WebsiteTests.UnitTests
         public async Task DeleteUserByAdmin_WhenCalledWithValidUserId_ShouldDeletesUserFromRepository()
         {
             // Arrange
-            string role = "Admin";
             var user = new AppUser { Id = "3", FirstName = "fName", LastName = "lName" };
             this._userManager.Setup(x=> x.FindByIdAsync(user.Id)).ReturnsAsync(user);
 
@@ -165,7 +157,6 @@ namespace Tests.WebsiteTests.UnitTests
         public async Task DeleteUserByAdmin_WhenCalledWithInvalidUserId_ShouldNotDeletesUserFromRepository()
         {
             // Arrange
-            string role = "Admin";
             AppUser user = (AppUser)null;
             this._userManager.Setup(x => x.FindByIdAsync(It.IsAny<string>())).ReturnsAsync(user);
 
@@ -302,6 +293,62 @@ namespace Tests.WebsiteTests.UnitTests
                 .WithMessage(expectedExceptionMessageStart)
                 .WithParameterName(expectedNullParameterName);
 
+        }
+
+        [Test]
+        public async Task ListUsers_WhenCalled_ShouldReturnAllUsers()
+        {
+            // Arrange
+
+            var user1 = new AppUser { Id = "1", FirstName = "fName", LastName = "lName" };
+            var user2 = new AppUser { Id = "2", FirstName = "fName2", LastName = "lName2" };
+            var users = new List<AppUser> { user1, user2 };
+
+            this._userRepo.Setup(x => x.GetAllAsync()).ReturnsAsync(users);
+
+            // Act
+
+            var result = await this._homeController.ListUsers();
+
+            // Assert
+
+            result.Should().BeOfType<ViewResult>();
+            result.As<ViewResult>().Model.Should().Be(users);
+        }
+
+        [Theory]
+        [TestCase("ListUsers")]
+        [TestCase("DeleteUser")]
+        [TestCase("DeleteUserByAdmin")]
+        [TestCase("GrantAdmin")]
+        [TestCase("RemoveAdmin")]
+        [TestCase("GrantAdmin")]
+        public void HomeController_MethodWithAuthorizeAttribute_ShouldReturnTrue(string methodName)
+        {
+           
+            // Act
+            bool result = AttributeHelper.MethodHasAttributeOfType<HomeController, AuthorizeAttribute>(methodName);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Theory]
+        [TestCase("DeleteUserByAdmin")]
+        [TestCase("GrantAdmin")]
+        [TestCase("RemoveAdmin")]
+        public void HomeController_MethodWithAuthorizeAttributeWhichContainsAdminRole_ShouldReturnTrue(string methodName )
+        {
+            // Arrange
+            string attributePropertyName = "Roles";
+
+            string expectedPropertyValue = "Admin";
+            
+            // Act
+             bool result = AttributeHelper.MethodHasAttributeWithPropertyValue<HomeController, AuthorizeAttribute,String>(methodName, attributePropertyName, expectedPropertyValue);
+
+            // Assert
+            result.Should().BeTrue();
         }
     }
 }
