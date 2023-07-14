@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +10,7 @@ namespace DEH1G0_SOF_2022231.Controllers
     /// The HomeController is responsible for handling the main functions of the application.
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("[api/[controller]/[action]")]
     public class HomeController : ControllerBase
     {
         // dependencies
