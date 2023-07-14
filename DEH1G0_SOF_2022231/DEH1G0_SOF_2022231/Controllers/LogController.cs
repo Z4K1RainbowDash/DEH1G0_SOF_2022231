@@ -1,7 +1,5 @@
 ﻿using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DEH1G0_SOF_2022231.Controllers
@@ -27,11 +25,23 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <summary>
         /// GetLogs is an HTTP GET method that returns a list of all TorrentLogs
         /// </summary>
-        /// <returns>IEnumerable<TorrentLog> - List of all TorrentLogs</returns>
+        /// <returns>
+        /// <see cref="OkResult"/> with torrents.
+        /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while getting torrents.
+        /// </returns>
         [HttpGet]
-        public async Task<IEnumerable<TorrentLog>> GetLogs()
+        public async Task<ActionResult<IEnumerable<TorrentLog>>> GetLogs()
         {
-            return await this._torrentLogRepository.GetAllAsync();
+            try
+            {
+                var torrents = await this._torrentLogRepository.GetAllAsync();
+                return Ok(torrents);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"An error occurred while retrieving the list of torrents: {ex.Message}");
+            }
         }
 
     }
