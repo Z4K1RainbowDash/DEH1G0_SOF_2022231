@@ -36,15 +36,12 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <param name="signInManager">The sign in manager used to manage sign in data.</param>
         public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
-            _userRepo = userRepository ?? throw new ArgumentNullException(nameof(userRepository)); ;
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager)); ;
-            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager)); ;
-            _signManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager)); ;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _userRepo = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+            _signManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
-
-
-
 
 
         /// <summary>
