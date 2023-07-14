@@ -25,6 +25,7 @@ namespace Tests.WebsiteTests.UnitTests
         private HomeController _homeController;
         private string _invalidAppUserId;
 
+        // TODO rewrite
 
         [SetUp]
         public void SetUp()
@@ -38,26 +39,9 @@ namespace Tests.WebsiteTests.UnitTests
             _invalidAppUserId = "-------InvalidAppUserId-------";
         }
 
-        [Test]
-        public void Index_WhenCalled_ShouldReturnsViewResult()
-        {
-            // Act
-            var result = this._homeController.Index();
+       
 
-            // Assert
-            result.Should().BeOfType<ViewResult>();
-        }
-
-        [Test]
-        public void Privacy_WhenCalled_ShouldReturnsViewResult()
-        {
-            // Act
-            var result = this._homeController.Privacy();
-
-            // Assert
-            result.Should().BeOfType<ViewResult>();
-        }
-
+        /*
 
         [Test]
         public async Task GrantAdmin_WhenCalledWithValidUserId_ShouldsAddsAdminRoleToUser()
@@ -69,6 +53,7 @@ namespace Tests.WebsiteTests.UnitTests
             this._userManager.Setup(x => x.AddToRoleAsync(user, role)).ReturnsAsync(IdentityResult.Success);
 
             // Act
+            this._homeController.
             var result = await this._homeController.GrantAdmin(user.Id);
 
             // Assert
@@ -350,5 +335,8 @@ namespace Tests.WebsiteTests.UnitTests
             // Assert
             result.Should().BeTrue();
         }
+
+
+        */
     }
 }

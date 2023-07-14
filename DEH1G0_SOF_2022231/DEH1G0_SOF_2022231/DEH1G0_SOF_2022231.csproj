@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Protobuf Include="Protos\ncore.proto">
       <GrpcServices>Client</GrpcServices>
     </Protobuf>

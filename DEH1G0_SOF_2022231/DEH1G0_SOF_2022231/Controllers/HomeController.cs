@@ -1,24 +1,30 @@
-﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using System.Diagnostics;
 
 namespace DEH1G0_SOF_2022231.Controllers
 {
     /// <summary>
     /// The HomeController is responsible for handling the main functions of the application.
     /// </summary>
-    public class HomeController : Controller
+    [ApiController]
+    [Route("[api/[controller]/[action]")]
+    public class HomeController : ControllerBase
     {
+        // dependencies
         private readonly ILogger<HomeController> _logger;
         private readonly SignInManager<AppUser> _signManager;
         private readonly IAppUserRepository _userRepo;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+
+        // return messages
+        private readonly string _userNotFoundErrorMessage = "User not found with the provided user ID";
+        private readonly string _errorOccurredMessage = "An error occurred while";
+
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
@@ -30,131 +36,165 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <param name="signInManager">The sign in manager used to manage sign in data.</param>
         public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
-            _userRepo = userRepository ?? throw new ArgumentNullException(nameof(userRepository)); ;
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager)); ;
-            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager)); ;
-            _signManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager)); ;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _userRepo = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+            _signManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
-        /// <summary>
-        /// The Index action returns the Index view.
-        /// </summary>
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         /// <summary>
-        /// The Privacy action returns the Privacy view.
+        /// Get all users.
         /// </summary>
-        /// <returns>The Privacy view.</returns>
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// The ListUsers action returns the view of all users.
-        /// </summary>
-        /// <returns>The view of all users.</returns>
+        /// <returns>
+        /// <see cref="OkResult"/> with users.
+        /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while getting the users.
+        /// </returns>
         [Authorize]
-        public async Task<IActionResult> ListUsers()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AppUser>>> ListUsersAsync()
         {
-            return View(await this._userRepo.GetAllAsync());
+            try
+            {
+                var users = await this._userRepo.GetAllAsync();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} retrieving the list of users: {ex.Message}");
+            }
         }
-
 
         /// <summary>
         /// This action deletes the current user and logs the user out.
         /// </summary>
-        /// <returns>The Index action.</returns>
+        /// <returns>
+        /// <see cref="OkResult"/> if the user is successfully deleted.
+        /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
+        /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while deleting the user.
+        /// </returns>
         [Authorize]
-        public async Task<IActionResult> DeleteUser()
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserAsync()
         {
-            var user = await _userManager.FindByIdAsync(_userManager.GetUserId(this.User));
-                
+            var user = await this._userManager.FindByIdAsync(this._userManager.GetUserId(this.User));
+
             if (user != null)
             {
-                await _signManager.SignOutAsync();
-                
-                await _userManager.DeleteAsync(user);
-               
+                try
+                {
+                    await this._signManager.SignOutAsync();
+                    await this._userManager.DeleteAsync(user);
+
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} deleting the user: {ex.Message}");
+                }
             }
-            return RedirectToAction(nameof(Index));
+            else
+            {
+                return BadRequest(this._userNotFoundErrorMessage);
+            }
         }
+
         /// <summary>
         /// Deletes the specified user account as an administrator.
         /// </summary>
-        /// <param name="userid">The unique identifier of the user to delete.</param>
-        /// <returns>A redirect to the action that lists all users in the system.</returns>
+        /// <param name="userid">The user's identifier.</param>
+        /// <returns>
+        /// <see cref="OkResult"/> if the user is successfully deleted.
+        /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
+        /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while deleting the user.
+        /// </returns>
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteUserByAdmin(string userid)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserByAdminAsync(string userid)
         {
             var user = await this._userManager.FindByIdAsync(userid);
             if (user != null)
             {
-                await _userManager.DeleteAsync(user);
+                try
+                {
+                    await this._userManager.DeleteAsync(user);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} delete the user: {ex.Message}");
+                }
             }
-
-            return RedirectToAction(nameof(ListUsers));
+            else
+            {
+                return BadRequest(this._userNotFoundErrorMessage);
+            }
         }
 
         /// <summary>
         /// Grants the role of "Admin" to the specified user.
         /// </summary>
-        /// <param name="userid">The user ID of the user to grant the "Admin" role to.</param>
-        /// <returns>The list of all users if the role is successfully granted, otherwise returns the default view.</returns>
+        /// <param name="userid">The user's identifier.</param>
+        /// <returns>
+        /// <see cref="OkResult"/> if the "Admin" role is successfully added to the user.
+        /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
+        /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while adding the role.
+        /// </returns>
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GrantAdmin(string userid)
+        [HttpPut]
+        public async Task<IActionResult> GrantAdminAsync(string userid)
         {
             var user = await this._userManager.FindByIdAsync(userid);
             if (user != null)
             {
-                await _userManager.AddToRoleAsync(user, "Admin");
+                try
+                {
+                    await this._userManager.AddToRoleAsync(user, "Admin");
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} adding the role: {ex.Message}");
+                }
             }
-            return RedirectToAction(nameof(ListUsers));
+            else
+            {
+                return BadRequest(this._userNotFoundErrorMessage);
+            }
         }
 
         /// <summary>
         /// Remove the role of admin from a user.
         /// </summary>
         /// <param name="userid">The user's identifier.</param>
-        /// <returns>Redirect to the `ListUsers` action.</returns>
+        /// <returns>
+        /// <see cref="OkResult"/> if the "Admin" role is successfully removed from the user.
+        /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
+        /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while removing the role.
+        /// </returns>
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> RemoveAdmin(string userid)
+        [HttpDelete]
+        public async Task<IActionResult> RemoveAdminAsync(string userid)
         {
-            var user = await _userManager.FindByIdAsync(userid);
+            var user = await this._userManager.FindByIdAsync(userid);
             if (user != null)
             {
-                await _userManager.RemoveFromRoleAsync(user, "Admin");
+                try
+                {
+                    await this._userManager.RemoveFromRoleAsync(user, "Admin");
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} removing the role: {ex.Message}");
+                }
             }
-            return RedirectToAction(nameof(ListUsers));
-
-        }
-
-
-
-
-        /// <summary>
-        /// Gets the image for the user with the specified id.
-        /// </summary>
-        /// <param name="userid">The id of the user.</param>
-        /// <returns>The image for the user with the specified id.</returns>
-        public IActionResult GetImage(string userid)
-        {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
-            return new FileContentResult(user.PhotoData, user.PhotoContentType);
-        }
-
-        /// <summary>
-        /// Displays an error page.
-        /// </summary>
-        /// <returns>The error page view.</returns>
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            else
+            {
+                return BadRequest(this._userNotFoundErrorMessage);
+            }
         }
     }
 }
