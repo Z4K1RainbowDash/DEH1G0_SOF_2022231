@@ -1,6 +1,5 @@
 ﻿using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Helpers;
-using DEH1G0_SOF_2022231.Hubs;
 using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Helpers;
 using Microsoft.AspNetCore.SignalR;
@@ -19,20 +18,18 @@ namespace DEH1G0_SOF_2022231.Logic
         private readonly IAppUserRepository _userRepository;
         private readonly ITorrentRepository _torrentRepository;
         private readonly ITorrentLogRepository _torrentLogRepository;
-        private readonly IHubContext<EventHub> _hub;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TorrentLogic"/> class.
         /// </summary>
         /// <param name="builder">An object of INcoreUrlBuilder that is used for building the Ncore Url</param>
         /// <exception cref="ArgumentNullException">Thrown if the builder parameter is null</exception>
-        public TorrentLogic(INcoreUrlBuilder builder, ITorrentRepository torrentRepository, IAppUserRepository appUserRepository, ITorrentLogRepository torrentLogRepository, IHubContext<EventHub> hub)
+        public TorrentLogic(INcoreUrlBuilder builder, ITorrentRepository torrentRepository, IAppUserRepository appUserRepository, ITorrentLogRepository torrentLogRepository)
         {
             _builder = builder ?? throw new ArgumentNullException(nameof(builder));
             _torrentRepository = torrentRepository;
             _userRepository = appUserRepository;
             _torrentLogRepository = torrentLogRepository;
-            _hub = hub;
         }
 
         /// <summary>
@@ -98,7 +95,6 @@ namespace DEH1G0_SOF_2022231.Logic
             };
 
             await this._torrentLogRepository.AddAsync(torrentLog);
-            await this._hub.Clients.All.SendAsync("logCreated", torrentLog);
         }
 
         
