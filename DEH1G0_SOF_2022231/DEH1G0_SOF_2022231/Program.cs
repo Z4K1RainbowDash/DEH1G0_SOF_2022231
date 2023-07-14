@@ -1,6 +1,5 @@
 using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Helpers;
-using DEH1G0_SOF_2022231.Hubs;
 using DEH1G0_SOF_2022231.Logic;
 using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Identity;
@@ -39,7 +38,6 @@ builder.Services.AddScoped<ITorrentRepository, TorrentRepository>();
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSignalR();
 
 builder.Services.AddAuthentication().AddFacebook(t =>
 {
@@ -63,32 +61,18 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    endpoints.MapControllerRoute(
-        name: "log",
-        pattern: "api/log/{id?}",
-        defaults: new { controller = "Log" });
+    endpoints.MapControllers();
 });
 
-
-app.MapHub<EventHub>("/events");
-app.MapRazorPages();
 
 app.Run();
 
