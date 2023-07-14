@@ -7,7 +7,7 @@ namespace DEH1G0_SOF_2022231.Controllers
     /// <summary>
     /// LogController class is a web API controller that handles TorrentLog related operations
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("[api/[controller]/[action]")]
     [ApiController]
     public class LogController : ControllerBase
     {
