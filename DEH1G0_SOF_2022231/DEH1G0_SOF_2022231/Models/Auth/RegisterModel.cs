@@ -51,7 +51,7 @@ namespace DEH1G0_SOF_2022231.Models.Auth
         /// <summary>
         /// Gets or sets the user's profile image.
         /// </summary>
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
     }
 
 }

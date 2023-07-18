@@ -11,7 +11,7 @@ namespace DEH1G0_SOF_2022231.Controllers
     /// <summary>
     /// Controller for handling Torrent related actions, such as searching, downloading, and listing logs.
     /// </summary>
-    [Route("[api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TorrentsController : ControllerBase
     {
@@ -53,7 +53,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// </returns>
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<TorrentsViewModel>> SearchTorrent([FromBody] TorrentsViewModel vm)
+        public async Task<ActionResult<TorrentsViewModel>> SearchTorrent(TorrentsViewModel vm)
         {
             if (!ModelState.IsValid)
             {

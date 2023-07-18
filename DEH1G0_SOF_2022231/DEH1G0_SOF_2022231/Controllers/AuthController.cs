@@ -1,5 +1,6 @@
 ﻿using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Auth;
+using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -37,35 +38,43 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// It returns an HTTP 200 OK response if the registration data is valid and the registration is successful, otherwise it returns an HTTP 400 Bad Request response with the validation errors.
         /// </returns>
         [HttpPut]
-        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
+        public async Task<IActionResult> Register( RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            using (var memoryStream = new MemoryStream())
+            var user = new AppUser
             {
-                await registerModel.Image.CopyToAsync(memoryStream);
-
-
-
-                var user = new AppUser
+                Email = registerModel.Email,
+                UserName = registerModel.Username,
+                LastName = registerModel.LastName,
+                FirstName = registerModel.FirstName,
+                SecurityStamp = Guid.NewGuid().ToString(),
+            };
+            
+            if (registerModel.Image != null)
+            {
+                using (var memoryStream = new MemoryStream())
                 {
-                    Email = registerModel.Email,
-                    UserName = registerModel.Username,
-                    LastName = registerModel.LastName,
-                    FirstName = registerModel.FirstName,
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    PhotoContentType = registerModel.Image.ContentType,
-                    PhotoData = memoryStream.ToArray()
-                };
-                await _userManager.CreateAsync(user, registerModel.Password);
-                // await _userManager.AddToRoleAsync(user, "Role");
+                    await registerModel.Image.CopyToAsync(memoryStream);
+
+                    user.PhotoData = memoryStream.ToArray();
+                    user.PhotoContentType = registerModel.Image.ContentType;
+                    
+                }
+            }
+            // await _userManager.AddToRoleAsync(user, "Role");
+            var result = await _userManager.CreateAsync(user, registerModel.Password);
+            if (result.Succeeded)
+            {
                 return Ok();
             }
-
-
+            else
+            {
+                return Problem("Duplicated User");
+            }
         }
 
         /// <summary>
