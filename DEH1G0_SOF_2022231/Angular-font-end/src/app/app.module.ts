@@ -14,6 +14,8 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import { TorrentsComponent } from './torrents/torrents.component';
+import {MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { TorrentsComponent } from './torrents/torrents.component';
     AppRoutingModule,
     RouterOutlet,
     BrowserAnimationsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
