@@ -10,7 +10,7 @@ namespace DEH1G0_SOF_2022231.Controllers
     /// The HomeController is responsible for handling the main functions of the application.
     /// </summary>
     [ApiController]
-    [Route("[api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class HomeController : ControllerBase
     {
         // dependencies
