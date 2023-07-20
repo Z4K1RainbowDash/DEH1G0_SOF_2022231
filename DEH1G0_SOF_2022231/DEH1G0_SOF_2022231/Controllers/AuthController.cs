@@ -38,7 +38,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// It returns an HTTP 200 OK response if the registration data is valid and the registration is successful, otherwise it returns an HTTP 400 Bad Request response with the validation errors.
         /// </returns>
         [HttpPut]
-        public async Task<IActionResult> Register( RegisterModel registerModel)
+        public async Task<IActionResult> Register([ModelBinder(typeof(RegisterModelBinder))] RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
             {
@@ -54,17 +54,7 @@ namespace DEH1G0_SOF_2022231.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
             
-            if (registerModel.Image != null)
-            {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await registerModel.Image.CopyToAsync(memoryStream);
-
-                    user.PhotoData = memoryStream.ToArray();
-                    user.PhotoContentType = registerModel.Image.ContentType;
-                    
-                }
-            }
+            
             // await _userManager.AddToRoleAsync(user, "Role");
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (result.Succeeded)
