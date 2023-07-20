@@ -16,6 +16,8 @@ import {MatButtonModule} from "@angular/material/button";
 import { TorrentsComponent } from './torrents/torrents.component';
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

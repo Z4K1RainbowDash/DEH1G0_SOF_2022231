@@ -1,6 +1,6 @@
 <h1>Registration</h1>
 
-<form class="TODO_CSS">
+<div id="regForm">
   <mat-form-field>
     <mat-label>First Name</mat-label>
     <input type="text"
@@ -8,7 +8,6 @@
            [formControl]="registerForm.firstNameFormControl"
            [errorStateMatcher]="matcher"
            placeholder="Ex. James">
-    <mat-hint>Your first name</mat-hint>
     <mat-error *ngIf="registerForm.firstNameFormControl.hasError('minlength') && !registerForm.firstNameFormControl.hasError('required')">
       Minimum length of the field is 3 characters
     </mat-error>
@@ -24,7 +23,6 @@
            [formControl]="registerForm.lastNameFormControl"
            [errorStateMatcher]="matcher"
            placeholder="Ex. Bond">
-    <mat-hint>Your first name</mat-hint>
     <mat-error *ngIf="registerForm.lastNameFormControl.hasError('minlength') && !registerForm.lastNameFormControl.hasError('required')">
       Minimum length of the field is 3 characters
     </mat-error>
@@ -37,7 +35,6 @@
     <mat-label>Email</mat-label>
     <input type="email" matInput [formControl]="registerForm.emailFormControl" [errorStateMatcher]="matcher"
            placeholder="Ex. pat@example.com">
-    <mat-hint>Errors appear instantly!</mat-hint>
     <mat-error *ngIf="registerForm.emailFormControl.hasError('email') && !registerForm.emailFormControl.hasError('required')">
       Please enter a valid email address
     </mat-error>
@@ -53,7 +50,6 @@
            [formControl]="registerForm.userNameFormControl"
            [errorStateMatcher]="matcher"
            placeholder="Ex. bobsmith66">
-    <mat-hint>Your first name</mat-hint>
     <mat-error *ngIf="registerForm.userNameFormControl.hasError('minlength') && !registerForm.userNameFormControl.hasError('required')">
       Minimum length of the field is 3 characters
     </mat-error>
@@ -68,8 +64,7 @@
            matInput
            [formControl]="registerForm.passwordFormControl"
            [errorStateMatcher]="matcher"
-           placeholder="Ex. bobsmith66">
-    <mat-hint>Your first name</mat-hint>
+           placeholder="Ex. Bobsmith66">
     <mat-error *ngIf="registerForm.passwordFormControl.hasError('minlength') && !registerForm.passwordFormControl.hasError('required')">
       Minimum length of the field is 8 characters
     </mat-error>
@@ -78,4 +73,8 @@
     </mat-error>
   </mat-form-field>
 
-</form>
+
+<button mat-flat-button color="primary"
+(click)="LogFunction()"
+>Submit</button>
+</div>
