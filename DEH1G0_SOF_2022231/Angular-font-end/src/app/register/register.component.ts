@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
-import {RegisterModel} from "../_models/registermodel";
+import {RegisterModel} from "../_models/DTOs/registermodel";
 import {MyErrorStateMatcher} from "../_models/my-error-state-matcher";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
