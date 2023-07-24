@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using DEH1G0_SOF_2022231.Models.DTOs;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
 {
-    public class TorrentsViewModelBinder : IModelBinder
+    public class TorrentSearchDTOBinder : IModelBinder
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
@@ -13,7 +14,7 @@ namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
 
 
 
-            TorrentsViewModel vm = new TorrentsViewModel();
+            TorrentSearchDTO vm = new TorrentSearchDTO();
 
             Movies movies = new Movies();
             movies.IsSelected = bool.Parse(bindingContext.ValueProvider.GetValue("Movies.IsSelected").FirstValue);
