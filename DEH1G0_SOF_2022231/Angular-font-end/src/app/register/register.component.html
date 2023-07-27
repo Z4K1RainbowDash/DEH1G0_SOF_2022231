@@ -1,17 +1,17 @@
 <h1>Registration</h1>
 
-<div id="regForm">
+<form id="regForm" [formGroup]="registerFormGroup">
   <mat-form-field>
     <mat-label>First Name</mat-label>
     <input type="text"
            matInput
-           [formControl]="registerForm.firstNameFormControl"
+           formControlName = firstName
            [errorStateMatcher]="matcher"
            placeholder="Ex. James">
-    <mat-error *ngIf="registerForm.firstNameFormControl.hasError('minlength') && !registerForm.firstNameFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'firstName', 'minlength')">
       Minimum length of the field is 3 characters
     </mat-error>
-    <mat-error *ngIf="registerForm.firstNameFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'firstName')">
       First name is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -20,25 +20,29 @@
     <mat-label>Last Name</mat-label>
     <input type="text"
            matInput
-           [formControl]="registerForm.lastNameFormControl"
+           formControlName = "lastName"
            [errorStateMatcher]="matcher"
            placeholder="Ex. Bond">
-    <mat-error *ngIf="registerForm.lastNameFormControl.hasError('minlength') && !registerForm.lastNameFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'lastName', 'minlength')">
       Minimum length of the field is 3 characters
     </mat-error>
-    <mat-error *ngIf="registerForm.lastNameFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'lastName')">
       Last name is <strong>required</strong>
     </mat-error>
   </mat-form-field>
 
   <mat-form-field class="">
     <mat-label>Email</mat-label>
-    <input type="email" matInput [formControl]="registerForm.emailFormControl" [errorStateMatcher]="matcher"
+    <input
+      type="email"
+      matInput
+      formControlName = "email"
+      [errorStateMatcher]="matcher"
            placeholder="Ex. pat@example.com">
-    <mat-error *ngIf="registerForm.emailFormControl.hasError('email') && !registerForm.emailFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'email', 'email')">
       Please enter a valid email address
     </mat-error>
-    <mat-error *ngIf="registerForm.emailFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'email')">
       Email is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -47,13 +51,13 @@
     <mat-label>User Name</mat-label>
     <input type="text"
            matInput
-           [formControl]="registerForm.userNameFormControl"
+           formControlName = "username"
            [errorStateMatcher]="matcher"
            placeholder="Ex. bobsmith66">
-    <mat-error *ngIf="registerForm.userNameFormControl.hasError('minlength') && !registerForm.userNameFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'username', 'minlength')">
       Minimum length of the field is 3 characters
     </mat-error>
-    <mat-error *ngIf="registerForm.userNameFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'username')">
       User name is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -62,13 +66,13 @@
     <mat-label>Password</mat-label>
     <input type="password"
            matInput
-           [formControl]="registerForm.passwordFormControl"
+           formControlName = "password"
            [errorStateMatcher]="matcher"
            placeholder="Ex. Bobsmith66">
-    <mat-error *ngIf="registerForm.passwordFormControl.hasError('minlength') && !registerForm.passwordFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'password', 'minlength')">
       Minimum length of the field is 8 characters
     </mat-error>
-    <mat-error *ngIf="registerForm.passwordFormControl.hasError('required')">
+    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'password')">
       Password is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -77,4 +81,4 @@
 <button mat-flat-button color="primary"
 (click)="LogFunction()"
 >Submit</button>
-</div>
+</form>

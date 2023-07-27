@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {ErrorStateMatcher} from '@angular/material/core';
 import {RegisterModel} from "../_models/DTOs/registermodel";
-import {MyErrorStateMatcher} from "../_models/my-error-state-matcher";
+import {MyErrorStateMatcher} from "../_models/form-helpers/my-error-state-matcher";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {RegisterForm} from "../_models/my-forms/register-form";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ErrorTextChecker} from "../_models/form-helpers/error-text-checker";
 
 @Component({
   selector: 'app-register',
@@ -15,27 +16,41 @@ import {RegisterForm} from "../_models/my-forms/register-form";
 
 export class RegisterComponent{
 
-  matcher: ErrorStateMatcher
-  registerForm: RegisterForm
-  http: HttpClient
-  router: Router
-  snackBar: MatSnackBar
+  public matcher: ErrorStateMatcher
+  public registerFormGroup: FormGroup
+  public readonly errorTextChecker : ErrorTextChecker
+  private readonly http: HttpClient
+  private readonly router: Router
+  private readonly snackBar: MatSnackBar
+  private readonly formBuilder: FormBuilder
 
-  constructor(http:HttpClient,router:Router, snackBar:MatSnackBar) {
+  constructor(http:HttpClient,router:Router, snackBar:MatSnackBar, formBuilder: FormBuilder) {
     this.matcher = new MyErrorStateMatcher()
-    this.registerForm = new RegisterForm()
     this.http = http
     this.router = router
     this.snackBar = snackBar
+    this.formBuilder = formBuilder
+    this.registerFormGroup = this.formBuilder.group({
+      firstName : ['',[Validators.required, Validators.minLength(3)]],
+      lastName : ['',[Validators.required, Validators.minLength(3)]],
+      username : ['',[Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    })
+    this.errorTextChecker = new ErrorTextChecker()
   }
 
   LogFunction() {
-    var registerModel: RegisterModel = new RegisterModel()
-    registerModel.email = this.registerForm.emailFormControl.getRawValue()
-    registerModel.firstName = this.registerForm.firstNameFormControl.getRawValue()
-    registerModel.lastName = this.registerForm.lastNameFormControl.getRawValue()
-    registerModel.userName = this.registerForm.userNameFormControl.getRawValue()
-    registerModel.password = this.registerForm.passwordFormControl.getRawValue()
+
+
+      var registerModel  = new RegisterModel(
+        this.registerFormGroup.get('firstName')?.value,
+        this.registerFormGroup.get('lastName')?.value,
+        this.registerFormGroup.get('email')?.value,
+        this.registerFormGroup.get('username')?.value,
+        this.registerFormGroup.get('password')?.value,
+        )
+
 
     console.log(registerModel)
 
@@ -49,6 +64,7 @@ export class RegisterComponent{
             })
         },
         error: (error) => {
+          console.log(error)
           this.snackBar.open("An error happened, please try again.", "Close", {duration: 5000})
         }
       });
