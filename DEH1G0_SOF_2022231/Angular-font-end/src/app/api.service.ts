@@ -25,8 +25,8 @@ export class ApiService {
   }
   private tokenCheck():boolean
   {
-    let token = localStorage.getItem('nikprog-practiceapi-token');
-    let expirationDate = localStorage.getItem('nikprog-practiceapi-token-expiration');
+    let token = localStorage.getItem('ncore-token');
+    let expirationDate = localStorage.getItem('ncore-token-expiration');
 
     return token!== null && expirationDate!== null;
   }
