@@ -8,6 +8,7 @@ import {MyErrorStateMatcher} from "../_models/form-helpers/my-error-state-matche
 import {LoginModel} from "../_models/DTOs/loginmodel";
 import {TokenModel} from "../_models/tokenmodel";
 import {ErrorTextChecker} from "../_models/form-helpers/error-text-checker";
+import {FormSubmitValidate} from "../_models/form-helpers/form-submit-validate";
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import {ErrorTextChecker} from "../_models/form-helpers/error-text-checker";
 export class LoginComponent {
   public matcher: ErrorStateMatcher
   public readonly errorTextChecker : ErrorTextChecker
+  public readonly formSubmitValidate: FormSubmitValidate
   public loginFormGroup: FormGroup
   private readonly http: HttpClient
   private readonly router: Router
@@ -36,6 +38,7 @@ export class LoginComponent {
       password: ['', [Validators.required, Validators.minLength(8)]]
     })
     this.errorTextChecker = new ErrorTextChecker()
+    this.formSubmitValidate = new FormSubmitValidate()
   }
 
 

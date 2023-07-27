@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ErrorTextChecker} from "../_models/form-helpers/error-text-checker";
+import {FormSubmitValidate} from "../_models/form-helpers/form-submit-validate";
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,7 @@ export class RegisterComponent{
 
   public matcher: ErrorStateMatcher
   public registerFormGroup: FormGroup
+  public readonly formSubmitValidate: FormSubmitValidate
   public readonly errorTextChecker : ErrorTextChecker
   private readonly http: HttpClient
   private readonly router: Router
@@ -38,6 +40,7 @@ export class RegisterComponent{
       password: ['', [Validators.required, Validators.minLength(8)]]
     })
     this.errorTextChecker = new ErrorTextChecker()
+    this.formSubmitValidate = new FormSubmitValidate()
   }
 
   LogFunction() {

@@ -32,7 +32,10 @@
   </mat-form-field>
 
 
-  <button mat-flat-button color="primary"
-          (click)="SubmitLogin()"
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="SubmitLogin()"
+    [disabled] = "!formSubmitValidate.validateFormGroup(loginFormGroup)"
   >Submit</button>
 </form>

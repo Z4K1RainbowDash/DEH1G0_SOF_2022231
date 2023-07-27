@@ -79,6 +79,7 @@
 
 
 <button mat-flat-button color="primary"
+        [disabled] = "!formSubmitValidate.validateFormGroup(registerFormGroup)"
 (click)="LogFunction()"
 >Submit</button>
 </form>
