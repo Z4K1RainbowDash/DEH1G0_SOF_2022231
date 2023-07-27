@@ -8,6 +8,7 @@ namespace DEH1G0_SOF_2022231.Models.Auth
     /// <summary>
     /// Represents a model for user registration.
     /// </summary>
+    [ModelBinder(typeof(RegisterModelBinder))]
     public class RegisterModel
     {
         /// <summary>

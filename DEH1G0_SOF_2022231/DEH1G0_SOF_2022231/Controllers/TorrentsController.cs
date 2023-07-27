@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using DEH1G0_SOF_2022231.Models.DTOs;
+using NcoreGrpcService.Protos;
 
 namespace DEH1G0_SOF_2022231.Controllers
 {
@@ -45,15 +47,15 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <summary>
         /// Method that handles the POST request to search for torrents.
         /// </summary>
-        /// <param name="vm">The view model containing the search parameters.</param>
+        /// <param name="torrentSearchDTO">The view model containing the search parameters.</param>
         /// <returns>
-        /// <see cref="OkResult"/> containing the <see cref="TorrentsViewModel"/> with search results.
-        /// <see cref="BadRequestResult"/> if the <see cref="TorrentsViewModel"/> is not valid.
+        /// <see cref="OkResult"/> containing the <see cref="TorrentDataReply"/> List.
+        /// <see cref="BadRequestResult"/> if the <see cref="TorrentSearchDTO"/> is not valid.
         /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while searching torrents.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<TorrentsViewModel>> SearchTorrent(TorrentsViewModel vm)
+        public async Task<ActionResult<List<TorrentDataReply>>> SearchTorrent(TorrentSearchDTO torrentSearchDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -62,10 +64,9 @@ namespace DEH1G0_SOF_2022231.Controllers
 
             try
             {
-                var url = this._torrentLogic.GetNcoreUrl(vm.SearchText, vm.Movies, vm.Series, vm.Musics, vm.Programs, vm.Games, vm.Books);
+                var url = this._torrentLogic.GetNcoreUrl(torrentSearchDTO.SearchText, torrentSearchDTO.Movies, torrentSearchDTO.Series, torrentSearchDTO.Musics, torrentSearchDTO.Programs, torrentSearchDTO.Games, torrentSearchDTO.Books);
                 var torrents = await this._grpcLogic.TorrentSearch(url);
-                vm.Torrents = torrents;
-                return Ok(vm);
+                return Ok(torrents);
             }
             catch (Exception ex)
             {

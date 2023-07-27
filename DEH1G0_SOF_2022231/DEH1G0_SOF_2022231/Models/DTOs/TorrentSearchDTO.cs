@@ -20,9 +20,6 @@ namespace DEH1G0_SOF_2022231.Models.DTOs
         [StringLength(200, MinimumLength = 3)]
         [DisplayName("Search Field:")]
         public string SearchText { get; set; }
-
-       
-
         public Movies Movies { get; set; }
 
         public Series Series { get; set; }
@@ -33,8 +30,6 @@ namespace DEH1G0_SOF_2022231.Models.DTOs
         public Programs Programs { get; set; }
 
         public Books Books { get; set; }
-
-        public List<TorrentDataReply>  Torrents { get; set; }
 
     }
 

@@ -68,7 +68,6 @@ namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
             vm.Games = games;
             vm.Programs = programs;
             vm.Books = books;
-            vm.Torrents = new List<NcoreGrpcService.Protos.TorrentDataReply>();
 
 
             vm.SearchText = bindingContext.ValueProvider.GetValue("SearchText").FirstValue;

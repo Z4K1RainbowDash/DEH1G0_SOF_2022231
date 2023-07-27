@@ -38,7 +38,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// It returns an HTTP 200 OK response if the registration data is valid and the registration is successful, otherwise it returns an HTTP 400 Bad Request response with the validation errors.
         /// </returns>
         [HttpPut]
-        public async Task<IActionResult> Register([ModelBinder(typeof(RegisterModelBinder))] RegisterModel registerModel)
+        public async Task<IActionResult> Register(RegisterModel registerModel)
         {
             if (!ModelState.IsValid)
             {
