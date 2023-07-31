@@ -11,11 +11,7 @@ export class FormSubmitValidate {
 
       if (control) {
 
-        if (control.value === null || control.value === '') {
-          isValid = false;
-        }
-
-        if (control.errors !== null) {
+        if (control.value === null || control.value === '' || control.errors !== null) {
           isValid = false;
         }
 
