@@ -1,4 +1,4 @@
-﻿using Grpc.Core;
+using Grpc.Core;
 using NcoreGrpcService.Logic;
 using NcoreGrpcService.Protos;
 

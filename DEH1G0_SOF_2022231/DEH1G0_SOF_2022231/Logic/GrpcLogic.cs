@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Helpers;
+using DEH1G0_SOF_2022231.Helpers;
 using Grpc.Core;
 using Grpc.Net.Client;
 using NcoreGrpcService.Protos;

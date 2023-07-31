@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Logic;
 using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Authorization;

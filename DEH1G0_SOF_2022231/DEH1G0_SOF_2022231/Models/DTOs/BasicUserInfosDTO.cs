@@ -41,8 +41,8 @@ public class BasicUserInfosDTO
     public int AccessFailedCount { get; set; }
     
     /// <summary>
-    /// Gets or sets the user's role.
+    /// Gets or sets the user's roles.
     /// </summary>
-    public string? Role { get; set; }
+    public IList<string> Roles { get; set; }
 }
 }
