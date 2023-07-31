@@ -8,5 +8,5 @@ export class BasicUserInfos
   public  LastName:string = ''
   public  EmailConfirmed: boolean = false
   public  AccessFailedCount:number = 0
-  public  Role:string = ''
+  public  Roles:Array<string> = []
 }
