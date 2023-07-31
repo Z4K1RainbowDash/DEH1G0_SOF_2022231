@@ -1,1 +1,135 @@
-<p>torrents works!</p>
+<h3>Multiple selection</h3>
+<!-- Button groups -->
+<mat-button-toggle-group
+  name="torrentCategoriesButtonToggle"
+  aria-label="Ingredients"
+  multiple
+  [formControl]="categoryFormControl"
+>
+
+  <!-- Movies Button -->
+  <mat-button-toggle
+    value="movies"
+  >
+    Movies
+  </mat-button-toggle>
+
+  <!-- Series Button -->
+  <mat-button-toggle
+    value="series"
+  >
+    Series
+  </mat-button-toggle>
+
+  <!-- Musics Button -->
+  <mat-button-toggle
+    value="musics"
+  >
+    Musics
+  </mat-button-toggle>
+
+  <!-- Games Button -->
+  <mat-button-toggle
+    value="games"
+  >
+    Games
+  </mat-button-toggle>
+
+  <!-- Programs Button -->
+  <mat-button-toggle
+    value="programs"
+  >
+    Programs
+  </mat-button-toggle>
+
+  <!-- Books Button -->
+  <mat-button-toggle
+    value="books"
+  >
+    Books
+  </mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Movies subcategories-->
+<section class="subcategories" [formGroup]="torrentCategoryFormGroups.MoviesCheckboxes">
+  <h4>Movie:</h4>
+  <mat-checkbox formControlName="SdHu">SdHu</mat-checkbox>
+  <mat-checkbox formControlName="SdEn">SdEn</mat-checkbox>
+  <mat-checkbox formControlName="DvdrHu">DvdrHu</mat-checkbox>
+  <mat-checkbox formControlName="DvdrEn">DvdrEn</mat-checkbox>
+  <mat-checkbox formControlName="Dvd9Hu">Dvd9Hu</mat-checkbox>
+  <mat-checkbox formControlName="Dvd9En">Dvd9En</mat-checkbox>
+  <mat-checkbox formControlName="HdHu">HdHu</mat-checkbox>
+  <mat-checkbox formControlName="HdEn">HdEn</mat-checkbox>
+</section>
+
+<!-- Series subcategories-->
+<section class="subcategories" [formGroup]="torrentCategoryFormGroups.SeriesCheckboxes">
+  <h4>Movie:</h4>
+  <mat-checkbox formControlName="SdHu">SdHu</mat-checkbox>
+  <mat-checkbox formControlName="SdEn">SdEn</mat-checkbox>
+  <mat-checkbox formControlName="DvdrHu">DvdrHu</mat-checkbox>
+  <mat-checkbox formControlName="DvdrEn">DvdrEn</mat-checkbox>
+  <mat-checkbox formControlName="HdHu">HdHu</mat-checkbox>
+  <mat-checkbox formControlName="HdEn">HdEn</mat-checkbox>
+</section>
+
+<!-- Musics subcategories-->
+<section class="subcategories" [formGroup]="torrentCategoryFormGroups.MusicsCheckboxes">
+  <h4>Musics:</h4>
+  <mat-checkbox formControlName="Mp3Hu">Mp3Hu</mat-checkbox>
+  <mat-checkbox formControlName="Mp3En">Mp3En</mat-checkbox>
+  <mat-checkbox formControlName="LosslessHu">LosslessHu</mat-checkbox>
+  <mat-checkbox formControlName="LosslessEn">LosslessEn</mat-checkbox>
+  <mat-checkbox formControlName="Clip">Clip</mat-checkbox>
+</section>
+
+
+<!-- Games subcategories-->
+<section class="subcategories" [formGroup]="torrentCategoryFormGroups.GamesCheckboxes">
+  <h4>Games:</h4>
+  <mat-checkbox formControlName="Iso">Iso</mat-checkbox>
+  <mat-checkbox formControlName="Rip">Rip</mat-checkbox>
+  <mat-checkbox formControlName="Console">Console</mat-checkbox>
+</section>
+
+<!-- Programs subcategories-->
+<section class="subcategories" [formGroup]="torrentCategoryFormGroups.ProgramsCheckboxes">
+  <h4>Programs:</h4>
+  <mat-checkbox formControlName="Iso">Iso</mat-checkbox>
+  <mat-checkbox formControlName="Rip">Rip</mat-checkbox>
+  <mat-checkbox formControlName="Mobile">Mobile</mat-checkbox>
+</section>
+
+<!-- Books subcategories-->
+<section class="subcategories" [formGroup]="torrentCategoryFormGroups.BooksCheckboxes">
+  <h4>Books:</h4>
+  <mat-checkbox formControlName="EBookHu">EBookHu</mat-checkbox>
+  <mat-checkbox formControlName="EBookEn">EBookEn</mat-checkbox>
+</section>
+
+<!-- Search field-->
+<mat-form-field>
+  <mat-label>Search Text</mat-label>
+  <input type="text"
+         matInput
+         [formControl]="searchTextFormControl"
+         [errorStateMatcher]="matcher"
+         placeholder="Ex. bobsmith66">
+  <mat-error *ngIf="!searchTextFormControl || searchTextFormControl.value && searchTextFormControl.hasError('minlength')">
+    Minimum length of the field is 3 characters
+  </mat-error>
+  <mat-error *ngIf="searchTextFormControl.hasError('required') ">
+    You must enter a <strong>value</strong>
+  </mat-error>
+</mat-form-field>
+
+<button
+  mat-flat-button
+  color="primary"
+  (click)="sendUserSearchChoice()"
+>Submit
+  </button>
+
+
+<!-- TODO: Tab group with stretched labels Expansion-panel, paginator -->
