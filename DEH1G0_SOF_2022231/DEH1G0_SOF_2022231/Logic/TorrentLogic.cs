@@ -33,7 +33,7 @@ namespace DEH1G0_SOF_2022231.Logic
         }
 
         /// <summary>
-        /// Returns the NcoreUrl based on the input search text and categories.
+        /// Builds an Ncore url based on the input search text and categories.
         /// </summary>
         /// <param name="searchText">Text used for searching.</param>
         /// <param name="movies">An object of Movies class that contains the selected movie categories</param>
