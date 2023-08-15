@@ -78,7 +78,7 @@ export class TorrentCategoryFormGroups {
 
     searchTorrentModel.SearchText = searchText
 
-    this.setIsSelectedFields(searchTorrentModel, categories, searchText)
+    this.setIsSelectedFields(searchTorrentModel, categories)
 
 
 
@@ -173,7 +173,51 @@ export class TorrentCategoryFormGroups {
   }
 
 
-  private setIsSelectedFields(searchTorrentModel: SearchTorrentModel, categories: Array<string>, searchText: string) {
+  private setIsSelectedFields(searchTorrentModel: SearchTorrentModel, categories: Array<string>) {
     // TODO
+    categories.forEach(
+      (value) => this.setIsSelectedCategory(value, searchTorrentModel)
+    )
+  }
+
+  private setIsSelectedCategory(category:string, searchTorrentModel: SearchTorrentModel)
+  {
+    switch(category) {
+      case 'movies': {
+        searchTorrentModel.Movies.IsSelected = true
+        break;
+      }
+
+      case 'series': {
+        searchTorrentModel.Series.IsSelected = true
+        break;
+      }
+
+      case 'musics': {
+        searchTorrentModel.Musics.IsSelected = true
+        break;
+      }
+
+      case 'games': {
+        searchTorrentModel.Games.IsSelected = true
+        break;
+      }
+
+      case 'programs': {
+        searchTorrentModel.Programs.IsSelected = true
+        break;
+      }
+
+      case 'books': {
+        searchTorrentModel.Books.IsSelected = true
+        break;
+      }
+
+
+      default: {
+        //TODO log;
+        break;
+      }
+    }
   }
 }
