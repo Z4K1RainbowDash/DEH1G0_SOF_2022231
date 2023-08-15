@@ -18,6 +18,10 @@ namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public  Task BindModelAsync(ModelBindingContext bindingContext)
         {
+            if (bindingContext == null)
+            {
+                throw new ArgumentNullException(nameof(bindingContext));
+            }
             var request = bindingContext.HttpContext.Request;
             request.EnableBuffering();
             var body = new StreamReader(request.Body).ReadToEndAsync().Result;
