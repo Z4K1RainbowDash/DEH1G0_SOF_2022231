@@ -82,28 +82,29 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <param name="name">The name of the torrent file to download.</param>
         /// <returns>
         /// <see cref="FileResult"/> containing the torrent file in `application/octet-stream` format.
-        /// <see cref="BadRequestResult"/> if the torrendId or name parameter is null or empty .
+        /// <see cref="BadRequestResult"/> if the torrentId or name parameter is null or empty .
         /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while deleting the user.
         /// </returns>
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<FileResult>> DownloadTorrent(string torrentId, string name)
+        public async Task<IActionResult> DownloadTorrent(string torrentId, string name)
         {
+            // TODO HTTP 404
             if (torrentId == null || name == null || torrentId == string.Empty || name == string.Empty)
             {
                 return BadRequest(); // TODO : ModelBinding
             }
             try
             {
-                string realName = name.Replace('_', ' ');
-                var userId = this._userManager.GetUserId(this.User);
-
-                await this._torrentLogic.CreateIdentities(torrentId, realName, userId);
+                string torrentNameWithoutUnderscore = name.Replace('_', ' ');
+                string userId = this._userManager.GetUserId(this.User);
+                
+                await this._torrentLogic.CreateIdentities(torrentId, torrentNameWithoutUnderscore, userId);
 
                 var memoryStream = await this._grpcLogic.DownloadTorrent(torrentId);
-                string torrentName = name + ".torrent";
+                string torrentName = name + ".torrent";     
 
-
+    
                 if (memoryStream.Length != 0)
                 {
                     return File(memoryStream, "application/octet-stream", torrentName);
