@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 export class ApiService {
 
   router: Router
+  readonly baseUrl: string = 'https://localhost:7235/api';
 
   constructor(router: Router) {
     this.router = router
