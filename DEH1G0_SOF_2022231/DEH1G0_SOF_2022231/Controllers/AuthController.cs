@@ -82,8 +82,8 @@ namespace DEH1G0_SOF_2022231.Controllers
             {
                 var claim = new List<Claim>
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                    new Claim(JwtRegisteredClaimNames.NameId, user.Id)
                 };
                 foreach (var role in await _userManager.GetRolesAsync(user))
                 {
