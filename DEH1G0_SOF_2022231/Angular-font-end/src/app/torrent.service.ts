@@ -19,8 +19,7 @@ export class TorrentService {
   downloadTorrentById(torrentId: string, name: string) :Observable<Blob> {
     const url = `${this.apiService.baseUrl}/Torrents/DownloadTorrent?torrentId=${torrentId}&name=${name}`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/octet-stream',
-      'Authorization': 'Bearer ' + localStorage.getItem('ncore-token')
+      'Content-Type': 'application/octet-stream'
     });
 
     return this.http.get(url, {
@@ -31,8 +30,7 @@ export class TorrentService {
 
   getTorrentsByTorrentModelDTO(dto: SearchTorrentModel): Observable<TorrentModel[]> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('ncore-token')
+      'Content-Type': 'application/json'
     });
 
     const url = `${this.apiService.baseUrl}/Torrents/SearchTorrent`;

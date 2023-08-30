@@ -24,8 +24,7 @@ export class ListUsersComponent implements OnInit{
 
   ngOnInit() {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('ncore-token')
+      'Content-Type': 'application/json'
     })
     this.http.get<Array<BasicUserInfos>>(
       'https://localhost:7235/api/Home/ListUsers',{headers:headers})
