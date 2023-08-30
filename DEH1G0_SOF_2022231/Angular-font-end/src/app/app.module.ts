@@ -22,6 +22,11 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {JwtModule} from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+  return localStorage.getItem("ncore-token");
+}
 
 @NgModule({
   declarations: [
@@ -43,12 +48,19 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatButtonModule,
     MatInputModule,
     ReactiveFormsModule,
-    HttpClientModule,
     MatSnackBarModule,
     MatIconModule,
     MatTableModule,
     MatButtonToggleModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ['localhost:7235'],
+        disallowedRoutes: ["http://example.com/examplebadroute/"],
+      },
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
