@@ -1,5 +1,7 @@
 ﻿using DEH1G0_SOF_2022231.Models.Auth;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.DotNet.Scaffolding.Shared.Project;
+using Newtonsoft.Json;
 
 namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
 {
@@ -14,41 +16,29 @@ namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
         /// </summary>
         /// <param name="bindingContext">The <see cref="ModelBindingContext"/> containing information for model binding.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task BindModelAsync(ModelBindingContext bindingContext)
+        public  Task BindModelAsync(ModelBindingContext bindingContext)
         {
+            if (bindingContext == null)
+            {
+                throw new ArgumentNullException(nameof(bindingContext));
+            }
+            var request = bindingContext.HttpContext.Request;
+            request.EnableBuffering();
+            var body = new StreamReader(request.Body).ReadToEndAsync().Result;
+            request.Body.Position = 0;
 
-            var firstName = bindingContext.ValueProvider.GetValue("FirstName").FirstValue;
-            var lastName = bindingContext.ValueProvider.GetValue("LastName").FirstValue;
-            var email = bindingContext.ValueProvider.GetValue("Email").FirstValue;
-            var username = bindingContext.ValueProvider.GetValue("Username").FirstValue;
-            var password = bindingContext.ValueProvider.GetValue("Password").FirstValue;
-            IFormFile? image;
+            RegisterModel? regModel;
+
             try
             {
-                image = bindingContext.ActionContext.HttpContext.Request.Form.Files["Image"];
+                regModel = JsonConvert.DeserializeObject<RegisterModel>(body);
             }
-            catch 
+            catch (Exception ex)
             {
-                image = null;
-            }
-
-            var model = new RegisterModel
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
-                Username = username,
-                Password = password,
-                Image = image
-            };
-            
-            if (image != null && !image.ContentType.StartsWith("image"))
-            {
-                bindingContext.ModelState.TryAddModelError(
-                 bindingContext.ModelName, "You must select an IMAGE!");
+                regModel = null;
             }
 
-            bindingContext.Result = ModelBindingResult.Success(model);
+            bindingContext.Result = ModelBindingResult.Success(regModel);
             return Task.CompletedTask;
 
         }

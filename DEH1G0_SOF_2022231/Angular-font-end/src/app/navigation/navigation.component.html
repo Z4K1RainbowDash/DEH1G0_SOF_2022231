@@ -1,8 +1,53 @@
 <nav>
-  <button mat-stroked-button routerLink="/home">Home</button>
-  <button mat-stroked-button routerLink="/torrents">Torrent</button>
-  <button mat-stroked-button color="warn" routerLink="/list-users">Users</button>
-  <button mat-stroked-button color="primary" routerLink="/login">Login</button>
-  <button mat-stroked-button color="accent" routerLink="/register">Register</button>
+  <button
+    mat-stroked-button
+    routerLink="/home"
+  >
+    Home
+  </button>
 
+  <button
+    mat-stroked-button
+    routerLink="/torrents"
+    *ngIf="this.api.isLoggedIn()"
+  >
+    Torrent
+  </button>
+
+  <button
+    mat-stroked-button
+    color="warn"
+    routerLink="/list-users"
+    *ngIf="this.api.isLoggedIn()"
+  >
+    Users
+  </button>
+
+  <button
+    mat-stroked-button
+    color="primary"
+    routerLink="/login"
+    *ngIf="!this.api.isLoggedIn()"
+  >
+    Login
+  </button>
+
+  <button
+    mat-stroked-button
+    color="accent"
+    routerLink="/register"
+    *ngIf="!this.api.isLoggedIn()"
+  >
+    Register
+  </button>
+
+  <button
+    mat-stroked-button
+    color="accent"
+    routerLink="/logout"
+    *ngIf="this.api.isLoggedIn()"
+  >
+    <mat-icon aria-hidden="false" aria-label="" fontIcon="login"></mat-icon>
+    Logout
+  </button>
 </nav>

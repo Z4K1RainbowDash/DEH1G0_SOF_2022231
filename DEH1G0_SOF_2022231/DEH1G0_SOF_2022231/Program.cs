@@ -37,6 +37,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
 
 }).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -71,6 +72,16 @@ builder.Services.AddScoped<ITorrentRepository, TorrentRepository>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddAuthentication().AddFacebook(t =>
 {
     IConfigurationSection FBAuthNSection = builder.Configuration.GetSection("Authentication:FB");
@@ -102,7 +113,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors();
 
 app.MapControllers();
 

@@ -8,7 +8,7 @@ namespace DEH1G0_SOF_2022231.Models.Auth
     /// <summary>
     /// Represents a model for user registration.
     /// </summary>
-    [ModelBinder(BinderType = typeof(RegisterModelBinder))]
+    [ModelBinder(typeof(RegisterModelBinder))]
     public class RegisterModel
     {
         /// <summary>
@@ -47,11 +47,6 @@ namespace DEH1G0_SOF_2022231.Models.Auth
         [DataType(DataType.Password)]
         [Required]
         public string Password { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user's profile image.
-        /// </summary>
-        public IFormFile? Image { get; set; }
     }
 
 }
