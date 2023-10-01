@@ -64,7 +64,7 @@ namespace DEH1G0_SOF_2022231.Controllers
 
             try
             {
-                var url = this._torrentLogic.GetNcoreUrl(torrentSearchDTO.SearchText, torrentSearchDTO.Movies, torrentSearchDTO.Series, torrentSearchDTO.Musics, torrentSearchDTO.Programs, torrentSearchDTO.Games, torrentSearchDTO.Books);
+                var url = this._torrentLogic.GetNcoreUrl(torrentSearchDTO.SearchText, torrentSearchDTO.Movies, torrentSearchDTO.Series, torrentSearchDTO.Music, torrentSearchDTO.Programs, torrentSearchDTO.Games, torrentSearchDTO.Books);
                 var torrents = await this._grpcLogic.TorrentSearch(url);
                 return Ok(torrents);
             }
