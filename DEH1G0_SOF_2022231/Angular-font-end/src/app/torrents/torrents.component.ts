@@ -24,7 +24,7 @@ export class TorrentsComponent {
   public searchTextFormControl : FormControl
   public matcher: ErrorStateMatcher
   public torrentCategoryFormGroups: TorrentCategoryFormGroups // torrent subcategories form groups
-  private readonly formBuilder: FormBuilder
+  public errorTextChecker: ErrorTextChecker
 
   // table
   dataSource : MatTableDataSource<TorrentModel>
@@ -40,11 +40,10 @@ export class TorrentsComponent {
 
   constructor(snackBar: MatSnackBar, formBuilder: FormBuilder, torrentService: TorrentService) {
     this.matcher = new MyErrorStateMatcher()
-    this.formBuilder = formBuilder
     this.snackBar = snackBar
     this.categoryFormControl = new FormControl([]);
     this.searchTextFormControl = new FormControl('', [Validators.required, Validators.minLength(3)])
-    this.torrentCategoryFormGroups = new TorrentCategoryFormGroups(this.formBuilder);
+    this.torrentCategoryFormGroups = new TorrentCategoryFormGroups();
     this.dataSource = new MatTableDataSource<TorrentModel>();
     this.displayedColumns = ['Name', 'Date', 'Size','Downloads', 'Seeders', 'Leechers', 'Action'];
     this.torrentService = torrentService
