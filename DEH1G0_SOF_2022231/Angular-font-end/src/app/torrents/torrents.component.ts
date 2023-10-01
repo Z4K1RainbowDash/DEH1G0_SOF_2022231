@@ -1,14 +1,12 @@
-import { Component } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Component} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TorrentCategoryFormGroups} from "../_models/form-helpers/torrent-category-form-groups";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {MyErrorStateMatcher} from "../_models/form-helpers/my-error-state-matcher";
 import {SearchTorrentModel} from "../_models/DTOs/search-torrent-model";
 import {TorrentModel} from "../_models/DTOs/torrent-model";
 import {MatTableDataSource} from "@angular/material/table";
-import {BasicUserInfos} from "../_models/DTOs/basic-user-infos";
 import {TorrentService} from "../torrent.service";
 
 
