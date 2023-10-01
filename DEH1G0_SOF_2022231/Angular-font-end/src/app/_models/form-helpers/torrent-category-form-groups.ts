@@ -172,11 +172,35 @@ export class TorrentCategoryFormGroups {
         break;
       }
 
-
       default: {
         //TODO log;
         break;
       }
     }
   }
+
+  public isSubcategorySelected(category: string, subcategory: string): boolean {
+    return (this._subcategories.get(category)?.value.indexOf(subcategory) !== -1) || false;
+  }
+  public areAnySelectedSubcategoriesEmpty(): boolean {
+    let result: boolean = false;
+    const mainCategories: [string] = this.mainCategoriesFormControl.value;
+    let index = 0;
+    while (mainCategories.length !== index && !result) {
+      let subcategoryForm = this._subcategories.get(mainCategories[index]);
+      if (subcategoryForm?.value.length === 0) {
+        result = true;
+      }
+      index++;
+    }
+
+    return result;
+  }
+
+  public isMainCategorySelected(category:string):boolean
+  {
+    let x:[string] = this.mainCategoriesFormControl.value
+    return x.indexOf(category) !== -1
+  }
+
 }
