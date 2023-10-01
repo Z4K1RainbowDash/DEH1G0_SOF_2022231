@@ -8,6 +8,7 @@ import {SearchTorrentModel} from "../_models/DTOs/search-torrent-model";
 import {TorrentModel} from "../_models/DTOs/torrent-model";
 import {MatTableDataSource} from "@angular/material/table";
 import {TorrentService} from "../torrent.service";
+import {ErrorTextChecker} from "../_models/form-helpers/error-text-checker";
 
 
 @Component({
@@ -45,6 +46,7 @@ export class TorrentsComponent {
     this.dataSource = new MatTableDataSource<TorrentModel>();
     this.displayedColumns = ['Name', 'Date', 'Size','Downloads', 'Seeders', 'Leechers', 'Action'];
     this.torrentService = torrentService
+    this.errorTextChecker = new ErrorTextChecker()
   }
 
   handleDownloadButtonClick(torrentId: string, name: string): void {
