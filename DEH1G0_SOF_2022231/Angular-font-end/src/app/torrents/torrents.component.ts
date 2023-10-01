@@ -11,12 +11,18 @@ import {TorrentService} from "../torrent.service";
 import {ErrorTextChecker} from "../_models/form-helpers/error-text-checker";
 
 
+
 @Component({
   selector: 'app-torrents',
   templateUrl: './torrents.component.html',
   styleUrls: ['./torrents.component.scss']
 })
+
+
+
 export class TorrentsComponent {
+
+
 
   // form
   public categoryFormControl: FormControl
@@ -24,6 +30,7 @@ export class TorrentsComponent {
   public matcher: ErrorStateMatcher
   public torrentCategoryFormGroups: TorrentCategoryFormGroups // torrent subcategories form groups
   public errorTextChecker: ErrorTextChecker
+
 
   // table
   dataSource : MatTableDataSource<TorrentModel>
@@ -34,7 +41,6 @@ export class TorrentsComponent {
 
   // basics
   private readonly snackBar: MatSnackBar
-  //private readonly torrentCategories: TorrentCategories
 
 
   constructor(snackBar: MatSnackBar, formBuilder: FormBuilder, torrentService: TorrentService) {
@@ -50,10 +56,6 @@ export class TorrentsComponent {
   }
 
   handleDownloadButtonClick(torrentId: string, name: string): void {
-    // Do something with the param
-    console.log('torrentId & name:')
-    console.log(torrentId + ' ' + name);
-
     const replacedName = name.replaceAll(' ', '_')
 
     this.torrentService.downloadTorrentById(torrentId, replacedName)
@@ -126,17 +128,17 @@ export class TorrentsComponent {
   }
 
   private checkSearchField() {
-    // TODO
+    let _isFormControlValid = !this.errorTextChecker.isFormControlinvalid(this.searchTextFormControl,'minlength')
     return true;
   }
 
 
-  /*
-  private sendSearchTorrentModelDto(dto: SearchTorrentModel) {
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('ncore-token')
+    while (index < keys.length && !hasTrueValue) {
+      const key = keys[index];
+      const control = formGroup.get(key);
+      if(control && control.value === true){
+        hasTrueValue = true;
+      }
     })
 
     this.http.post<Array<TorrentModel>>('https://localhost:7235/api/Torrents/SearchTorrent', dto,{headers:headers})
