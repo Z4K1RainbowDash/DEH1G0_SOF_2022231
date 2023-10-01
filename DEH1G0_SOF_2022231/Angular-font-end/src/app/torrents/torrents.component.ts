@@ -53,6 +53,8 @@ export class TorrentsComponent {
     this.displayedColumns = ['Name', 'Date', 'Size','Downloads', 'Seeders', 'Leechers', 'Action'];
     this.torrentService = torrentService
     this.errorTextChecker = new ErrorTextChecker()
+
+    this.dataSource.data = [new TorrentModel('veryId','namexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx','n','2020-10-20 XX-yy-ZZ', '10Gb', '100','10','20'), new TorrentModel('veryId','namexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxzzzzzzzzzzzzzzzzzzzzz','n','2020-10-20', '10Gb', '100','10','20')]
   }
 
   handleDownloadButtonClick(torrentId: string, name: string): void {
@@ -103,35 +105,38 @@ export class TorrentsComponent {
   sendUserSearchChoice():void
   {
     console.log(this.categoryFormControl.value)
-
-    if(this.sendCheck())
-    {
+    console.log(this.categoryFormControl.value.length)
       var newDto = this.torrentCategoryFormGroups.createSearchTorrentModel(this.categoryFormControl.value,this.searchTextFormControl.value);
       console.log(newDto)
-
       this.searchTorrents(newDto)
-    }
-    else
-    {
-      // TODO: error snackBar
-    }
   }
 
-  sendCheck(){
-    return this.checkCategories() && this.checkSearchField()
+  isSendValid(){
+    return !this.areCategoriesEmpty() && this.isSearchFieldValid()
   }
 
 
-  private checkCategories():boolean {
+  private areCategoriesEmpty():boolean {
     // TODO
-    return true;
+    let isEmpty = this.torrentCategoryFormGroups.mainCategoriesFormControl.value.length === 0;
+    if(isEmpty)
+    {
+      return true;
+    }
+    return this.torrentCategoryFormGroups.areAnySelectedSubcategoriesEmpty();
   }
 
-  private checkSearchField() {
+  private isSearchFieldValid():boolean{
     let _isFormControlValid = !this.errorTextChecker.isFormControlinvalid(this.searchTextFormControl,'minlength')
-    return true;
+    let _isFormControlNotEmpty = !this.errorTextChecker.isFormControlEmpty(this.searchTextFormControl);
+    return _isFormControlValid && _isFormControlNotEmpty;
   }
 
+  private hasAnyFormControlTrueValueFromFormGroup(formGroup: FormGroup<any>): boolean {
+    console.log(formGroup)
+    let hasTrueValue: boolean = false
+    const keys = Object.keys(formGroup.controls);
+    let index = 0;
 
     while (index < keys.length && !hasTrueValue) {
       const key = keys[index];
@@ -139,25 +144,14 @@ export class TorrentsComponent {
       if(control && control.value === true){
         hasTrueValue = true;
       }
-    })
-
-    this.http.post<Array<TorrentModel>>('https://localhost:7235/api/Torrents/SearchTorrent', dto,{headers:headers})
-      .subscribe(
-        {
-          next: (success) =>{
-            console.log(success)
-            this.dataSource.data = success
-            console.log('torrentsIsEmpty:'+ this.torrentsIsEmpty())
-            console.log('!torrentsIsEmpty:'+ !this.torrentsIsEmpty())
-            console.log(this.dataSource)
-            console.log(this.dataSource.data)
-
-          },
-          error:(error) => {
-            console.log(error)
-          }
-        }
-      )
+      index++;
+    }
+    return hasTrueValue;
   }
-*/
+
+  public isMainCategorySelected(category:string):boolean
+  {
+    let x:[string] = this.torrentCategoryFormGroups.mainCategoriesFormControl.value
+    return x.indexOf(category) !== -1
+  }
 }
