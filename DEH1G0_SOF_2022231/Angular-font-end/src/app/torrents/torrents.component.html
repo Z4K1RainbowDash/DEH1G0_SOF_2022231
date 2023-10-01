@@ -1,0 +1,239 @@
+<div class="torrent-main-container">
+
+<!-- Search div -->
+<div class="search-div">
+  <!-- Main categories Button group -->
+  <div class="torrent-search-maincategories-container">
+  <mat-button-toggle-group
+    name="torrentCategories-toggle"
+    aria-label="Ingredients"
+    multiple
+    [formControl]="torrentCategoryFormGroups.mainCategoriesFormControl"
+    class = "Main-toggle"
+  >
+
+    <!-- Main categories Buttons -->
+    <mat-button-toggle value="movies">Movies</mat-button-toggle>
+    <mat-button-toggle value="series">Series</mat-button-toggle>
+    <mat-button-toggle value="music">Music</mat-button-toggle>
+    <mat-button-toggle value="games">Games</mat-button-toggle>
+    <mat-button-toggle value="programs">Programs</mat-button-toggle>
+    <mat-button-toggle value="books">Books</mat-button-toggle>
+
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Subcategories Button groups -->
+  <div>
+  <!-- Movies Subcategories-->
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('movies')"
+  >
+    <!-- movies category Button group -->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.moviesCategoriesFormControl"
+      class = "Movies-toggle"
+    >
+      <!-- Movies Buttons -->
+      <mat-button-toggle value="SdHu">SD/HU</mat-button-toggle>
+      <mat-button-toggle value="SdEn">SD/EN</mat-button-toggle>
+      <mat-button-toggle value="DvdrHu">Dvdr/HU</mat-button-toggle>
+      <mat-button-toggle value="DvdrEn">Dvdr/EN</mat-button-toggle>
+      <mat-button-toggle value="Dvd9Hu">Dvd9/HU</mat-button-toggle>
+      <mat-button-toggle value="Dvd9En">Dvd9/EN</mat-button-toggle>
+      <mat-button-toggle value="HdHu">Hd/HU</mat-button-toggle>
+      <mat-button-toggle value="HdEn">Hd/EN</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Series Subcategories-->
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('series')">
+    <!-- Series category Button group -->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.seriesCategoriesFormControl"
+      class = "Series-toggle"
+    >
+      <!-- Series Buttons -->
+      <mat-button-toggle value="SdHu">Sd/HU</mat-button-toggle>
+      <mat-button-toggle value="SdEn">Sd/EN</mat-button-toggle>
+      <mat-button-toggle value="DvdrHu">Dvdr/HU</mat-button-toggle>
+      <mat-button-toggle value="DvdrEn">Dvdr/EN</mat-button-toggle>
+      <mat-button-toggle value="HdHu">Hd/HU</mat-button-toggle>
+      <mat-button-toggle value="HdEn">Hd/EN</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('music')">
+    <!-- Music subcategories-->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.musicCategoriesFormControl"
+      class = "Music-toggle"
+    >
+      <!-- Music Buttons -->
+      <mat-button-toggle value="Mp3Hu">Mp3/HU</mat-button-toggle>
+      <mat-button-toggle value="Mp3En">Mp3/EN</mat-button-toggle>
+      <mat-button-toggle value="LosslessHu">Lossless/HU</mat-button-toggle>
+      <mat-button-toggle value="LosslessEn">Lossless/EN</mat-button-toggle>
+      <mat-button-toggle value="Clip">Clip</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('games')"
+  >
+
+    <!-- Games subcategories-->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.gamesCategoriesFormControl"
+      class = "Games-toggle"
+    >
+      <mat-button-toggle value="Iso">Iso</mat-button-toggle>
+      <mat-button-toggle value="Rip">Rip</mat-button-toggle>
+      <mat-button-toggle value="Console">Console</mat-button-toggle>
+    </mat-button-toggle-group>
+
+  </div>
+
+  <!-- Programs subcategories-->
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('programs')"
+  >
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.programsCategoriesFormControl"
+      class = "Programs-toggle"
+    >
+      <mat-button-toggle value="Iso">Iso</mat-button-toggle>
+      <mat-button-toggle value="Rip">Rip</mat-button-toggle>
+      <mat-button-toggle value="Mobile">Mobile</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Books subcategories-->
+
+    <div
+      class="torrent-subcategory"
+      *ngIf="torrentCategoryFormGroups.isMainCategorySelected('books')"
+    >
+      <mat-button-toggle-group
+        name="torrentCategories-toggle"
+        aria-label="Ingredients"
+        multiple
+        [formControl]="torrentCategoryFormGroups.booksCategoriesFormControl"
+        class = "Books-toggle"
+      >
+        <mat-button-toggle value="EBookHu">eBook/HU</mat-button-toggle>
+        <mat-button-toggle value="EBookEn">eBook/EN</mat-button-toggle>
+      </mat-button-toggle-group>
+  </div>
+
+  </div>
+
+  <!-- Search field and button-->
+  <div class="search-container">
+    <!-- Search field-->
+    <mat-form-field id="search-field-torrent">
+      <mat-label>Search Text</mat-label>
+      <input type="text"
+             matInput
+             [formControl]="searchTextFormControl"
+             [errorStateMatcher]="matcher"
+             placeholder="Ex. bobsmith66">
+      <mat-error *ngIf="errorTextChecker.isFormControlinvalid(searchTextFormControl,'minlength')">
+        Minimum length of the field is 3 characters
+      </mat-error>
+      <mat-error *ngIf="errorTextChecker.isFormControlEmpty(searchTextFormControl) ">
+        You must enter a <strong>value</strong>
+      </mat-error>
+    </mat-form-field>
+    <!-- Search button-->
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="sendUserSearchChoice()"
+      [disabled] = '!isSendValid()'
+    >Search
+    </button>
+  </div>
+</div>
+
+
+
+<!-- Table -->
+<table
+  mat-table
+  [dataSource]="dataSource"
+  id="table-id"
+  class=""
+  *ngIf="!torrentsIsEmpty()"
+>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="Name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell class="text-align-left" *matCellDef="let element" [title]="element.Name"> {{element.Name}} </td>
+  </ng-container>
+
+  <!-- Date Column -->
+  <ng-container matColumnDef="Date">
+    <th mat-header-cell *matHeaderCellDef> Date </th>
+    <td mat-cell *matCellDef="let element"> {{element.Date}} </td>
+  </ng-container>
+
+  <!-- Size Column -->
+  <ng-container matColumnDef="Size">
+    <th mat-header-cell *matHeaderCellDef> Size </th>
+    <td mat-cell *matCellDef="let element"> {{element.Size}} </td>
+  </ng-container>
+
+  <!-- Downloads Column -->
+  <ng-container matColumnDef="Downloads">
+    <th mat-header-cell *matHeaderCellDef> Downloads </th>
+    <td mat-cell *matCellDef="let element"> {{element.Downloads}} </td>
+  </ng-container>
+
+  <!-- Seeders Column -->
+  <ng-container matColumnDef="Seeders">
+    <th mat-header-cell *matHeaderCellDef> Seeders </th>
+    <td mat-cell *matCellDef="let element"> {{element.Seeders}} </td>
+  </ng-container>
+
+  <!-- Leechers Column -->
+  <ng-container matColumnDef="Leechers">
+    <th mat-header-cell *matHeaderCellDef> Leechers </th>
+    <td mat-cell *matCellDef="let element"> {{element.Leechers}} </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="Action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element"> <button mat-button (click)="handleDownloadButtonClick(element.Id, element.Name)"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="file_download"></mat-icon>Download</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+</div>

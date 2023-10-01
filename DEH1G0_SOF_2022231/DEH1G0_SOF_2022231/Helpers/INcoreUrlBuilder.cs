@@ -9,7 +9,7 @@ namespace DEH1G0_SOF_2022231.Helpers
         NcoreUrlBuilder SetBookCategories(Books books);
         NcoreUrlBuilder SetGameCategories(Games games);
         NcoreUrlBuilder SetMovieCategories(Movies movies);
-        NcoreUrlBuilder SetMusicCategories(Musics musics);
+        NcoreUrlBuilder SetMusicCategories(Music musics);
         NcoreUrlBuilder SetProgramCategories(Programs programs);
         NcoreUrlBuilder SetSearchText(string searchText);
         NcoreUrlBuilder SetSearchType();

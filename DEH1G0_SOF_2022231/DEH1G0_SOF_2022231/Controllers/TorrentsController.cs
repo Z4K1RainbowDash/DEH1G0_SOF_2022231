@@ -1,17 +1,19 @@
-﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Logic;
 using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using DEH1G0_SOF_2022231.Models.DTOs;
+using NcoreGrpcService.Protos;
 
 namespace DEH1G0_SOF_2022231.Controllers
 {
     /// <summary>
     /// Controller for handling Torrent related actions, such as searching, downloading, and listing logs.
     /// </summary>
-    [Route("[api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TorrentsController : ControllerBase
     {
@@ -45,15 +47,15 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <summary>
         /// Method that handles the POST request to search for torrents.
         /// </summary>
-        /// <param name="vm">The view model containing the search parameters.</param>
+        /// <param name="torrentSearchDTO">The view model containing the search parameters.</param>
         /// <returns>
-        /// <see cref="OkResult"/> containing the <see cref="TorrentsViewModel"/> with search results.
-        /// <see cref="BadRequestResult"/> if the <see cref="TorrentsViewModel"/> is not valid.
+        /// <see cref="OkResult"/> containing the <see cref="TorrentDataReply"/> List.
+        /// <see cref="BadRequestResult"/> if the <see cref="TorrentSearchDTO"/> is not valid.
         /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while searching torrents.
         /// </returns>
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<TorrentsViewModel>> SearchTorrent([FromBody] TorrentsViewModel vm)
+        public async Task<ActionResult<List<TorrentDataReply>>> SearchTorrent(TorrentSearchDTO torrentSearchDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -62,10 +64,9 @@ namespace DEH1G0_SOF_2022231.Controllers
 
             try
             {
-                var url = this._torrentLogic.GetNcoreUrl(vm.SearchText, vm.Movies, vm.Series, vm.Musics, vm.Programs, vm.Games, vm.Books);
+                var url = this._torrentLogic.GetNcoreUrl(torrentSearchDTO.SearchText, torrentSearchDTO.Movies, torrentSearchDTO.Series, torrentSearchDTO.Music, torrentSearchDTO.Programs, torrentSearchDTO.Games, torrentSearchDTO.Books);
                 var torrents = await this._grpcLogic.TorrentSearch(url);
-                vm.Torrents = torrents;
-                return Ok(vm);
+                return Ok(torrents);
             }
             catch (Exception ex)
             {
@@ -81,28 +82,29 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// <param name="name">The name of the torrent file to download.</param>
         /// <returns>
         /// <see cref="FileResult"/> containing the torrent file in `application/octet-stream` format.
-        /// <see cref="BadRequestResult"/> if the torrendId or name parameter is null or empty .
+        /// <see cref="BadRequestResult"/> if the torrentId or name parameter is null or empty .
         /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while deleting the user.
         /// </returns>
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<FileResult>> DownloadTorrent(string torrentId, string name)
+        public async Task<IActionResult> DownloadTorrent(string torrentId, string name)
         {
+            // TODO HTTP 404
             if (torrentId == null || name == null || torrentId == string.Empty || name == string.Empty)
             {
                 return BadRequest(); // TODO : ModelBinding
             }
             try
             {
-                string realName = name.Replace('_', ' ');
-                var userId = this._userManager.GetUserId(this.User);
-
-                await this._torrentLogic.CreateIdentities(torrentId, realName, userId);
+                string torrentNameWithoutUnderscore = name.Replace('_', ' ');
+                string userId = this._userManager.GetUserId(this.User);
+                
+                await this._torrentLogic.CreateIdentities(torrentId, torrentNameWithoutUnderscore, userId);
 
                 var memoryStream = await this._grpcLogic.DownloadTorrent(torrentId);
-                string torrentName = name + ".torrent";
+                string torrentName = name + ".torrent";     
 
-
+    
                 if (memoryStream.Length != 0)
                 {
                     return File(memoryStream, "application/octet-stream", torrentName);

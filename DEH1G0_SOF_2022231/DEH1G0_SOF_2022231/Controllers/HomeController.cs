@@ -1,5 +1,6 @@
 using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
+using DEH1G0_SOF_2022231.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace DEH1G0_SOF_2022231.Controllers
     /// The HomeController is responsible for handling the main functions of the application.
     /// </summary>
     [ApiController]
-    [Route("[api/[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class HomeController : ControllerBase
     {
         // dependencies
@@ -58,7 +59,26 @@ namespace DEH1G0_SOF_2022231.Controllers
             try
             {
                 var users = await this._userRepo.GetAllAsync();
-                return Ok(users);
+                var userDTOs = new List<BasicUserInfosDTO>();
+
+                foreach (var user in users)
+                {
+                    var userDTO = new BasicUserInfosDTO()
+                    {
+                        Id = user.Id,
+                        Username = user.UserName,
+                        Email = user.Email,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        EmailConfirmed = user.EmailConfirmed,
+                        AccessFailedCount = user.AccessFailedCount,
+                        Roles = await this._userManager.GetRolesAsync(user)
+                    };
+            
+                    userDTOs.Add(userDTO);
+                }
+
+                return Ok(userDTOs);
             }
             catch (Exception ex)
             {

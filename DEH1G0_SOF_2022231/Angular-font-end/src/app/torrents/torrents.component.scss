@@ -1,0 +1,230 @@
+$primary-color: #546A7B;  // A calm, muted navy blue
+$secondary-color: #283A4A;  // A darker shade for contrast
+$background-color: #E9F2F9;  // A very light grayish-blue for general background
+$hover-color: #D5E6F2;  // Slightly darker than background for hover effects
+
+$colors: (
+  Movies: (red, 40%),
+  Series: (orange, 40%),
+  Music: (yellow, 40%),
+  Games: (#06e006, 40%),
+  Programs: (#00b4ff, 40%),
+  Books: (#d39eff, 10%)
+);
+
+$torrent-columns-maxwidth: (
+  Name: 350px,
+  Date: 80px,
+  Size: 130px,
+  Seeders: 130px,
+  Leechers: 130px,
+  Action: 130px
+);
+
+/* Main container with material UI class */
+/* ---------------------------------------------------------- */
+.torrent-main-container{
+  margin:auto;
+  max-width: 1000px;
+  min-width: 1000px;
+
+  // Adjust overall table layout
+  .mat-mdc-table {
+
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
+    background-color: transparent;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+    // Header cell styling
+    .mat-mdc-header-cell {
+      border-bottom: 2px solid $secondary-color;
+      background-color: $primary-color;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+
+      &:first-child {
+        border-top-left-radius: 1em;
+        //background-color: red;
+      }
+
+      &:last-child {
+        border-top-right-radius: 1em;
+      }
+    }
+
+    // Content cell styling
+    .mat-mdc-cell {
+      //padding: 12px 24px;
+      border-bottom: 1px solid $secondary-color;
+      background-color: $background-color;
+      text-align: center;
+
+      &:hover {
+        background-color: $hover-color;
+      }
+    }
+
+    .mat-mdc-row {
+      padding: 10px;
+      &:hover {
+        .mat-mdc-cell {
+          background-color: $hover-color;
+        }
+      }
+    }
+  }
+}
+/* ---------------------------------------------------------- */
+
+
+/* Table columns template*/
+/* ---------------------------------------------------------- */
+.mat-column-template{
+
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  padding: 0 0;
+}
+/* ---------------------------------------------------------- *
+
+
+/* Table columns */
+/* ---------------------------------------------------------- */
+
+
+@each $columnName, $width in $torrent-columns-maxwidth {
+  .mat-column-#{$columnName}{
+    max-width: $width;
+    @extend .mat-column-template;
+  }
+}
+
+.mat-column-Name {
+  padding-left: 2em;
+}
+
+.mat-column-Date{
+  white-space: pre-line !important;
+}
+
+/* ---------------------------------------------------------- */
+
+/* center template */
+/* ---------------------------------------------------------- */
+.flexbox-center{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center; // TODO berakni
+}
+/* ---------------------------------------------------------- */
+
+
+/* Torrent search */
+/* ---------------------------------------------------------- */
+
+
+
+// main search div
+.search-div {
+
+  .torrent-search-maincategories-container {
+    .Main-toggle {
+      $index: 0;
+      // Applying colors to each button based on its category
+      @each $category, $color-data in $colors {
+        $index: $index + 1;
+        // Gets the current button based on index
+        mat-button-toggle:nth-child(#{$index}) {
+        background-color: lighten(nth($color-data, 1), nth($color-data, 2));
+
+        &.mat-button-toggle-checked {
+          background-color: nth($color-data, 1);
+          }
+        }
+      }
+    }
+  }
+
+  // Applying colors to each button based on its subcategory
+  @each $category, $color-data in $colors {
+    .#{$category}-toggle {
+      mat-button-toggle {
+        background-color: lighten(nth($color-data, 1), nth($color-data, 2));
+        &.mat-button-toggle-checked {
+          background-color: nth($color-data, 1);
+        }
+      }
+    }
+  }
+
+  .mat-button-toggle-group{
+    flex-wrap: wrap; // TODO
+  }
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  margin-bottom: 30px;
+
+  @extend .flexbox-center;
+}
+
+
+
+
+.torrent-search-maincategories-container{
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+
+.torrent-subcategory {
+  margin-bottom: 5px;
+}
+
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 60%;
+  padding: 10px 0;
+}
+
+#search-field-torrent {
+  flex: 1; // This will make the input field take all available space, pushing the button to its right
+}
+/* ---------------------------------------------------------- */
+
+
+
+.text-align-left{
+  text-align: left !important; //override template value
+}
+
+
+
+
+/* TODO
+
+.mat-paginator {
+  background-color: $background-color;
+
+  .mat-paginator-container {
+    justify-content: center;
+  }
+}
+
+
+@media (max-width: 1200px){
+
+  .mat-column-Seeders{
+    background-color: lightblue !important;
+  }
+}
+*/
