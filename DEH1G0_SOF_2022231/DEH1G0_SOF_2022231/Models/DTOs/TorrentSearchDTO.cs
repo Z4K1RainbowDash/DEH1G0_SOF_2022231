@@ -24,7 +24,7 @@ namespace DEH1G0_SOF_2022231.Models.DTOs
 
         public Series Series { get; set; }
 
-        public Musics Musics { get; set; }
+        public Music Music { get; set; }
 
         public Games Games { get; set; }
         public Programs Programs { get; set; }

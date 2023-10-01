@@ -8,10 +8,10 @@
            formControlName = firstName
            [errorStateMatcher]="matcher"
            placeholder="Ex. James">
-    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'firstName', 'minlength')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldValid(registerFormGroup, 'firstName', 'minlength')">
       Minimum length of the field is 3 characters
     </mat-error>
-    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'firstName')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldEmpty(registerFormGroup, 'firstName')">
       First name is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -23,10 +23,10 @@
            formControlName = "lastName"
            [errorStateMatcher]="matcher"
            placeholder="Ex. Bond">
-    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'lastName', 'minlength')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldValid(registerFormGroup, 'lastName', 'minlength')">
       Minimum length of the field is 3 characters
     </mat-error>
-    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'lastName')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldEmpty(registerFormGroup, 'lastName')">
       Last name is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -39,10 +39,10 @@
       formControlName = "email"
       [errorStateMatcher]="matcher"
            placeholder="Ex. pat@example.com">
-    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'email', 'email')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldValid(registerFormGroup, 'email', 'email')">
       Please enter a valid email address
     </mat-error>
-    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'email')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldEmpty(registerFormGroup, 'email')">
       Email is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -54,10 +54,10 @@
            formControlName = "username"
            [errorStateMatcher]="matcher"
            placeholder="Ex. bobsmith66">
-    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'username', 'minlength')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldValid(registerFormGroup, 'username', 'minlength')">
       Minimum length of the field is 3 characters
     </mat-error>
-    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'username')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldEmpty(registerFormGroup, 'username')">
       User name is <strong>required</strong>
     </mat-error>
   </mat-form-field>
@@ -69,10 +69,10 @@
            formControlName = "password"
            [errorStateMatcher]="matcher"
            placeholder="Ex. Bobsmith66">
-    <mat-error *ngIf="errorTextChecker.isFieldValid(registerFormGroup, 'password', 'minlength')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldValid(registerFormGroup, 'password', 'minlength')">
       Minimum length of the field is 8 characters
     </mat-error>
-    <mat-error *ngIf="errorTextChecker.isEmpty(registerFormGroup, 'password')">
+    <mat-error *ngIf="errorTextChecker.isFormGroupFieldEmpty(registerFormGroup, 'password')">
       Password is <strong>required</strong>
     </mat-error>
   </mat-form-field>

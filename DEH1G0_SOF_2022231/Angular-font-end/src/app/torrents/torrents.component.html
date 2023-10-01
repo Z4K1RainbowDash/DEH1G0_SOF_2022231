@@ -1,151 +1,198 @@
-<h3>Multiple selection</h3>
-<!-- Search div -->
-<div>
+<div class="torrent-main-container">
 
-  <!-- Button groups -->
+<!-- Search div -->
+<div class="search-div">
+  <!-- Main categories Button group -->
+  <div class="torrent-search-maincategories-container">
   <mat-button-toggle-group
-    name="torrentCategoriesButtonToggle"
+    name="torrentCategories-toggle"
     aria-label="Ingredients"
     multiple
-    [formControl]="categoryFormControl"
+    [formControl]="torrentCategoryFormGroups.mainCategoriesFormControl"
+    class = "Main-toggle"
   >
 
-    <!-- Movies Button -->
-    <mat-button-toggle
-      value="movies"
+    <!-- Main categories Buttons -->
+    <mat-button-toggle value="movies">Movies</mat-button-toggle>
+    <mat-button-toggle value="series">Series</mat-button-toggle>
+    <mat-button-toggle value="music">Music</mat-button-toggle>
+    <mat-button-toggle value="games">Games</mat-button-toggle>
+    <mat-button-toggle value="programs">Programs</mat-button-toggle>
+    <mat-button-toggle value="books">Books</mat-button-toggle>
+
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Subcategories Button groups -->
+  <div>
+  <!-- Movies Subcategories-->
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('movies')"
+  >
+    <!-- movies category Button group -->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.moviesCategoriesFormControl"
+      class = "Movies-toggle"
     >
-      Movies
-    </mat-button-toggle>
+      <!-- Movies Buttons -->
+      <mat-button-toggle value="SdHu">SD/HU</mat-button-toggle>
+      <mat-button-toggle value="SdEn">SD/EN</mat-button-toggle>
+      <mat-button-toggle value="DvdrHu">Dvdr/HU</mat-button-toggle>
+      <mat-button-toggle value="DvdrEn">Dvdr/EN</mat-button-toggle>
+      <mat-button-toggle value="Dvd9Hu">Dvd9/HU</mat-button-toggle>
+      <mat-button-toggle value="Dvd9En">Dvd9/EN</mat-button-toggle>
+      <mat-button-toggle value="HdHu">Hd/HU</mat-button-toggle>
+      <mat-button-toggle value="HdEn">Hd/EN</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-    <!-- Series Button -->
-    <mat-button-toggle
-      value="series"
+  <!-- Series Subcategories-->
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('series')">
+    <!-- Series category Button group -->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.seriesCategoriesFormControl"
+      class = "Series-toggle"
     >
-      Series
-    </mat-button-toggle>
+      <!-- Series Buttons -->
+      <mat-button-toggle value="SdHu">Sd/HU</mat-button-toggle>
+      <mat-button-toggle value="SdEn">Sd/EN</mat-button-toggle>
+      <mat-button-toggle value="DvdrHu">Dvdr/HU</mat-button-toggle>
+      <mat-button-toggle value="DvdrEn">Dvdr/EN</mat-button-toggle>
+      <mat-button-toggle value="HdHu">Hd/HU</mat-button-toggle>
+      <mat-button-toggle value="HdEn">Hd/EN</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-    <!-- Musics Button -->
-    <mat-button-toggle
-      value="musics"
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('music')">
+    <!-- Music subcategories-->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.musicCategoriesFormControl"
+      class = "Music-toggle"
     >
-      Musics
-    </mat-button-toggle>
+      <!-- Music Buttons -->
+      <mat-button-toggle value="Mp3Hu">Mp3/HU</mat-button-toggle>
+      <mat-button-toggle value="Mp3En">Mp3/EN</mat-button-toggle>
+      <mat-button-toggle value="LosslessHu">Lossless/HU</mat-button-toggle>
+      <mat-button-toggle value="LosslessEn">Lossless/EN</mat-button-toggle>
+      <mat-button-toggle value="Clip">Clip</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
-    <!-- Games Button -->
-    <mat-button-toggle
-      value="games"
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('games')"
+  >
+
+    <!-- Games subcategories-->
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.gamesCategoriesFormControl"
+      class = "Games-toggle"
     >
-      Games
-    </mat-button-toggle>
+      <mat-button-toggle value="Iso">Iso</mat-button-toggle>
+      <mat-button-toggle value="Rip">Rip</mat-button-toggle>
+      <mat-button-toggle value="Console">Console</mat-button-toggle>
+    </mat-button-toggle-group>
 
-    <!-- Programs Button -->
-    <mat-button-toggle
-      value="programs"
-    >
-      Programs
-    </mat-button-toggle>
-
-    <!-- Books Button -->
-    <mat-button-toggle
-      value="books"
-    >
-      Books
-    </mat-button-toggle>
-  </mat-button-toggle-group>
-
-  <!-- Movies subcategories-->
-  <section class="subcategories" [formGroup]="torrentCategoryFormGroups.MoviesCheckboxes">
-    <h4>Movie:</h4>
-    <mat-checkbox formControlName="SdHu">SdHu</mat-checkbox>
-    <mat-checkbox formControlName="SdEn">SdEn</mat-checkbox>
-    <mat-checkbox formControlName="DvdrHu">DvdrHu</mat-checkbox>
-    <mat-checkbox formControlName="DvdrEn">DvdrEn</mat-checkbox>
-    <mat-checkbox formControlName="Dvd9Hu">Dvd9Hu</mat-checkbox>
-    <mat-checkbox formControlName="Dvd9En">Dvd9En</mat-checkbox>
-    <mat-checkbox formControlName="HdHu">HdHu</mat-checkbox>
-    <mat-checkbox formControlName="HdEn">HdEn</mat-checkbox>
-  </section>
-
-  <!-- Series subcategories-->
-  <section class="subcategories" [formGroup]="torrentCategoryFormGroups.SeriesCheckboxes">
-    <h4>Movie:</h4>
-    <mat-checkbox formControlName="SdHu">SdHu</mat-checkbox>
-    <mat-checkbox formControlName="SdEn">SdEn</mat-checkbox>
-    <mat-checkbox formControlName="DvdrHu">DvdrHu</mat-checkbox>
-    <mat-checkbox formControlName="DvdrEn">DvdrEn</mat-checkbox>
-    <mat-checkbox formControlName="HdHu">HdHu</mat-checkbox>
-    <mat-checkbox formControlName="HdEn">HdEn</mat-checkbox>
-  </section>
-
-  <!-- Musics subcategories-->
-  <section class="subcategories" [formGroup]="torrentCategoryFormGroups.MusicsCheckboxes">
-    <h4>Musics:</h4>
-    <mat-checkbox formControlName="Mp3Hu">Mp3Hu</mat-checkbox>
-    <mat-checkbox formControlName="Mp3En">Mp3En</mat-checkbox>
-    <mat-checkbox formControlName="LosslessHu">LosslessHu</mat-checkbox>
-    <mat-checkbox formControlName="LosslessEn">LosslessEn</mat-checkbox>
-    <mat-checkbox formControlName="Clip">Clip</mat-checkbox>
-  </section>
-
-
-  <!-- Games subcategories-->
-  <section class="subcategories" [formGroup]="torrentCategoryFormGroups.GamesCheckboxes">
-    <h4>Games:</h4>
-    <mat-checkbox formControlName="Iso">Iso</mat-checkbox>
-    <mat-checkbox formControlName="Rip">Rip</mat-checkbox>
-    <mat-checkbox formControlName="Console">Console</mat-checkbox>
-  </section>
+  </div>
 
   <!-- Programs subcategories-->
-  <section class="subcategories" [formGroup]="torrentCategoryFormGroups.ProgramsCheckboxes">
-    <h4>Programs:</h4>
-    <mat-checkbox formControlName="Iso">Iso</mat-checkbox>
-    <mat-checkbox formControlName="Rip">Rip</mat-checkbox>
-    <mat-checkbox formControlName="Mobile">Mobile</mat-checkbox>
-  </section>
+  <div
+    class="torrent-subcategory"
+    *ngIf="torrentCategoryFormGroups.isMainCategorySelected('programs')"
+  >
+    <mat-button-toggle-group
+      name="torrentCategories-toggle"
+      aria-label="Ingredients"
+      multiple
+      [formControl]="torrentCategoryFormGroups.programsCategoriesFormControl"
+      class = "Programs-toggle"
+    >
+      <mat-button-toggle value="Iso">Iso</mat-button-toggle>
+      <mat-button-toggle value="Rip">Rip</mat-button-toggle>
+      <mat-button-toggle value="Mobile">Mobile</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 
   <!-- Books subcategories-->
-  <section class="subcategories" [formGroup]="torrentCategoryFormGroups.BooksCheckboxes">
-    <h4>Books:</h4>
-    <mat-checkbox formControlName="EBookHu">EBookHu</mat-checkbox>
-    <mat-checkbox formControlName="EBookEn">EBookEn</mat-checkbox>
-  </section>
 
-  <!-- Search field-->
-  <mat-form-field>
-    <mat-label>Search Text</mat-label>
-    <input type="text"
-           matInput
-           [formControl]="searchTextFormControl"
-           [errorStateMatcher]="matcher"
-           placeholder="Ex. bobsmith66">
-    <mat-error *ngIf="!searchTextFormControl || searchTextFormControl.value && searchTextFormControl.hasError('minlength')">
-      Minimum length of the field is 3 characters
-    </mat-error>
-    <mat-error *ngIf="searchTextFormControl.hasError('required') ">
-      You must enter a <strong>value</strong>
-    </mat-error>
-  </mat-form-field>
+    <div
+      class="torrent-subcategory"
+      *ngIf="torrentCategoryFormGroups.isMainCategorySelected('books')"
+    >
+      <mat-button-toggle-group
+        name="torrentCategories-toggle"
+        aria-label="Ingredients"
+        multiple
+        [formControl]="torrentCategoryFormGroups.booksCategoriesFormControl"
+        class = "Books-toggle"
+      >
+        <mat-button-toggle value="EBookHu">eBook/HU</mat-button-toggle>
+        <mat-button-toggle value="EBookEn">eBook/EN</mat-button-toggle>
+      </mat-button-toggle-group>
+  </div>
 
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="sendUserSearchChoice()"
-  >Submit
+  </div>
+
+  <!-- Search field and button-->
+  <div class="search-container">
+    <!-- Search field-->
+    <mat-form-field id="search-field-torrent">
+      <mat-label>Search Text</mat-label>
+      <input type="text"
+             matInput
+             [formControl]="searchTextFormControl"
+             [errorStateMatcher]="matcher"
+             placeholder="Ex. bobsmith66">
+      <mat-error *ngIf="errorTextChecker.isFormControlinvalid(searchTextFormControl,'minlength')">
+        Minimum length of the field is 3 characters
+      </mat-error>
+      <mat-error *ngIf="errorTextChecker.isFormControlEmpty(searchTextFormControl) ">
+        You must enter a <strong>value</strong>
+      </mat-error>
+    </mat-form-field>
+    <!-- Search button-->
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="sendUserSearchChoice()"
+      [disabled] = '!isSendValid()'
+    >Search
     </button>
+  </div>
 </div>
 
+
+
+<!-- Table -->
 <table
   mat-table
   [dataSource]="dataSource"
-  class="mat-elevation-z8 demo-table"
+  id="table-id"
+  class=""
   *ngIf="!torrentsIsEmpty()"
 >
 
   <!-- Name Column -->
   <ng-container matColumnDef="Name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.Name}} </td>
+    <td mat-cell class="text-align-left" *matCellDef="let element" [title]="element.Name"> {{element.Name}} </td>
   </ng-container>
 
   <!-- Date Column -->
@@ -162,7 +209,7 @@
 
   <!-- Downloads Column -->
   <ng-container matColumnDef="Downloads">
-    <th mat-header-cell *matHeaderCellDef> Size </th>
+    <th mat-header-cell *matHeaderCellDef> Downloads </th>
     <td mat-cell *matCellDef="let element"> {{element.Downloads}} </td>
   </ng-container>
 
@@ -181,7 +228,7 @@
   <!-- Action Column -->
   <ng-container matColumnDef="Action">
     <th mat-header-cell *matHeaderCellDef> Action </th>
-    <td mat-cell *matCellDef="let element"> <button mat-button (click)="handleDownloadButtonClick(element.Id, element.Name)">Download</button>
+    <td mat-cell *matCellDef="let element"> <button mat-button (click)="handleDownloadButtonClick(element.Id, element.Name)"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="file_download"></mat-icon>Download</button>
     </td>
   </ng-container>
 
@@ -189,6 +236,4 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<!-- TODO: Tab group with stretched labels Expansion-panel, MatPaginator -->
-<!-- MatTable MatPaginator MatSort MatIconModule -->
-
+</div>

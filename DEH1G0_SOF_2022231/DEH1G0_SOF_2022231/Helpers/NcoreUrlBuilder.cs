@@ -119,12 +119,12 @@ namespace DEH1G0_SOF_2022231.Helpers
         }
 
         /// <summary>
-        /// Sets music categories based on the input Musics object.
+        /// Sets music categories based on the input Music object.
         /// </summary>
-        /// <param name="musics">An object of <see cref="Musics"/> class that contains the selected music categories</param>
+        /// <param name="musics">An object of <see cref="Music"/> class that contains the selected music categories</param>
         /// <returns>The current <see cref="NcoreUrlBuilder"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the music parameter is null</exception>
-        public NcoreUrlBuilder SetMusicCategories(Musics musics)
+        public NcoreUrlBuilder SetMusicCategories(Music musics)
         {
             if (musics == null)
             {

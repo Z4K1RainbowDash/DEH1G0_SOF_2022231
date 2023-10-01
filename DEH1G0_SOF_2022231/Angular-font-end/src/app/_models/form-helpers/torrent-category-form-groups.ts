@@ -1,86 +1,46 @@
-import {FormBuilder, FormGroup} from "@angular/forms";
+import { FormControl} from "@angular/forms";
 import {SearchTorrentModel} from "../DTOs/search-torrent-model";
 import {Movies} from "../torrent-helpers/movies";
 import {Series} from "../torrent-helpers/series";
-import {Musics} from "../torrent-helpers/musics";
+import {Music} from "../torrent-helpers/music";
 import {Games} from "../torrent-helpers/games";
 import {Programs} from "../torrent-helpers/programs";
 import {Books} from "../torrent-helpers/books";
 
 export class TorrentCategoryFormGroups {
+  mainCategoriesFormControl : FormControl;
+  moviesCategoriesFormControl : FormControl;
+  seriesCategoriesFormControl : FormControl;
+  musicCategoriesFormControl : FormControl;
+  gamesCategoriesFormControl : FormControl;
+  programsCategoriesFormControl : FormControl;
+  booksCategoriesFormControl : FormControl;
+  private _subcategories : Map<string, FormControl>;
 
-  // Subcategory CHECKBOXES
-  MoviesCheckboxes : FormGroup
-  SeriesCheckboxes : FormGroup
-  MusicsCheckboxes : FormGroup
-  GamesCheckboxes : FormGroup
-  ProgramsCheckboxes : FormGroup
-  BooksCheckboxes : FormGroup
+  constructor() {
+    this.mainCategoriesFormControl = new FormControl([]);
+    this.moviesCategoriesFormControl = new FormControl([]);
+    this.seriesCategoriesFormControl = new FormControl([]);
+    this.musicCategoriesFormControl = new FormControl([]);
+    this.gamesCategoriesFormControl = new FormControl([]);
+    this.programsCategoriesFormControl = new FormControl([]);
+    this.booksCategoriesFormControl = new FormControl([]);
 
-  private readonly formBuilder:FormBuilder
-
-
-  constructor(formBuilder: FormBuilder) {
-    this.formBuilder = formBuilder
-
-    this.MoviesCheckboxes = this.formBuilder.group({
-      SdHu: false,
-      SdEn: false,
-      DvdrHu: false,
-      DvdrEn: false,
-      Dvd9Hu: false,
-      Dvd9En: false,
-      HdHu: false,
-      HdEn: false
-    })
-
-    this.SeriesCheckboxes = this.formBuilder.group({
-      SdHu: false,
-      SdEn: false,
-      DvdrHu: false,
-      DvdrEn: false,
-      HdHu: false,
-      HdEn: false
-    })
-
-    this.MusicsCheckboxes = this.formBuilder.group({
-      Mp3Hu: false,
-      Mp3En: false,
-      LosslessHu: false,
-      LosslessEn: false,
-      Clip: false
-    })
-
-    this.GamesCheckboxes = this.formBuilder.group({
-      Iso: false,
-      Rip: false,
-      Console: false
-    })
-
-    this.ProgramsCheckboxes = this.formBuilder.group({
-      Iso: false,
-      Rip: false,
-      Mobile: false
-    })
-
-    this.BooksCheckboxes = this.formBuilder.group({
-      EBookHu: false,
-      EBookEn: false
-    })
-
+    this._subcategories = new Map<string, FormControl>([
+      ['movies', this.moviesCategoriesFormControl],
+      ['series', this.seriesCategoriesFormControl],
+      ['music', this.musicCategoriesFormControl],
+      ['games', this.gamesCategoriesFormControl],
+      ['programs', this.programsCategoriesFormControl],
+      ['books', this.booksCategoriesFormControl]
+    ]);
   }
 
   createSearchTorrentModel(categories: Array<string> ,searchText: string): SearchTorrentModel
   {
-
-
     const searchTorrentModel = this.buildSearchTorrentModel()
-
     searchTorrentModel.SearchText = searchText
-
     this.setIsSelectedFields(searchTorrentModel, categories)
-
-
 
     return searchTorrentModel
   }
@@ -90,7 +50,7 @@ export class TorrentCategoryFormGroups {
 
     model.Movies = this.buildMovies();
     model.Series = this.buildSeries();
-    model.Musics = this.buildMusics();
+    model.Music = this.buildMusic();
     model.Games = this.buildGames();
     model.Programs = this.buildPrograms();
     model.Books = this.buildBooks();
@@ -100,15 +60,14 @@ export class TorrentCategoryFormGroups {
 
   private buildMovies():Movies{
     const movies = new Movies()
-
-    movies.SdHu = this.MoviesCheckboxes.get('SdHu')?.value;
-    movies.SdEn = this.MoviesCheckboxes.get('SdEn')?.value;
-    movies.DvdrHu = this.MoviesCheckboxes.get('DvdrHu')?.value;
-    movies.DvdrEn = this.MoviesCheckboxes.get('DvdrEn')?.value;
-    movies.Dvd9Hu = this.MoviesCheckboxes.get('Dvd9Hu')?.value;
-    movies.Dvd9En = this.MoviesCheckboxes.get('Dvd9En')?.value;
-    movies.HdHu = this.MoviesCheckboxes.get('HdHu')?.value;
-    movies.HdEn = this.MoviesCheckboxes.get('HdEn')?.value;
+    movies.SdHu = this.isSubcategorySelected('movies','SdHu');
+    movies.SdEn = this.isSubcategorySelected('movies','SdEn');
+    movies.DvdrHu = this.isSubcategorySelected('movies','DvdrHu');
+    movies.DvdrEn = this.isSubcategorySelected('movies','DvdrEn');
+    movies.Dvd9Hu = this.isSubcategorySelected('movies','Dvd9Hu');
+    movies.Dvd9En = this.isSubcategorySelected('movies','Dvd9En');
+    movies.HdHu = this.isSubcategorySelected('movies','HdHu');
+    movies.HdEn = this.isSubcategorySelected('movies','HdEn');
 
     return movies
   }
@@ -117,26 +76,26 @@ export class TorrentCategoryFormGroups {
 
     const series= new Series();
 
-    series.SdHu = this.SeriesCheckboxes.get('SdHu')?.value;
-    series.SdEn = this.SeriesCheckboxes.get('SdEn')?.value;
-    series.DvdrHu = this.SeriesCheckboxes.get('DvdrHu')?.value;
-    series.DvdrEn = this.SeriesCheckboxes.get('DvdrEn')?.value;
-    series.HdHu = this.SeriesCheckboxes.get('HdHu')?.value;
-    series.HdEn = this.SeriesCheckboxes.get('HdEn')?.value;
+    series.SdHu = this.isSubcategorySelected('series','SdHu');
+    series.SdEn = this.isSubcategorySelected('series','SdEn');
+    series.DvdrHu = this.isSubcategorySelected('series','DvdrHu');
+    series.DvdrEn = this.isSubcategorySelected('series','DvdrEn');
+    series.HdHu = this.isSubcategorySelected('series','HdHu');
+    series.HdEn = this.isSubcategorySelected('series','HdEn');
 
     return series;
   }
 
-  private buildMusics(){
-    const musics = new Musics()
+  private buildMusic(){
+    const music = new Music()
 
-    musics.Mp3Hu = this.MusicsCheckboxes.get('Mp3Hu')?.value;
-    musics.Mp3En = this.MusicsCheckboxes.get('Mp3En')?.value;
-    musics.LosslessHu = this.MusicsCheckboxes.get('LosslessHu')?.value;
-    musics.LosslessEn = this.MusicsCheckboxes.get('LosslessEn')?.value;
-    musics.Clip = this.MusicsCheckboxes.get('Clip')?.value;
+    music.Mp3Hu = this.isSubcategorySelected('music','Mp3Hu');
+    music.Mp3En = this.isSubcategorySelected('music','Mp3En');
+    music.LosslessHu = this.isSubcategorySelected('music','LosslessHu');
+    music.LosslessEn = this.isSubcategorySelected('music','LosslessEn');
+    music.Clip = this.isSubcategorySelected('music','Clip');
 
-    return musics
+    return music
 
   }
 
@@ -145,9 +104,9 @@ export class TorrentCategoryFormGroups {
 
     const games = new Games();
 
-    games.Iso = this.GamesCheckboxes.get('Iso')?.value;
-    games.Rip = this.GamesCheckboxes.get('Rip')?.value;
-    games.Console = this.GamesCheckboxes.get('Console')?.value;
+    games.Iso = this.isSubcategorySelected('games','Iso');
+    games.Rip = this.isSubcategorySelected('games','Rip');
+    games.Console = this.isSubcategorySelected('games','Console');
 
     return games;
   }
@@ -156,9 +115,9 @@ export class TorrentCategoryFormGroups {
   {
     const programs = new Programs();
 
-    programs.Iso = this.ProgramsCheckboxes.get('Iso')?.value;
-    programs.Rip = this.ProgramsCheckboxes.get('Rip')?.value;
-    programs.Mobile = this.ProgramsCheckboxes.get('Mobile')?.value;
+    programs.Iso = this.isSubcategorySelected('programs','Iso');
+    programs.Rip = this.isSubcategorySelected('programs','Rip');
+    programs.Mobile = this.isSubcategorySelected('programs','Mobile');
 
     return programs;
   }
@@ -166,15 +125,14 @@ export class TorrentCategoryFormGroups {
   private buildBooks()
   {
     const books = new Books();
-    books.EBookHu = this.BooksCheckboxes.get('EBookHu')?.value;
-    books.EBookEn = this.BooksCheckboxes.get('EBookEn')?.value;
+    books.EBookHu = this.isSubcategorySelected('books','EBookHu');
+    books.EBookEn = this.isSubcategorySelected('books','EBookEn');
 
     return books;
   }
 
 
   private setIsSelectedFields(searchTorrentModel: SearchTorrentModel, categories: Array<string>) {
-    // TODO
     categories.forEach(
       (value) => this.setIsSelectedCategory(value, searchTorrentModel)
     )
@@ -182,6 +140,7 @@ export class TorrentCategoryFormGroups {
 
   private setIsSelectedCategory(category:string, searchTorrentModel: SearchTorrentModel)
   {
+    // TODO rewrite
     switch(category) {
       case 'movies': {
         searchTorrentModel.Movies.IsSelected = true
@@ -193,8 +152,8 @@ export class TorrentCategoryFormGroups {
         break;
       }
 
-      case 'musics': {
-        searchTorrentModel.Musics.IsSelected = true
+      case 'music': {
+        searchTorrentModel.Music.IsSelected = true
         break;
       }
 
@@ -213,11 +172,35 @@ export class TorrentCategoryFormGroups {
         break;
       }
 
-
       default: {
         //TODO log;
         break;
       }
     }
   }
+
+  public isSubcategorySelected(category: string, subcategory: string): boolean {
+    return (this._subcategories.get(category)?.value.indexOf(subcategory) !== -1) || false;
+  }
+  public areAnySelectedSubcategoriesEmpty(): boolean {
+    let result: boolean = false;
+    const mainCategories: [string] = this.mainCategoriesFormControl.value;
+    let index = 0;
+    while (mainCategories.length !== index && !result) {
+      let subcategoryForm = this._subcategories.get(mainCategories[index]);
+      if (subcategoryForm?.value.length === 0) {
+        result = true;
+      }
+      index++;
+    }
+
+    return result;
+  }
+
+  public isMainCategorySelected(category:string):boolean
+  {
+    let x:[string] = this.mainCategoriesFormControl.value
+    return x.indexOf(category) !== -1
+  }
+
 }
