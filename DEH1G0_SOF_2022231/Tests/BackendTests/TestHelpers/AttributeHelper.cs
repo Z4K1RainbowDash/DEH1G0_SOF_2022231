@@ -1,4 +1,4 @@
-﻿using Grpc.Net.Client.Configuration;
+using Grpc.Net.Client.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tests.WebsiteTests.TestHelpers
+namespace Tests.BackendTests.TestHelpers
 {
     public static class AttributeHelper
     {

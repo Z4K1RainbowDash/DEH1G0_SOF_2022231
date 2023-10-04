@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Tests.WebsiteTests.TestHelpers
+namespace Tests.BackendTests.TestHelpers
 {
     public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> where TEntryPoint : Program
     {

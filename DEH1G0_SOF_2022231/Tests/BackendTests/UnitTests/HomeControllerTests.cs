@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Controllers;
+using DEH1G0_SOF_2022231.Controllers;
 using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
 using FluentAssertions;
@@ -10,9 +10,11 @@ using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System.Security.Claims;
-using Tests.WebsiteTests.TestHelpers;
+using DEH1G0_SOF_2022231.Models.DTOs;
+using Microsoft.AspNetCore.Http;
+using Tests.BackendTests.TestHelpers;
 
-namespace Tests.WebsiteTests.UnitTests
+namespace Tests.BackendTests.UnitTests
 {
     [TestFixture]
     public class HomeControllerTests

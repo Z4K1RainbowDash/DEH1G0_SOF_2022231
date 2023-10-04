@@ -1,17 +1,19 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-using Tests.WebsiteTests.TestHelpers;
+using Tests.BackendTests.TestHelpers;
 
-namespace Tests.WebsiteTests.IntegrationTests
+namespace Tests.BackendTests.IntegrationTests
 {
-    internal class TorrentsControllerTests
+    [TestFixture]
+    public class HomeControllerTests
     {
         private TestingWebAppFactory<Program> _factory;
         private HttpClient _client;
@@ -30,10 +32,23 @@ namespace Tests.WebsiteTests.IntegrationTests
         }
 
         [Theory]
-        [TestCase("/Torrents/MostActiveUsersByDownloads")]
-        [TestCase("/Torrents/ListLogs")]
-        [TestCase("/Torrents/SearchTorrent")] 
-        [TestCase("/Torrents/MostPopularTorrents")]
+        [TestCase("/")]
+        [TestCase("Home/Privacy")]
+        public async Task GetEndpoints_WhenCalledWithValidUrl_ShouldReturnSuccessAndCorrectContentType(string url)
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+            // Act
+            var response = await client.GetAsync(url);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            response.Content.Headers.ContentType.ToString().Should().Be("text/html; charset=utf-8");
+        }
+
+        [Test]
+        [TestCase("/Home/ListUsers")]
         public async Task GetEndpoints_WhenCalledWithValidUrl_SecurePageRedirectsAnUnauthenticatedUser(string url)
         {
             // Arrange
@@ -41,7 +56,7 @@ namespace Tests.WebsiteTests.IntegrationTests
             {
                 AllowAutoRedirect = false
             });
-
+            
             // Act
             var response = await client.GetAsync(url);
 
@@ -49,7 +64,9 @@ namespace Tests.WebsiteTests.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.Redirect);
             response.Headers.Location.OriginalString.Should()
                 .StartWith("http://localhost/Identity/Account/Login");
-
+            
         }
+
+        
     }
 }

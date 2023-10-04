@@ -1,11 +1,11 @@
-﻿using DEH1G0_SOF_2022231.Controllers;
+using DEH1G0_SOF_2022231.Controllers;
 using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 
-namespace Tests.WebsiteTests.UnitTests
+namespace Tests.BackendTests.UnitTests
 {
     [TestFixture]
     public class LogControllerTests

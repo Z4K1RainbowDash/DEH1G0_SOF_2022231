@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Models;
+using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace Tests.WebsiteTests.TestHelpers
+namespace Tests.BackendTests.TestHelpers
 {
     public static class MockHelpers
     {
