@@ -68,7 +68,6 @@ namespace Tests.BackendTests.UnitTests
             result.Should().BeOfType<BadRequestObjectResult>();
             this._userManager.Verify(u => u.FindByIdAsync(this._invalidAppUserId), Times.Once);
             this._userManager.Verify(x => x.AddToRoleAsync(It.IsAny<AppUser>(), It.IsAny<string>()), Times.Never);
-            
         }
 
         [Test]
