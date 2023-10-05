@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 
-namespace Tests.BackendTests.UnitTests
+namespace Tests.BackendTests.UnitTests.Controllers
 {
     [TestFixture]
     public class LogControllerTests

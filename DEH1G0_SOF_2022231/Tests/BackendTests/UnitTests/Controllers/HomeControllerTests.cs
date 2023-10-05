@@ -13,7 +13,7 @@ using DEH1G0_SOF_2022231.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Tests.BackendTests.TestHelpers;
 
-namespace Tests.BackendTests.UnitTests
+namespace Tests.BackendTests.UnitTests.Controllers
 {
     [TestFixture]
     public class HomeControllerTests
