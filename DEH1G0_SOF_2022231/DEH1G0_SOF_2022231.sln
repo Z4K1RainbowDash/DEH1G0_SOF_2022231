@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NcoreGrpcService", "NcoreGr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{6DF97786-E5F1-4CDD-8B15-3F92E9013959}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Angular-font-end", "Angular-font-end\Angular-font-end.esproj", "{990D401C-3A36-47AD-8030-D6E5B34A364F}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Angular-front-end", "Angular-front-end\Angular-front-end.esproj", "{990D401C-3A36-47AD-8030-D6E5B34A364F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
