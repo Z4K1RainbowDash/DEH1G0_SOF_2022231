@@ -55,15 +55,11 @@ namespace Tests.BackendTests.UnitTests
         [Test]
         public void Constructor_WhenCalledWithNullParameter_ShouldThrowsArgumentNullException()
         {
-            // Arrange
             string expectedNullParameterName = "torrentLogRepository";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-
             
-            // Act
             Action act = () => new LogController(null);
-
-            // Assert
+            
             act.Should().NotBeNull();
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -73,12 +69,8 @@ namespace Tests.BackendTests.UnitTests
         [Test]
         public void Constructor_WhenCalled_InitializesInstanceOfLogController()
         {
-
-            // Arrange + Act
             Action action = () => new LogController(_torrentLogRepositoryMock.Object);
-
-
-            // Assert
+            
             action.Should().NotBeNull();
             action.Should().NotThrow();
         }
