@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Tests.WebsiteTests.TestHelpers
+namespace Tests.BackendTests.TestHelpers
 {
     public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> where TEntryPoint : Program
     {

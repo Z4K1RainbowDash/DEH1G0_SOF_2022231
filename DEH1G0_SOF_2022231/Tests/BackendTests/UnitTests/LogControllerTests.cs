@@ -2,10 +2,12 @@
 using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 
-namespace Tests.WebsiteTests.UnitTests
+namespace Tests.BackendTests.UnitTests
 {
     [TestFixture]
     public class LogControllerTests
@@ -20,61 +22,44 @@ namespace Tests.WebsiteTests.UnitTests
             _logController = new LogController(_torrentLogRepositoryMock.Object);
         }
 
-        // TODO rewrite
-
-        /*
         [Test]
-        public async Task GetLogs_NoArgs_ShouldReturnsAllTorrentLogs()
+        public async Task GetLogs_WhenCalled_ShouldReturnAllTorrentLogs()
         {
-            // Arrange
             var expectedTorrentLogs = new List<TorrentLog>
             {
                 new TorrentLog { Id = "TorrentLogId_1", TorrentId = "TorrentId_1", Created = new DateTime(2022, 1, 1) },
                 new TorrentLog { Id = "TorrentLogId_2", TorrentId = "TorrentId_2", Created = new DateTime(2022, 2, 2) }
             };
-            this._torrentLogRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(expectedTorrentLogs);
-
-            // Act
-            var result = await this._logController.GetLogs();
-
-            // Assert
-            result.Should()
-                .NotBeEmpty()
-                .And.HaveCount(2)
-                .And.BeEquivalentTo(expectedTorrentLogs)
-                .And.BeOfType<List<TorrentLog>>();
-           
-        }
-
-        [Test]
-        public async Task GetLogs_NoArgs_ShouldReturnsEmptyList()
-        {
-            // Arrange
-            var expectedTorrentLogs = new List<TorrentLog>();
-
-            this._torrentLogRepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(expectedTorrentLogs);
-
-            //Act
-            var result = await this._logController.GetLogs();
-
-            //Assert
-            result.Should()
-                .BeEmpty()
-                .And.BeOfType<List<TorrentLog>>();
+            this._torrentLogRepositoryMock
+                .Setup(x => x.GetAllAsync())
+                .ReturnsAsync(expectedTorrentLogs);
+            
+            var actionResult = await this._logController.GetLogs();
+    
+            var okResult = actionResult.Result.Should().BeOfType<OkObjectResult>().Subject;
+            var returnedTorrentLogs = okResult.Value.Should().BeAssignableTo<IEnumerable<TorrentLog>>().Subject;
+            returnedTorrentLogs.Should().BeEquivalentTo(expectedTorrentLogs);
         }
         
         [Test]
+        public async Task GetLogs_WhenAnErrorOccurs_ShouldReturnInternalServerError()
+        {
+            this._torrentLogRepositoryMock.Setup(repo => repo.GetAllAsync()).Throws(new Exception("Some exception"));
+            
+            var result = await this._logController.GetLogs();
+            
+            var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
+        }
+
+        [Test]
         public void Constructor_WhenCalledWithNullParameter_ShouldThrowsArgumentNullException()
         {
-            // Arrange
             string expectedNullParameterName = "torrentLogRepository";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-
             
-            // Act
             Action act = () => new LogController(null);
-
-            // Assert
+            
             act.Should().NotBeNull();
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -84,16 +69,12 @@ namespace Tests.WebsiteTests.UnitTests
         [Test]
         public void Constructor_WhenCalled_InitializesInstanceOfLogController()
         {
-
-            // Arrange + Act
             Action action = () => new LogController(_torrentLogRepositoryMock.Object);
-
-
-            // Assert
+            
             action.Should().NotBeNull();
             action.Should().NotThrow();
         }
-        */
+        
     }
 
 }
