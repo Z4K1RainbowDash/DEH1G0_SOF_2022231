@@ -54,7 +54,7 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// </returns>
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> ListUsersAsync()
+        public async Task<ActionResult<IEnumerable<BasicUserInfosDTO>>> ListUsersAsync()
         {
             try
             {
@@ -179,10 +179,7 @@ namespace DEH1G0_SOF_2022231.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} adding the role: {ex.Message}");
                 }
             }
-            else
-            {
-                return BadRequest(this._userNotFoundErrorMessage);
-            }
+            return BadRequest(this._userNotFoundErrorMessage);
         }
 
         /// <summary>
@@ -211,10 +208,7 @@ namespace DEH1G0_SOF_2022231.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} removing the role: {ex.Message}");
                 }
             }
-            else
-            {
-                return BadRequest(this._userNotFoundErrorMessage);
-            }
+            return BadRequest(this._userNotFoundErrorMessage);
         }
     }
 }

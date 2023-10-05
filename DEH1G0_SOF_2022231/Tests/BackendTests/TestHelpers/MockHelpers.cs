@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace Tests.WebsiteTests.TestHelpers
+namespace Tests.BackendTests.TestHelpers
 {
     public static class MockHelpers
     {
