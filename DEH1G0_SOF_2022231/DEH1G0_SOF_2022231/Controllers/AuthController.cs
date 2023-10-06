@@ -75,8 +75,13 @@ namespace DEH1G0_SOF_2022231.Controllers
         /// It returns an HTTP 200 OK response with a JWT token If the login credentials are valid, otherwise it return an HTTP 401 Unauthorized response.
         /// </returns>
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Login(LoginModel loginModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var user = await _userManager.FindByNameAsync(loginModel.UserName);
             if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
