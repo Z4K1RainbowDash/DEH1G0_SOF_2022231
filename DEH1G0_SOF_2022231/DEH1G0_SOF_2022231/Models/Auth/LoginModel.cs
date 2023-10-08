@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DEH1G0_SOF_2022231.Models.Auth
 {
     /// <summary>
     /// Represents a model for user login credentials.
     /// </summary>
+    [ModelBinder(typeof(LoginModelBinder))]
     public class LoginModel
     {
         /// <summary>
