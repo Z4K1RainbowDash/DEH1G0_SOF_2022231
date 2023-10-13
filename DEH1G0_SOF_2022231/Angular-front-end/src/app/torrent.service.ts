@@ -4,6 +4,7 @@ import {SearchTorrentModel} from "./_models/DTOs/search-torrent-model";
 import {TorrentModel} from "./_models/DTOs/torrent-model";
 import {Observable} from "rxjs";
 import {ApiService} from "./api.service";
+import {SelectedTorrent} from "./_models/DTOs/selected-torrent";
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,14 @@ export class TorrentService {
   }
 
   downloadTorrentById(torrentId: string, name: string) :Observable<Blob> {
-    const url = `${this.apiService.baseUrl}/Torrents/DownloadTorrent?torrentId=${torrentId}&name=${name}`;
+    const url = `${this.apiService.baseUrl}/Torrents/DownloadTorrent`;
+    const dto = new SelectedTorrent(torrentId, name);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/octet-stream'
     });
 
-    return this.http.get(url, {
+    return this.http.post(url,dto, {
       responseType: 'blob',
       headers: headers})
     }

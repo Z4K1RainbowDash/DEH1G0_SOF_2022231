@@ -81,7 +81,7 @@ public class TorrentsController : ControllerBase
     /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while deleting the user.
     /// </returns>
     [Authorize]
-    [HttpGet]
+    [HttpPost]
     public async Task<IActionResult> DownloadTorrent(SelectedTorrentDto dto)
     {
         if (!ModelState.IsValid)
