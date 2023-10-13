@@ -1,9 +1,9 @@
-﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DEH1G0_SOF_2022231.Controllers
-{
+namespace DEH1G0_SOF_2022231.Controllers;
+
     /// <summary>
     /// LogController class is a web API controller that handles TorrentLog related operations
     /// </summary>
@@ -44,6 +44,5 @@ namespace DEH1G0_SOF_2022231.Controllers
             }
         }
 
-    }
-
 }
+

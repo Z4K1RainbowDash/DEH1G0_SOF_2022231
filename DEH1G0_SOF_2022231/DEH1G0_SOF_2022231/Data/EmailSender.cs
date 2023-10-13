@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net;
 using System.Net.Mail;
 
-namespace DEH1G0_SOF_2022231.Data
-{
+namespace DEH1G0_SOF_2022231.Data;
+
 
     /// <summary>
     /// Class responsible for sending emails.
@@ -75,6 +75,5 @@ namespace DEH1G0_SOF_2022231.Data
                 }
             }
             return Task.CompletedTask;
-        }
     }
 }

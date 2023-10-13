@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
-namespace DEH1G0_SOF_2022231.Models.Helpers
-{
+namespace DEH1G0_SOF_2022231.Models.Helpers;
+
     /// <summary>
     /// This class contains the checkboxes for the <see cref ="Programs"/>.
     /// </summary>
@@ -30,5 +30,4 @@ namespace DEH1G0_SOF_2022231.Models.Helpers
         /// </summary>
         [DisplayName("Mobile")]
         public bool Mobile { get; set; }
-    }
 }

@@ -1,5 +1,4 @@
-﻿namespace DEH1G0_SOF_2022231.Data
-{
+namespace DEH1G0_SOF_2022231.Data;
 
     /// <summary>
     /// Generic repository interface for entities
@@ -40,6 +39,5 @@
         /// <param name="entity">The entity to update.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task UpdateAsync(T entity);
-    }
 
 }

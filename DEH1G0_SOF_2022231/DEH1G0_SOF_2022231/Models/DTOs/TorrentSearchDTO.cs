@@ -1,12 +1,12 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using DEH1G0_SOF_2022231.Models.Helpers;
 using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using NcoreGrpcService.Protos;
 
-namespace DEH1G0_SOF_2022231.Models.DTOs
-{
+namespace DEH1G0_SOF_2022231.Models.DTOs;
+
     /// <summary>
     /// The class represents the view model for displaying torrents
     /// </summary>
@@ -31,6 +31,6 @@ namespace DEH1G0_SOF_2022231.Models.DTOs
 
         public Books Books { get; set; }
 
-    }
+    /// <summary>
 
 }

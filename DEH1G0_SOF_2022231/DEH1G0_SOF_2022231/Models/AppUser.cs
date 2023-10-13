@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DEH1G0_SOF_2022231.Models
-{
+namespace DEH1G0_SOF_2022231.Models;
+
     public class AppUser : IdentityUser
     {
 
@@ -26,6 +26,5 @@ namespace DEH1G0_SOF_2022231.Models
         public AppUser()
         {
             this.Torrents = new HashSet<Torrent>();
-        }
     }
 }

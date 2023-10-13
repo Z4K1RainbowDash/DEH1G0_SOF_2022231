@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Models;
+using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Auth;
 using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 using Microsoft.AspNetCore.Identity;
@@ -8,8 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace DEH1G0_SOF_2022231.Controllers
-{
+namespace DEH1G0_SOF_2022231.Controllers;
 
     /// <summary>
     /// This controller handles the authorisation functions.
@@ -107,6 +106,5 @@ namespace DEH1G0_SOF_2022231.Controllers
                 });
             }
             return Unauthorized();
-        }
     }
 }

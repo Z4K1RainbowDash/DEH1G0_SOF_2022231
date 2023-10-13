@@ -1,8 +1,8 @@
-﻿using DEH1G0_SOF_2022231.Models;
+using DEH1G0_SOF_2022231.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DEH1G0_SOF_2022231.Data
-{
+namespace DEH1G0_SOF_2022231.Data;
+
     /// <summary>
     /// Repository class for TorrentLog entities
     /// </summary>
@@ -28,4 +28,3 @@ namespace DEH1G0_SOF_2022231.Data
         }
     }
 
-}

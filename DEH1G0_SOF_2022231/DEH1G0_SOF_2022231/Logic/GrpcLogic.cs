@@ -3,8 +3,8 @@ using Grpc.Core;
 using Grpc.Net.Client;
 using NcoreGrpcService.Protos;
 
-namespace DEH1G0_SOF_2022231.Logic
-{
+namespace DEH1G0_SOF_2022231.Logic;
+
     /// <summary>
     /// This class handles the communication with the gRPC server.
     /// </summary>
@@ -77,7 +77,6 @@ namespace DEH1G0_SOF_2022231.Logic
             memoryStream.Position = 0;
 
             return memoryStream;
-        }
 
     }
 }

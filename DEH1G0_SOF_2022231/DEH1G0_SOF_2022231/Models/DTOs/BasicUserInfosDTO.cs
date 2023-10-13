@@ -1,5 +1,5 @@
-﻿namespace DEH1G0_SOF_2022231.Models.DTOs
-{
+namespace DEH1G0_SOF_2022231.Models.DTOs;
+
 /// <summary>
 /// Represent a basic information of user for API communications.
 /// </summary>
@@ -44,5 +44,4 @@ public class BasicUserInfosDTO
     /// Gets or sets the user's roles.
     /// </summary>
     public IList<string> Roles { get; set; }
-}
 }

@@ -1,8 +1,8 @@
-﻿using DEH1G0_SOF_2022231.Models.DTOs;
+using DEH1G0_SOF_2022231.Models.DTOs;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 
-namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
+namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 {
     public class TorrentSearchDTOBinder : IModelBinder
     {
@@ -41,7 +41,6 @@ namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders
             {
                 bindingContext.ModelState.TryAddModelError(
                 bindingContext.ModelName, $"You must select a {categoryName} subcategory");
-            }
         }
     }
 }

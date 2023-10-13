@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace DEH1G0_SOF_2022231.Data
-{
+namespace DEH1G0_SOF_2022231.Data;
+/// <summary>
     /// <summary>
     /// Generic repository abstract class for entities
     /// </summary>
@@ -72,6 +72,5 @@ namespace DEH1G0_SOF_2022231.Data
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
-    }
 
 }

@@ -8,8 +8,8 @@ using System.Data;
 using DEH1G0_SOF_2022231.Models.DTOs;
 using NcoreGrpcService.Protos;
 
-namespace DEH1G0_SOF_2022231.Controllers
-{
+namespace DEH1G0_SOF_2022231.Controllers;
+
     /// <summary>
     /// Controller for handling Torrent related actions, such as searching, downloading, and listing logs.
     /// </summary>
@@ -230,4 +230,4 @@ namespace DEH1G0_SOF_2022231.Controllers
 
 
     }
-}
+

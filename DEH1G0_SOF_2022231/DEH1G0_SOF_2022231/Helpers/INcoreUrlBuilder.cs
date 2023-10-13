@@ -1,9 +1,9 @@
-﻿using DEH1G0_SOF_2022231.Models.Helpers;
+using DEH1G0_SOF_2022231.Models.Helpers;
 
-namespace DEH1G0_SOF_2022231.Helpers
+namespace DEH1G0_SOF_2022231.Helpers;
+/// <summary>
+public interface INcoreUrlBuilder
 {
-    public interface INcoreUrlBuilder
-    {
         NcoreUrl Build();
         NcoreUrlBuilder Reset();
         NcoreUrlBuilder SetBookCategories(Books books);
@@ -14,5 +14,4 @@ namespace DEH1G0_SOF_2022231.Helpers
         NcoreUrlBuilder SetSearchText(string searchText);
         NcoreUrlBuilder SetSearchType();
         NcoreUrlBuilder SetSeriesCategories(Series series);
-    }
 }

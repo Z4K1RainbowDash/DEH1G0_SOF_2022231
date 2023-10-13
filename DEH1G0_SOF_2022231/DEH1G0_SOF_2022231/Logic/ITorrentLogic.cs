@@ -1,8 +1,8 @@
-﻿using DEH1G0_SOF_2022231.Helpers;
+using DEH1G0_SOF_2022231.Helpers;
 using DEH1G0_SOF_2022231.Models.Helpers;
 
-namespace DEH1G0_SOF_2022231.Logic
-{
+namespace DEH1G0_SOF_2022231.Logic;
+
     /// <summary>
     /// Contains the logic interface for building Ncore Url
     /// </summary>
@@ -31,4 +31,3 @@ namespace DEH1G0_SOF_2022231.Logic
         /// <returns>A task that represents the asynchronous operation.</returns>
         Task CreateIdentities(string torrentId, string torrentName, string userId);
     }
-}

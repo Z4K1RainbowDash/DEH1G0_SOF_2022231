@@ -1,11 +1,11 @@
-﻿using DEH1G0_SOF_2022231.Models;
+using DEH1G0_SOF_2022231.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
-namespace DEH1G0_SOF_2022231.Data
-{
+namespace DEH1G0_SOF_2022231.Data;
+
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<AppUser> Users { get; set; }
@@ -70,4 +70,3 @@ namespace DEH1G0_SOF_2022231.Data
             base.OnModelCreating(builder);
         }
     }
-}

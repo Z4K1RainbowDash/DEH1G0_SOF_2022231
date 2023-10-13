@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DEH1G0_SOF_2022231.Models.Auth
-{
+namespace DEH1G0_SOF_2022231.Models.Auth;
+
     /// <summary>
     /// Represents a model for user login credentials.
     /// </summary>
@@ -25,4 +25,4 @@ namespace DEH1G0_SOF_2022231.Models.Auth
         public string Password { get; set; }
     }
 
-}
+

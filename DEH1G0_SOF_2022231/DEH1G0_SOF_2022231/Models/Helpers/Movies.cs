@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
-namespace DEH1G0_SOF_2022231.Models.Helpers
-{
     /// <summary>
     /// This class contains the checkboxes for the <see cref ="Movies"/>.
     /// </summary>
@@ -64,4 +62,4 @@ namespace DEH1G0_SOF_2022231.Models.Helpers
 
        
     }
-}
+

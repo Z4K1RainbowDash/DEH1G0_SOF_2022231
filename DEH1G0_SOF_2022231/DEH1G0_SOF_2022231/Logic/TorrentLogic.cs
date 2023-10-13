@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Helpers;
 using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Helpers;
@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.SignalR;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
 
-namespace DEH1G0_SOF_2022231.Logic
-{
+namespace DEH1G0_SOF_2022231.Logic;
+
     /// <summary>
     /// Contains the logic for building Ncore Url
     /// </summary>
@@ -103,4 +103,4 @@ namespace DEH1G0_SOF_2022231.Logic
          
     }
 
-}
+    }

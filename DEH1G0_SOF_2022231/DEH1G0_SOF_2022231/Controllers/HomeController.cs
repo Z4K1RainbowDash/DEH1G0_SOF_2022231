@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DEH1G0_SOF_2022231.Controllers
-{
+namespace DEH1G0_SOF_2022231.Controllers;
+
     /// <summary>
     /// The HomeController is responsible for handling the main functions of the application.
     /// </summary>
@@ -211,4 +211,3 @@ namespace DEH1G0_SOF_2022231.Controllers
             return BadRequest(this._userNotFoundErrorMessage);
         }
     }
-}

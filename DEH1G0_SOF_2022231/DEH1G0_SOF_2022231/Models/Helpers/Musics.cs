@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
-namespace DEH1G0_SOF_2022231.Models.Helpers
-{
+namespace DEH1G0_SOF_2022231.Models.Helpers;
+
     /// <summary>
     /// This class contains the checkboxes for the <see cref ="Music"/>.
     /// </summary>
@@ -41,5 +41,4 @@ namespace DEH1G0_SOF_2022231.Models.Helpers
         /// Gets or sets a value indicating whether the "Clip" <see cref ="Music"/> Checkbox is active.
         /// </summary>
         public bool Clip { get; set; }
-    }
 }

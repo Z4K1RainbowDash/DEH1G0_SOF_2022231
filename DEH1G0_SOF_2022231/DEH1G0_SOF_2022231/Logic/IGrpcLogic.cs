@@ -1,8 +1,8 @@
 using DEH1G0_SOF_2022231.Helpers;
 using NcoreGrpcService.Protos;
 
-namespace DEH1G0_SOF_2022231.Logic
-{
+namespace DEH1G0_SOF_2022231.Logic;
+
     public interface IGrpcLogic
     {
         /// <summary>
@@ -19,4 +19,3 @@ namespace DEH1G0_SOF_2022231.Logic
         /// <returns>A MemoryStream containing the downloaded torrent file.</returns>
         Task<MemoryStream> DownloadTorrent(string id);
     }
-}

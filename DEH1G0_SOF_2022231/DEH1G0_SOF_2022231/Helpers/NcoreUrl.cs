@@ -1,5 +1,5 @@
-﻿namespace DEH1G0_SOF_2022231.Helpers
-{
+namespace DEH1G0_SOF_2022231.Helpers;
+
     /// <summary>
     /// This class store the URL for Ncore.
     /// </summary>
@@ -19,4 +19,4 @@
         /// </summary>
         public string Url { get; init; }
     }
-}
+

@@ -1,9 +1,8 @@
-﻿using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
+using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace DEH1G0_SOF_2022231.Models.Auth
-{
+namespace DEH1G0_SOF_2022231.Models.Auth;
 
     /// <summary>
     /// Represents a model for user registration.
@@ -49,4 +48,4 @@ namespace DEH1G0_SOF_2022231.Models.Auth
         public string Password { get; set; }
     }
 
-}
+
