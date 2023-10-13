@@ -1,10 +1,7 @@
 using DEH1G0_SOF_2022231.Data;
 using DEH1G0_SOF_2022231.Helpers;
 using DEH1G0_SOF_2022231.Models;
-using DEH1G0_SOF_2022231.Models.Helpers;
-using Microsoft.AspNetCore.SignalR;
-using System.Reflection.Metadata;
-using System.Xml.Linq;
+using DEH1G0_SOF_2022231.Models.DTOs;
 
 namespace DEH1G0_SOF_2022231.Logic;
 

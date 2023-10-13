@@ -1,5 +1,5 @@
 using DEH1G0_SOF_2022231.Helpers;
-using DEH1G0_SOF_2022231.Models.Helpers;
+using DEH1G0_SOF_2022231.Models;
 
 namespace DEH1G0_SOF_2022231.Logic;
 

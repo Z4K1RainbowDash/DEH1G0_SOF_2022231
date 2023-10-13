@@ -1,6 +1,5 @@
 using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Auth;
-using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

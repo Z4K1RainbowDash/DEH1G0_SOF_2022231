@@ -1,6 +1,5 @@
 using DEH1G0_SOF_2022231.Models.Auth;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Newtonsoft.Json;
 
 namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
