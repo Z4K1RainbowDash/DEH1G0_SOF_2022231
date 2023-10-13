@@ -1,52 +1,44 @@
-
+﻿
 namespace DEH1G0_SOF_2022231.Models.Helpers;
 
+/// <summary>
+/// Represents the "Series" category, which includes various subcategories.
+/// </summary>
+public class Series
+{
     /// <summary>
-    /// This class contains the checkboxes for the <see cref ="Series"/>.
+    /// Gets or sets value indicating whether <see cref ="Series"/> category is currently selected or not
     /// </summary>
-    public class Series
-    {
-        /// <summary>
-        /// Gets or sets value indicating whether <see cref ="Series"/> category is currently selected or not
-        /// </summary>
-        [DisplayName("Series")]
-        public bool IsSelected { get; set; }
+    public bool IsSelected { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the "SdHu" <see cref ="Series"/> Checkbox is active.
-        /// </summary>
-        [DisplayName("SD/HU")]
-        public bool SdHu { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether the "SdHu" subcategory is currently selected.
+    /// </summary>
+    public bool SdHu { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the "SdEn" <see cref ="Series"/> Checkbox is active.
-        /// </summary>
-        [DisplayName("SD/EN")]
-        public bool SdEn { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether the "SdEn" subcategory is currently selected.
+    /// </summary>
+    public bool SdEn { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the "DvdrHu" <see cref ="Series"/> Checkbox is active.
-        /// </summary>
-        [DisplayName("DVDR/HU")]
-        public bool DvdrHu { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether the "DvdrHu" subcategory is currently selected.
+    /// </summary>
+    public bool DvdrHu { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the "DvdrEn" <see cref ="Series"/> Checkbox is active.
-        /// </summary>
-        [DisplayName("DVDR/EN")]
-        public bool DvdrEn { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether the "DvdrEn" subcategory is currently selected.
+    /// </summary>
+    public bool DvdrEn { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the "HdHu" <see cref ="Series"/> Checkbox is active.
-        /// </summary>
-        [DisplayName("HD/HU")]
-        public bool HdHu { get; set; }
+    /// <summary>
+    /// Gets or sets a value indicating whether the "HdHu" subcategory is currently selected.
+    /// </summary>
+    public bool HdHu { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the "HdEn" <see cref ="Series"/> Checkbox is active.
-        /// </summary>
-        [DisplayName("HD/EN")]
-        public bool HdEn { get; set; }
-
-    }
+    /// <summary>
+    /// Gets or sets a value indicating whether the "HdEn" subcategory is currently selected.
+    /// </summary>
+    public bool HdEn { get; set; }
+}
 
