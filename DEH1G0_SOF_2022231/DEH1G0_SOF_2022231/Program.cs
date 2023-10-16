@@ -84,9 +84,9 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthentication().AddFacebook(t =>
 {
-    IConfigurationSection FBAuthNSection = builder.Configuration.GetSection("Authentication:FB");
-    t.AppId = FBAuthNSection["ClientId"];
-    t.AppSecret = FBAuthNSection["ClientSecret"];
+    IConfigurationSection fbAuthNSection = builder.Configuration.GetSection("Authentication:FB");
+    t.AppId = fbAuthNSection["ClientId"];
+    t.AppSecret = fbAuthNSection["ClientSecret"];
 });
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthorization();

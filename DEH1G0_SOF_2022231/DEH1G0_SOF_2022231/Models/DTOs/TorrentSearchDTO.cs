@@ -1,36 +1,50 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using DEH1G0_SOF_2022231.Models.Helpers;
 using DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 using Microsoft.AspNetCore.Mvc;
-using NcoreGrpcService.Protos;
 
-namespace DEH1G0_SOF_2022231.Models.DTOs
+namespace DEH1G0_SOF_2022231.Models.DTOs;
+
+/// <summary>
+/// Represent a DTO for searching torrents.
+/// </summary>
+[ModelBinder(BinderType = typeof(TorrentSearchDtoBinder))]
+public class TorrentSearchDto
 {
     /// <summary>
-    /// The class represents the view model for displaying torrents
+    /// The text used for searching torrents
     /// </summary>
-    [ModelBinder(BinderType = typeof(TorrentSearchDTOBinder))]
-    public class TorrentSearchDTO
-    {
-        /// <summary>
-        /// The text used for searching torrents
-        /// </summary>
-        [Required]
-        [StringLength(200, MinimumLength = 3)]
-        [DisplayName("Search Field:")]
-        public string SearchText { get; set; }
-        public Movies Movies { get; set; }
+    [Required]
+    [StringLength(200, MinimumLength = 3)]
+    public string SearchText { get; init; }
+    
+    /// <summary>
+    /// Gets or sets the torrent movies subcategories.
+    /// </summary>
+    public Movies Movies { get; init; }
 
-        public Series Series { get; set; }
+    /// <summary>
+    /// Gets or sets the torrent series subcategories.
+    /// </summary>
+    public Series Series { get; init; }
 
-        public Music Music { get; set; }
+    /// <summary>
+    /// Gets or sets the torrent music subcategories.
+    /// </summary>
+    public Music Music { get; init; }
 
-        public Games Games { get; set; }
-        public Programs Programs { get; set; }
+    /// <summary>
+    /// Gets or sets the torrent games subcategories.
+    /// </summary>
+    public Games Games { get; init; }
+    
+    /// <summary>
+    /// Gets or sets the torrent Programs subcategories.
+    /// </summary>
+    public Programs Programs { get; init; }
 
-        public Books Books { get; set; }
-
-    }
-
+    /// <summary>
+    /// Gets or sets the torrent Books subcategories.
+    /// </summary>
+    public Books Books { get; init; }
 }

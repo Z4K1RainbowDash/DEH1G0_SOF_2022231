@@ -11,9 +11,9 @@ namespace NcoreGrpcService.Logic
     {
         private readonly IConfiguration _configuration;
         // TODO: readonly?
-        private RestClient client = new RestClient("https://ncore.pro");
+        private RestClient _client = new RestClient("https://ncore.pro");
 
-        private readonly List<KeyValuePair<string, string>> defaultHeaders = new List<KeyValuePair<string, string>>()
+        private readonly List<KeyValuePair<string, string>> _defaultHeaders = new List<KeyValuePair<string, string>>()
             {
                 new KeyValuePair<string, string>("Accept" , "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" ),
                 new KeyValuePair<string, string>("Accept-Encoding" , "gzip, deflate, br" ),
@@ -44,12 +44,12 @@ namespace NcoreGrpcService.Logic
         public NcoreWebScraping(IConfiguration configuration)
         {
             this._configuration = configuration;
-            IConfigurationSection NcoreSection = this._configuration.GetSection("Ncore");
+            IConfigurationSection ncoreSection = this._configuration.GetSection("Ncore");
 
             // Retrieve Ncore settings from the configuration object
-            this._ncoreUsername = NcoreSection["Username"];
-            this._ncorePassword = NcoreSection["Password"];
-            this._ncoreKey = NcoreSection["Key"];
+            this._ncoreUsername = ncoreSection["Username"];
+            this._ncorePassword = ncoreSection["Password"];
+            this._ncoreKey = ncoreSection["Key"];
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace NcoreGrpcService.Logic
 
             var req = new RestRequest("login.php", Method.Post);
 
-            foreach (var item in defaultHeaders)
+            foreach (var item in _defaultHeaders)
             {
                 req.AddHeader(item.Key, item.Value);
             }
@@ -71,11 +71,11 @@ namespace NcoreGrpcService.Logic
 
             req.AddParameter("application/x-www-form-urlencoded", urlParameters, ParameterType.RequestBody);
 
-            var response = client.Execute(req);
+            var response = _client.Execute(req);
 
             var indexReq = new RestRequest("index.php", Method.Get);
 
-            var indexPage = client.Execute(indexReq);
+            var indexPage = _client.Execute(indexReq);
 
         }
 
@@ -87,8 +87,8 @@ namespace NcoreGrpcService.Logic
         private RestResponse GetResponse(string url)
         {
             var req = new RestRequest(url, Method.Get);
-            req.AddHeaders(defaultHeaders);
-            return client.Execute(req);
+            req.AddHeaders(_defaultHeaders);
+            return _client.Execute(req);
         }
 
 
@@ -236,7 +236,7 @@ namespace NcoreGrpcService.Logic
                 $"&key={this._ncoreKey}";
 
             var request = new RestRequest(link, Method.Get);
-            var response = client.DownloadData(request);
+            var response = _client.DownloadData(request);
 
             return response;
         }
