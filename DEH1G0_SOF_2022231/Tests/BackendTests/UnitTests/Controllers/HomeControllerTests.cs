@@ -257,9 +257,9 @@ namespace Tests.BackendTests.UnitTests.Controllers
             var objectResult = result.Result as OkObjectResult;
             objectResult.Should().NotBeNull();
 
-            var userDTOs = objectResult.Value as List<BasicUserInfosDTO>;
-            userDTOs.Should().HaveCount(2);
-            userDTOs.Should().BeEquivalentTo(users.Select(user => new BasicUserInfosDTO
+            var userDtOs = objectResult.Value as List<BasicUserInfosDto>;
+            userDtOs.Should().HaveCount(2);
+            userDtOs.Should().BeEquivalentTo(users.Select(user => new BasicUserInfosDto
             {
                 Id = user.Id,
                 FirstName = user.FirstName,

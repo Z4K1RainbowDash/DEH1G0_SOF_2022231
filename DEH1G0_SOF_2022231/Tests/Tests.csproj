@@ -39,4 +39,8 @@
     <ItemGroup>
       <ProjectReference Include="..\DEH1G0_SOF_2022231\DEH1G0_SOF_2022231.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="BackendTests\IntegrationTests\" />
+    </ItemGroup>
 </Project>
