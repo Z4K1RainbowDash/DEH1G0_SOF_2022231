@@ -8,7 +8,7 @@ env:
   WORKING_DIRECTORY_NAME: './DEH1G0_SOF_2022231'
 jobs:
   build:
-    runs-on: Linux
+    runs-on: Windows
     steps:
     - name: Checkout GutHub actions
       uses: actions/checkout@v2
