@@ -6,14 +6,14 @@ namespace DEH1G0_SOF_2022231.Data;
 /// </summary>
 public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
 {
-    private readonly DbContext _context;
-    private readonly DbSet<T> _dbSet;
+    protected readonly ApplicationDbContext _context;
+    protected readonly DbSet<T> _dbSet;
 
     /// <summary>
     ///  Initializes a new instance of the GenericRepository class.
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> to use for database operations.</param>
-    protected  GenericRepository(DbContext context)
+    protected  GenericRepository(ApplicationDbContext context)
     {
         _context = context;
         _dbSet = context.Set<T>();
