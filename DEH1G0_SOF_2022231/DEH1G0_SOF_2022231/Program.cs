@@ -68,6 +68,7 @@ builder.Services.AddScoped<IGrpcLogic>(s => new GrpcLogic(builder.Configuration.
 builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<ITorrentLogRepository, TorrentLogRepository>();
 builder.Services.AddScoped<ITorrentRepository, TorrentRepository>();
+builder.Services.AddScoped<IPaginatedListBuilder, PaginatedListBuilder>();
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddEndpointsApiExplorer();
