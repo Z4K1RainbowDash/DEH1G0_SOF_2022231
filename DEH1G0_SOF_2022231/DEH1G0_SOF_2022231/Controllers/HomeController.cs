@@ -1,9 +1,11 @@
 using DEH1G0_SOF_2022231.Data;
+using DEH1G0_SOF_2022231.Helpers;
 using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DEH1G0_SOF_2022231.Controllers;
 
@@ -46,7 +48,7 @@ public class HomeController : ControllerBase
 
 
     /// <summary>
-    /// Get all users.
+    /// Get limited users.
     /// </summary>
     /// <returns>
     /// <see cref="OkResult"/> with users.
@@ -54,14 +56,27 @@ public class HomeController : ControllerBase
     /// </returns>
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<BasicUserInfosDto>>> ListUsersAsync()
+    public async Task<ActionResult<IEnumerable<BasicUserInfosDto>>> ListUsersAsync([FromQuery] PageQueryParameters pageQueryParameters)
     {
         try
         {
-            var users = await this._userRepo.GetAllAsync();
+            var paginatedAppUsersAsync = await this._userRepo.GetPaginatedAppUsersAsync(pageQueryParameters);
+            var metadata = new
+            {
+                paginatedAppUsersAsync.PageIndex,
+                paginatedAppUsersAsync.TotalPages,
+                paginatedAppUsersAsync.HasNextPage,
+                
+                paginatedAppUsersAsync.HasPreviousPage,
+                pageQueryParameters.PageSize
+
+            };
+            
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            
             var userDtOs = new List<BasicUserInfosDto>();
 
-            foreach (var user in users)
+            foreach (var user in paginatedAppUsersAsync)
             {
                 var userDto = new BasicUserInfosDto()
                 {
