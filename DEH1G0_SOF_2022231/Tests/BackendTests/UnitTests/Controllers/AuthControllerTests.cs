@@ -2,9 +2,9 @@
 using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Auth;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using Tests.BackendTests.TestHelpers;
@@ -16,13 +16,15 @@ public class AuthControllerTests
 {
 
     private Mock<UserManager<AppUser>> _userManager;
+    private Mock<ILogger<AuthController>> _mockLogger;
     private AuthController _authController;
 
     [SetUp]
     public void SetUp()
     {
+        this._mockLogger = new Mock<ILogger<AuthController>>();
         this._userManager = MockHelpers.MockUserManager<AppUser>();
-        this._authController = new AuthController(this._userManager.Object);
+        this._authController = new AuthController(this._userManager.Object, this._mockLogger.Object);
     }
 
     [Test]
@@ -43,7 +45,6 @@ public class AuthControllerTests
         var result = await this._authController.Register(rm);
 
         result.Should().BeOfType<OkResult>();
-
     }
 
     [Test]

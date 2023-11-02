@@ -308,11 +308,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
 
             var result = await this._homeController.GrantAdminAsync(user.Id);
 
-            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
-            objectResult.Should().NotBeNull();
-            objectResult.Value.Should().NotBeNull();
-            objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-            objectResult.Value.ToString().Should().Contain(exceptionMessage);
+            result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
         }
 
         [Test]
@@ -331,11 +327,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
 
             var result = await this._homeController.DeleteUserByAdminAsync(user.Id);
 
-            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
-            objectResult.Should().NotBeNull();
-            objectResult.Value.Should().NotBeNull();
-            objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-            objectResult.Value.ToString().Should().Contain(exceptionMessage);
+            result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
         }
 
         [Test]
@@ -354,11 +346,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
 
             var result = await this._homeController.RemoveAdminAsync(user.Id);
 
-            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
-            objectResult.Should().NotBeNull();
-            objectResult.Value.Should().NotBeNull();
-            objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-            objectResult.Value.ToString().Should().Contain(exceptionMessage);
+            result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
         }
 
         [Test]
@@ -377,12 +365,9 @@ namespace Tests.BackendTests.UnitTests.Controllers
                 .Throws(exception);
 
             var result = await this._homeController.ListUsersAsync(pageQueryParameters);
+            
 
-            var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
-            objectResult.Should().NotBeNull();
-            objectResult.Value.Should().NotBeNull();
-            objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-            objectResult.Value.ToString().Should().Contain(exceptionMessage);
+            result.Result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
         }
         [Test]
         public async Task DeleteUserAsync_WhenCalledAndIdErrorOccurs_ShouldReturnBadRequest()
@@ -393,7 +378,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
 
             var result = await this._homeController.DeleteUserAsync();
 
-            result.Should().BeOfType<BadRequestObjectResult>();
+            result.Should().BeOfType<BadRequestResult>();
         }
 
         [Test]
@@ -415,11 +400,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
 
             var result = await this._homeController.DeleteUserAsync();
 
-            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
-            objectResult.Should().NotBeNull();
-            objectResult.Value.Should().NotBeNull();
-            objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
-            objectResult.Value.ToString().Should().Contain(exceptionMessage);
+            result.Should().BeOfType<StatusCodeResult>().Which.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
         }
 
         [Theory]
