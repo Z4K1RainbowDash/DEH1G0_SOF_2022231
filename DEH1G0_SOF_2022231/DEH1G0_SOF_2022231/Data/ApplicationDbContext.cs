@@ -25,10 +25,10 @@ public class ApplicationDbContext : IdentityDbContext
     /// </summary>
     public DbSet<TorrentLog> TorrentLogs { get; set; }
 
-   /// <summary>
-   /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
-   /// </summary>
-   /// <param name="options"></param>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+    /// </summary>
+    /// <param name="options"></param>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -61,9 +61,9 @@ public class ApplicationDbContext : IdentityDbContext
         });
 
         builder.Entity<TorrentLog>()
-            .HasOne(t=> t.Torrent)
+            .HasOne(t => t.Torrent)
             .WithMany()
-            .HasForeignKey(t=> t.TorrentId)
+            .HasForeignKey(t => t.TorrentId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<TorrentLog>()

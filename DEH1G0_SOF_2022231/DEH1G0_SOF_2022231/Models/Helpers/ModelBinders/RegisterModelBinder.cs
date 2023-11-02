@@ -16,7 +16,7 @@ public class RegisterModelBinder : IModelBinder
     /// <param name="bindingContext">The <see cref="ModelBindingContext"/> containing information for model binding.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     /// <exception cref="ArgumentNullException">Thrown when the binding context is null.</exception>
-    public  Task BindModelAsync(ModelBindingContext bindingContext)
+    public Task BindModelAsync(ModelBindingContext bindingContext)
     {
         if (bindingContext == null)
         {

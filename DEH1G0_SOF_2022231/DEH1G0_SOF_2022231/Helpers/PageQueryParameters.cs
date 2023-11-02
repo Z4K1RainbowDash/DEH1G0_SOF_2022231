@@ -8,8 +8,8 @@ public class PageQueryParameters
     /// <summary>
     /// Gets the index of the current page.
     /// </summary>
-    public int PageIndex { get; init;}
-    
+    public int PageIndex { get; init; }
+
     /// <summary>
     /// Gets the size of the page.
     /// </summary>

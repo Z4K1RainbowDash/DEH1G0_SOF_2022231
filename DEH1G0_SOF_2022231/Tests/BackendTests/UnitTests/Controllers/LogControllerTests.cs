@@ -33,21 +33,21 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._torrentLogRepositoryMock
                 .Setup(x => x.GetAllAsync())
                 .ReturnsAsync(expectedTorrentLogs);
-            
+
             var actionResult = await this._logController.GetLogs();
-    
+
             var okResult = actionResult.Result.Should().BeOfType<OkObjectResult>().Subject;
             var returnedTorrentLogs = okResult.Value.Should().BeAssignableTo<IEnumerable<TorrentLog>>().Subject;
             returnedTorrentLogs.Should().BeEquivalentTo(expectedTorrentLogs);
         }
-        
+
         [Test]
         public async Task GetLogs_WhenAnErrorOccurs_ShouldReturnInternalServerError()
         {
             this._torrentLogRepositoryMock.Setup(repo => repo.GetAllAsync()).Throws(new Exception("Some exception"));
-            
+
             var result = await this._logController.GetLogs();
-            
+
             var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
             objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
         }
@@ -57,9 +57,9 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             string expectedNullParameterName = "torrentLogRepository";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-            
+
             Action act = () => new LogController(null);
-            
+
             act.Should().NotBeNull();
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -70,11 +70,11 @@ namespace Tests.BackendTests.UnitTests.Controllers
         public void Constructor_WhenCalled_InitializesInstanceOfLogController()
         {
             Action action = () => new LogController(_torrentLogRepositoryMock.Object);
-            
+
             action.Should().NotBeNull();
             action.Should().NotThrow();
         }
-        
+
     }
 
 }

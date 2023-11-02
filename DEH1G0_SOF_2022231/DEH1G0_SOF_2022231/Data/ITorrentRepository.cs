@@ -15,5 +15,5 @@ public interface ITorrentRepository : IGenericRepository<Torrent>
     /// <returns>A collection of <see cref="AppUser"/>s associated with the <see cref="Torrent"/>.</returns>
     Task<ICollection<AppUser>> GetUsersByTorrentId(string id);
 
-    
+
 }

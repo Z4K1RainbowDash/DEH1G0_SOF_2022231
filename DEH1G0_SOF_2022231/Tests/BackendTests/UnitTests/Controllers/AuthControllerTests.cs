@@ -14,10 +14,10 @@ namespace Tests.BackendTests.UnitTests.Controllers;
 [TestFixture]
 public class AuthControllerTests
 {
-    
+
     private Mock<UserManager<AppUser>> _userManager;
     private AuthController _authController;
-    
+
     [SetUp]
     public void SetUp()
     {
@@ -41,7 +41,7 @@ public class AuthControllerTests
             .ReturnsAsync(IdentityResult.Success);
 
         var result = await this._authController.Register(rm);
-        
+
         result.Should().BeOfType<OkResult>();
 
     }
@@ -62,8 +62,8 @@ public class AuthControllerTests
             .Setup(um => um.CreateAsync(It.IsAny<AppUser>(), It.IsAny<string>()))
             .ReturnsAsync(() =>
             {
-                var result = firstAttempt 
-                    ? IdentityResult.Success 
+                var result = firstAttempt
+                    ? IdentityResult.Success
                     : IdentityResult.Failed(new IdentityError { Description = "User already exists." });
                 firstAttempt = false;
                 return result;
@@ -71,7 +71,7 @@ public class AuthControllerTests
 
         var result = await this._authController.Register(rm);
         var result2 = await this._authController.Register(rm);
-        
+
         result.Should().BeOfType<OkResult>();
         var objectResult = result2.Should().BeOfType<ObjectResult>().Subject;
         var problemDetails = objectResult.Value.As<ProblemDetails>();
@@ -90,10 +90,10 @@ public class AuthControllerTests
             Password = "Password123",
             Username = "Username"
         };
-        this._authController.ModelState.AddModelError("test","test");
-        
+        this._authController.ModelState.AddModelError("test", "test");
+
         var result = await this._authController.Register(rm);
-        
+
         result.Should().BeOfType<BadRequestObjectResult>();
     }
 
@@ -106,9 +106,9 @@ public class AuthControllerTests
             Password = "Password",
             UserName = "Username"
         };
-        IList<string> roles = new List<string> {"default"};
+        IList<string> roles = new List<string> { "default" };
         bool passwordCheckResult = true;
-        
+
         this._userManager
             .Setup(um => um.FindByNameAsync(It.IsAny<string>()))
             .ReturnsAsync(user);
@@ -125,7 +125,7 @@ public class AuthControllerTests
 
         result.Should().BeOfType<OkObjectResult>();
     }
-    
+
     [Test]
     public async Task Login_WhenCalledWithInvalidModel_ShouldReturnBadRequest()
     {
@@ -135,8 +135,8 @@ public class AuthControllerTests
             Password = "Password",
             UserName = "Username"
         };
-        this._authController.ModelState.AddModelError("test","test");
-        
+        this._authController.ModelState.AddModelError("test", "test");
+
         var result = await this._authController.Login(lm);
 
         result.Should().BeOfType<BadRequestObjectResult>();
@@ -152,7 +152,7 @@ public class AuthControllerTests
             Password = "Password",
             UserName = "Username"
         };
-        
+
         this._userManager
             .Setup(um => um.FindByNameAsync(It.IsAny<string>()))
             .ReturnsAsync(existingUser);
