@@ -25,9 +25,6 @@ public class HomeController : ControllerBase
 
     // return messages
     private readonly string _userNotFoundErrorMessage = "User not found with the provided user ID";
-    private readonly string _errorOccurredMessage = "An error occurred while";
-
-
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HomeController"/> class.
@@ -37,7 +34,8 @@ public class HomeController : ControllerBase
     /// <param name="userManager">The user manager used to manage user data.</param>
     /// <param name="roleManager">The role manager used to manage roles.</param>
     /// <param name="signInManager">The sign in manager used to manage sign in data.</param>
-    public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager)
+    public HomeController(ILogger<HomeController> logger, IAppUserRepository userRepository,
+        UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<AppUser> signInManager)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _userRepo = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -56,7 +54,8 @@ public class HomeController : ControllerBase
     /// </returns>
     [Authorize]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<BasicUserInfosDto>>> ListUsersAsync([FromQuery] PageQueryParameters pageQueryParameters)
+    public async Task<ActionResult<IEnumerable<BasicUserInfosDto>>> ListUsersAsync(
+        [FromQuery] PageQueryParameters pageQueryParameters)
     {
         try
         {
@@ -93,11 +92,14 @@ public class HomeController : ControllerBase
                 userDtOs.Add(userDto);
             }
 
+            this._logger.LogInformation("Fetched {NumberOfUsers} users. Pagination details: {PaginationDetails}",
+                userDtOs.Count, metadata);
             return Ok(userDtOs);
         }
         catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} retrieving the list of users: {ex.Message}");
+            this._logger.LogError(ex, "Error occurred while getting users in {MethodName}", nameof(ListUsersAsync));
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -109,8 +111,14 @@ public class HomeController : ControllerBase
     /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
     /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while deleting the user.
     /// </returns>
+    /// <response code="200">if the user is successfully deleted.</response>
+    /// <response code="400">if the user is not found with the provided user ID.</response>
+    /// <response code="500">if an error occurs while deleting the user.</response>
     [Authorize]
     [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteUserAsync()
     {
         var user = await this._userManager.FindByIdAsync(this._userManager.GetUserId(this.User));
@@ -121,16 +129,19 @@ public class HomeController : ControllerBase
             {
                 await this._signManager.SignOutAsync();
                 await this._userManager.DeleteAsync(user);
+                this._logger.LogInformation("User {UserName} deleted in successfully", user.UserName);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} deleting the user: {ex.Message}");
+                this._logger.LogError(ex, "Error occurred while deleting user");
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
-        return BadRequest(this._userNotFoundErrorMessage);
+        this._logger.LogError("User not found in {MethodName}", nameof(DeleteUserAsync));
+        return BadRequest();
     }
 
     /// <summary>
@@ -142,26 +153,37 @@ public class HomeController : ControllerBase
     /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
     /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while deleting the user.
     /// </returns>
+    /// <response code="200">if the user is successfully deleted.</response>
+    /// <response code="400">if the user is not found with the provided user ID.</response>
+    /// <response code="500">if an error occurs while deleting the user.</response>
     [Authorize(Roles = "Admin")]
     [HttpDelete]
     public async Task<IActionResult> DeleteUserByAdminAsync(string userid)
     {
         var user = await this._userManager.FindByIdAsync(userid);
+        string adminUsername = this.User?.Identity?.Name!;
+
         if (user != null)
         {
             try
             {
                 await this._userManager.DeleteAsync(user);
+                this._logger.LogInformation("Admin {AdminUsername} deleted user {UserId} successfully", adminUsername,
+                    user.Id);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} delete the user: {ex.Message}");
+                this._logger.LogError(ex, "Error occurred while deleting user (ID:{UserId}) by {AdminUsername}", userid,
+                    adminUsername);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
+        this._logger.LogWarning("Admin {AdminUsername} attempted to delete a non-existent user", adminUsername);
         return BadRequest(this._userNotFoundErrorMessage);
     }
+
 
     /// <summary>
     /// Grants the role of "Admin" to the specified user.
@@ -172,24 +194,33 @@ public class HomeController : ControllerBase
     /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
     /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while adding the role.
     /// </returns>
+    /// <response code="200">if the "Admin" role is successfully added to the user.</response>
+    /// <response code="400">if the user is not found with the provided user ID.</response>
+    /// <response code="500">if an error occurs while adding the role.</response>
     [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<IActionResult> GrantAdminAsync(string userid)
     {
         var user = await this._userManager.FindByIdAsync(userid);
+        var adminUsername = this.User?.Identity?.Name;
         if (user != null)
         {
             try
             {
                 await this._userManager.AddToRoleAsync(user, "Admin");
+                this._logger.LogInformation("Admin {AdminUsername} successfully granted Admin role for {Username}",
+                    adminUsername, user.UserName);
                 return Ok();
             }
             catch (Exception ex)
             {
-
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} adding the role: {ex.Message}");
+                this._logger.LogError(ex, "Error occurred while granting Admin role for user (ID: {UserId})", userid);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        this._logger.LogWarning("Admin {AdminUsername} attempted to grant admin role to a non-existent user",
+            adminUsername);
         return BadRequest(this._userNotFoundErrorMessage);
     }
 
@@ -200,25 +231,40 @@ public class HomeController : ControllerBase
     /// <returns>
     /// <see cref="OkResult"/> if the "Admin" role is successfully removed from the user.
     /// <see cref="BadRequestResult"/> if the user is not found with the provided user ID.
-    /// <see cref="StatusCodeResult"/> with a status code of 500 (Internal Server Error) if an error occurs while removing the role.
+    /// <see cref="StatusCodeResult"/> if an error occurs while removing the role.
     /// </returns>
+    /// <response code="200">if the "Admin" role is successfully removed from the user.</response>
+    /// <response code="400">if the user is not found with the provided user ID.</response>
+    /// <response code="500">if an error occurs while removing the role.</response>
     [Authorize(Roles = "Admin")]
     [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> RemoveAdminAsync(string userid)
     {
         var user = await this._userManager.FindByIdAsync(userid);
+        // Do i need 
+        var adminUsername = this.User?.Identity?.Name;
         if (user != null)
         {
             try
             {
                 await this._userManager.RemoveFromRoleAsync(user, "Admin");
+                this._logger.LogInformation("Admin {AdminUsername} removed admin role from user(ID: {UserId})",
+                    adminUsername, userid);
                 return Ok();
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} removing the role: {ex.Message}");
+                this._logger.LogError(ex,"Error occurred while removing Admin role from user(ID: {UserId}) by {AdminName}",
+                    userid, adminUsername);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        this._logger.LogWarning("Admin {AdminUsername} attempted to remove admin role from a non-existent user",
+            adminUsername);
         return BadRequest(this._userNotFoundErrorMessage);
     }
 }
