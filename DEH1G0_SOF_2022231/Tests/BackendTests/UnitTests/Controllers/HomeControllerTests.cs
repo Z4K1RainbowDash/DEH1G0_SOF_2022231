@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System.Security.Claims;
+using DEH1G0_SOF_2022231.Helpers;
 using DEH1G0_SOF_2022231.Models.DTOs;
 using Microsoft.AspNetCore.Http;
 using Tests.BackendTests.TestHelpers;
@@ -25,10 +26,14 @@ namespace Tests.BackendTests.UnitTests.Controllers
         private Mock<RoleManager<IdentityRole>> _roleManager;
         private HomeController _homeController;
         private string _invalidAppUserId;
+        private Mock<HttpContext> _mockHttpContext;
+        private Mock<HttpResponse> _mockHttpResponse;
 
         [SetUp]
         public void SetUp()
         {
+            this._mockHttpResponse = new Mock<HttpResponse>();
+            this._mockHttpContext = new Mock<HttpContext>();
             this._logger = new Mock<ILogger<HomeController>>();
             this._userManager = MockHelpers.MockUserManager<AppUser>();
             this._signInManager = MockHelpers.MockSignInManager<AppUser>();
@@ -238,26 +243,42 @@ namespace Tests.BackendTests.UnitTests.Controllers
         }
 
         [Test]
-        public async Task ListUsers_WhenCalled_ShouldReturnAllUsers()
+        public async Task ListUsers_WhenCalled_ShouldReturnPaginatedUsers()
         {
             var users = new List<AppUser>
             {
                 new AppUser { Id = "1", FirstName = "fName", LastName = "lName" },
                 new AppUser { Id = "2", FirstName = "fName2", LastName = "lName2" }
             };
+            PageQueryParameters pageQueryParameters = new PageQueryParameters()
+            {
+                PageSize = 2,
+                PageIndex = 1
+            };
 
+            var paginatedList = new PaginatedList<AppUser>(users, users.Count, pageQueryParameters);
+            
+            var headers = new HeaderDictionary();
+    
+            this._mockHttpResponse.SetupGet(r => r.Headers).Returns(headers);
+            this._mockHttpContext.SetupGet(a => a.Response).Returns(this._mockHttpResponse.Object);
+
+            this._homeController.ControllerContext = new ControllerContext
+            {
+                HttpContext = this._mockHttpContext.Object
+            };
             this._userRepo
-                .Setup(x => x.GetAllAsync())
-                .ReturnsAsync(users);
+                .Setup(x => x.GetPaginatedAppUsersAsync(pageQueryParameters))
+                .ReturnsAsync(paginatedList);
             this._userManager
                 .Setup(x => x.GetRolesAsync(It.IsAny<AppUser>()))
                 .ReturnsAsync(new List<string>());
-            var result = await this._homeController.ListUsersAsync();
+            var result = await this._homeController.ListUsersAsync(pageQueryParameters);
             
             var objectResult = result.Result as OkObjectResult;
             objectResult.Should().NotBeNull();
 
-            var userDtOs = objectResult.Value as List<BasicUserInfosDto>;
+            var userDtOs = objectResult?.Value.As<List<BasicUserInfosDto>>();
             userDtOs.Should().HaveCount(2);
             userDtOs.Should().BeEquivalentTo(users.Select(user => new BasicUserInfosDto
             {
@@ -266,6 +287,9 @@ namespace Tests.BackendTests.UnitTests.Controllers
                 LastName = user.LastName,
                 Roles = new List<string>()
             }));
+            
+            headers.Should().ContainKey("X-Pagination");
+
         }
 
         [Test]
@@ -342,12 +366,17 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             string exceptionMessage = "ur error";
             Exception exception = new Exception(exceptionMessage);
-          
+            PageQueryParameters pageQueryParameters = new PageQueryParameters()
+            {
+                PageSize = 1,
+                PageIndex = 1
+            };
+            
             this._userRepo
-                .Setup(ur => ur.GetAllAsync())
+                .Setup(ur => ur.GetPaginatedAppUsersAsync(It.IsAny<PageQueryParameters>()))
                 .Throws(exception);
             
-            var result = await this._homeController.ListUsersAsync();
+            var result = await this._homeController.ListUsersAsync(pageQueryParameters);
 
             var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
             objectResult.Should().NotBeNull();

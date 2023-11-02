@@ -1,4 +1,6 @@
-﻿using DEH1G0_SOF_2022231.Models;
+﻿using DEH1G0_SOF_2022231.Helpers;
+using DEH1G0_SOF_2022231.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DEH1G0_SOF_2022231.Data;
 
@@ -7,12 +9,15 @@ namespace DEH1G0_SOF_2022231.Data;
 /// </summary>
 public class AppUserRepository : GenericRepository<AppUser>, IAppUserRepository
 {
+    private readonly IPaginatedListBuilder _paginatedListBuilder;
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="AppUserRepository"/> class.
     /// </summary>
     /// <param name="context">The <see cref="ApplicationDbContext"/> to use for database operations.</param>
-    public AppUserRepository(ApplicationDbContext context) : base(context)
+    public AppUserRepository(ApplicationDbContext context, IPaginatedListBuilder builder) : base(context)
     {
+        this._paginatedListBuilder = builder;
     }
 
     /// <summary>
@@ -29,6 +34,12 @@ public class AppUserRepository : GenericRepository<AppUser>, IAppUserRepository
             throw new NullReferenceException("User not found.");
         }
         return user.Torrents;
+    }
+    
+    public async Task<PaginatedList<AppUser>> GetPaginatedAppUsersAsync(PageQueryParameters pageQueryParameters)
+    {
+        var users = this._context.Users.AsNoTracking();
+        return await this._paginatedListBuilder.BuildAsync<AppUser>(users, pageQueryParameters);
     }
 }
 
