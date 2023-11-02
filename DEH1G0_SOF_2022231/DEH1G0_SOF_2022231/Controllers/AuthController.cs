@@ -1,4 +1,4 @@
-﻿using DEH1G0_SOF_2022231.Models;
+using DEH1G0_SOF_2022231.Models;
 using DEH1G0_SOF_2022231.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +17,16 @@ namespace DEH1G0_SOF_2022231.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
+    private readonly ILogger<AuthController> _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthController"/> class.
     /// </summary>
     /// <param name="userManager">The user manager used to manage user data.</param>
     /// <exception cref="ArgumentNullException"> Thrown if the provided UserManager instance is null.</exception>
-    public AuthController(UserManager<AppUser> userManager)
+    public AuthController(UserManager<AppUser> userManager, ILogger<AuthController> logger)
     {
+        this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
 
@@ -40,6 +42,7 @@ public class AuthController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
+            this._logger.LogError("Invalid registration model");
             return BadRequest(ModelState);
         }
 
@@ -52,15 +55,23 @@ public class AuthController : ControllerBase
             SecurityStamp = Guid.NewGuid().ToString(),
         };
 
-
-        // await _userManager.AddToRoleAsync(user, "Role");
-        var result = await _userManager.CreateAsync(user, registerModel.Password);
-        if (result.Succeeded)
+        try
         {
-            return Ok();
+            // await _userManager.AddToRoleAsync(user, "Role");
+            var result = await _userManager.CreateAsync(user, registerModel.Password);
+            if (result.Succeeded)
+            {
+                this._logger.LogInformation("User registration succeeded for {Username}", user.UserName);
+                return Ok();
+            }
+            this._logger.LogWarning("User registration failed for {Username}, user already exists", user.UserName);
+            return Problem("Duplicated User");
         }
-
-        return Problem("Duplicated User");
+        catch (Exception e)
+        {
+            this._logger.LogError(e, "An error occurred while registering {Username}", user.UserName);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 
     /// <summary>
@@ -75,33 +86,47 @@ public class AuthController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
+            this._logger.LogWarning("Login attempt with invalid model state");
             return BadRequest(ModelState);
         }
 
         var user = await _userManager.FindByNameAsync(loginModel.UserName);
         if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
         {
-            var claim = new List<Claim>
+            try
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id)
-            };
-            foreach (var role in await _userManager.GetRolesAsync(user))
-            {
-                claim.Add(new Claim(ClaimTypes.Role, role));
-            }
-            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("verylongsecretkey"));
-            var token = new JwtSecurityToken(
+                var claim = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                    new Claim(JwtRegisteredClaimNames.NameId, user.Id)
+                };
+                foreach (var role in await _userManager.GetRolesAsync(user))
+                {
+                    claim.Add(new Claim(ClaimTypes.Role, role));
+                }
+                var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("verylongsecretkey"));
+                
+                var token = new JwtSecurityToken(
                 issuer: "http://www.security.org", audience: "http://www.security.org",
                 claims: claim, expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
-            );
-            return Ok(new
+                );
+                
+                this._logger.LogInformation("User {UserName} logged in successfully",loginModel.UserName);
+                return Ok(
+                    new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    });
+            }
+            catch (Exception e)
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
-            });
+                this._logger.LogError(e, "Error occurred while generating JWT token for user {UserName}", loginModel.UserName);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
+        this._logger.LogWarning("Unauthorized login attempt for user {UserName}",loginModel.UserName);
         return Unauthorized();
     }
 }
