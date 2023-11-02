@@ -13,13 +13,13 @@ public class Torrent
     /// </summary>
     [Key]
     public string NcoreId { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the name of the torrent.
     /// </summary>
     [Required]
-    public string Name { get; set; } 
-    
+    public string Name { get; set; }
+
     /// <summary>
     /// Gets or sets the collection of users who downloaded it.
     /// </summary>

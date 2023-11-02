@@ -66,14 +66,14 @@ public class HomeController : ControllerBase
                 paginatedAppUsersAsync.PageIndex,
                 paginatedAppUsersAsync.TotalPages,
                 paginatedAppUsersAsync.HasNextPage,
-                
+
                 paginatedAppUsersAsync.HasPreviousPage,
                 pageQueryParameters.PageSize
 
             };
-            
+
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            
+
             var userDtOs = new List<BasicUserInfosDto>();
 
             foreach (var user in paginatedAppUsersAsync)
@@ -89,7 +89,7 @@ public class HomeController : ControllerBase
                     AccessFailedCount = user.AccessFailedCount,
                     Roles = await this._userManager.GetRolesAsync(user)
                 };
-        
+
                 userDtOs.Add(userDto);
             }
 
@@ -129,7 +129,7 @@ public class HomeController : ControllerBase
                 return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} deleting the user: {ex.Message}");
             }
         }
-        
+
         return BadRequest(this._userNotFoundErrorMessage);
     }
 
@@ -159,7 +159,7 @@ public class HomeController : ControllerBase
                 return StatusCode(StatusCodes.Status500InternalServerError, $"{this._errorOccurredMessage} delete the user: {ex.Message}");
             }
         }
-        
+
         return BadRequest(this._userNotFoundErrorMessage);
     }
 

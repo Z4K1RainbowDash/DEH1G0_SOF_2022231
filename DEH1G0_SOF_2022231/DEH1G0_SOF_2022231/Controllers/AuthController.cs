@@ -51,15 +51,15 @@ public class AuthController : ControllerBase
             FirstName = registerModel.FirstName,
             SecurityStamp = Guid.NewGuid().ToString(),
         };
-        
-        
+
+
         // await _userManager.AddToRoleAsync(user, "Role");
         var result = await _userManager.CreateAsync(user, registerModel.Password);
         if (result.Succeeded)
         {
             return Ok();
         }
-        
+
         return Problem("Duplicated User");
     }
 
@@ -77,7 +77,7 @@ public class AuthController : ControllerBase
         {
             return BadRequest(ModelState);
         }
-        
+
         var user = await _userManager.FindByNameAsync(loginModel.UserName);
         if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
         {
