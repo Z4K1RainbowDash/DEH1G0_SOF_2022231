@@ -9,7 +9,7 @@ namespace DEH1G0_SOF_2022231.Models;
 /// </summary>
 public class TorrentLog
 {
-    
+
     /// <summary>
     /// Gets or sets the ID of the log entry.
     /// </summary>
@@ -27,7 +27,7 @@ public class TorrentLog
     /// </summary>
     [ForeignKey("Torrent")]
     public string TorrentId { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the torrent associated with the log entry.
     /// </summary>
@@ -40,7 +40,7 @@ public class TorrentLog
     /// </summary>
     [ForeignKey("User")]
     public string UserId { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the user associated with the log entry.
     /// </summary>
@@ -53,6 +53,6 @@ public class TorrentLog
     /// </summary>
     public TorrentLog()
     {
-            this.Id = Guid.NewGuid().ToString();
+        this.Id = Guid.NewGuid().ToString();
     }
 }

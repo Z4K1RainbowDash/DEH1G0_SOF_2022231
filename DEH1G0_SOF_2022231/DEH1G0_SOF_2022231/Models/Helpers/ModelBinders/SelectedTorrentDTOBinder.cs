@@ -7,7 +7,7 @@ namespace DEH1G0_SOF_2022231.Models.Helpers.ModelBinders;
 /// <summary>
 /// Custom model binder for the <see cref="SelectedTorrentDto"/> class.
 /// </summary>
-public class SelectedTorrentDtoBinder: IModelBinder
+public class SelectedTorrentDtoBinder : IModelBinder
 {
     /// <summary>
     /// Binds the data from the HTTP request to the <see cref="SelectedTorrentDto"/> instance.

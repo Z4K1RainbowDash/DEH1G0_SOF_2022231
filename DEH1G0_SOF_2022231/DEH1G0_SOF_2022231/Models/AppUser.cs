@@ -16,7 +16,7 @@ public class AppUser : IdentityUser
     [StringLength(200, MinimumLength = 2)]
     [Required]
     public string FirstName { get; set; }
-    
+
     /// <summary>
     /// Gets or sets the user's last name.
     /// </summary>

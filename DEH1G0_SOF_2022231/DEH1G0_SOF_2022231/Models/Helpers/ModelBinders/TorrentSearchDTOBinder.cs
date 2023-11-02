@@ -21,16 +21,16 @@ public class TorrentSearchDtoBinder : IModelBinder
         {
             throw new ArgumentNullException(nameof(bindingContext));
         }
-        
+
         var request = bindingContext.HttpContext.Request;
         request.EnableBuffering();
-        
+
         var body = new StreamReader(request.Body).ReadToEndAsync().Result;
         request.Body.Position = 0;
 
 
         TorrentSearchDto? dto;
-        
+
         try
         {
             dto = JsonConvert.DeserializeObject<TorrentSearchDto>(body);

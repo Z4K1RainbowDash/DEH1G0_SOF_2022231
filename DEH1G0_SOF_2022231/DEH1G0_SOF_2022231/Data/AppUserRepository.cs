@@ -10,7 +10,7 @@ namespace DEH1G0_SOF_2022231.Data;
 public class AppUserRepository : GenericRepository<AppUser>, IAppUserRepository
 {
     private readonly IPaginatedListBuilder _paginatedListBuilder;
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="AppUserRepository"/> class.
     /// </summary>
@@ -35,7 +35,7 @@ public class AppUserRepository : GenericRepository<AppUser>, IAppUserRepository
         }
         return user.Torrents;
     }
-    
+
     public async Task<PaginatedList<AppUser>> GetPaginatedAppUsersAsync(PageQueryParameters pageQueryParameters)
     {
         var users = this._context.Users.AsNoTracking();

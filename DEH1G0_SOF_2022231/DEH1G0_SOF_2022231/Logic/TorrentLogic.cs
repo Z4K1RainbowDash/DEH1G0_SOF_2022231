@@ -71,8 +71,8 @@ public class TorrentLogic : ITorrentLogic
         };
 
         await this._torrentLogRepository.AddAsync(torrentLog);
-        
-        
+
+
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class TorrentLogic : ITorrentLogic
                 NcoreId = dto.TorrentId,
                 Name = dto.TorrentName.Replace('_', ' ')
             };
-            
+
             await this._torrentRepository.AddAsync(torrent);
         }
 

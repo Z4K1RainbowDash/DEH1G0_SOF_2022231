@@ -17,7 +17,7 @@ public class TorrentSearchDto
     [Required]
     [StringLength(200, MinimumLength = 3)]
     public string SearchText { get; init; }
-    
+
     /// <summary>
     /// Gets or sets the torrent movies subcategories.
     /// </summary>
@@ -37,7 +37,7 @@ public class TorrentSearchDto
     /// Gets or sets the torrent games subcategories.
     /// </summary>
     public Games Games { get; init; }
-    
+
     /// <summary>
     /// Gets or sets the torrent Programs subcategories.
     /// </summary>

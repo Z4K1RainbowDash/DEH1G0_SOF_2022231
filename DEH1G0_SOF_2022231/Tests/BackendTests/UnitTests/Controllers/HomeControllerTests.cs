@@ -56,7 +56,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
                 .ReturnsAsync(IdentityResult.Success);
 
             var result = await this._homeController.GrantAdminAsync(user.Id);
-            
+
             result.Should().BeOfType<OkResult>();
             this._userManager.Verify(u => u.FindByIdAsync(user.Id), Times.Once);
             this._userManager.Verify(x => x.AddToRoleAsync(user, role), Times.Once);
@@ -68,7 +68,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.FindByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync((AppUser)null!);
-            
+
             var result = await this._homeController.GrantAdminAsync(this._invalidAppUserId);
 
             result.Should().BeOfType<BadRequestObjectResult>();
@@ -87,12 +87,12 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.RemoveFromRoleAsync(user, role))
                 .ReturnsAsync(IdentityResult.Success);
-            
+
             var result = await this._homeController.RemoveAdminAsync(user.Id);
-            
+
             result.Should().BeOfType<OkResult>();
             this._userManager.Verify(u => u.FindByIdAsync(user.Id), Times.Once);
-            this._userManager.Verify(x => x.RemoveFromRoleAsync(user,role), Times.Once);
+            this._userManager.Verify(x => x.RemoveFromRoleAsync(user, role), Times.Once);
         }
 
         [Test]
@@ -101,24 +101,24 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.FindByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync((AppUser)null!);
-            
+
             var result = await this._homeController.RemoveAdminAsync(this._invalidAppUserId);
-            
+
             result.Should().BeOfType<BadRequestObjectResult>();
             this._userManager.Verify(u => u.FindByIdAsync(this._invalidAppUserId), Times.Once);
             this._userManager.Verify(x => x.RemoveFromRoleAsync(It.IsAny<AppUser>(), It.IsAny<string>()), Times.Never);
         }
-        
+
         [Test]
         public async Task DeleteUserByAdminAsync_WhenCalledWithValidUserId_ShouldDeletesUserFromRepository()
         {
             var user = new AppUser { Id = "3", FirstName = "fName", LastName = "lName" };
             this._userManager
-                .Setup(x=> x.FindByIdAsync(user.Id))
+                .Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
-            
+
             var result = await this._homeController.DeleteUserByAdminAsync(user.Id);
-            
+
             result.Should().BeOfType<OkResult>();
             this._userManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             this._userManager.Verify(x => x.DeleteAsync(user), Times.Once);
@@ -130,9 +130,9 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.FindByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync((AppUser)null!);
-            
+
             var result = await this._homeController.DeleteUserByAdminAsync(this._invalidAppUserId);
-            
+
             result.Should().BeOfType<BadRequestObjectResult>();
             this._userManager.Verify(x => x.FindByIdAsync(this._invalidAppUserId), Times.Once);
             this._userManager.Verify(x => x.DeleteAsync(It.IsAny<AppUser>()), Times.Never);
@@ -146,13 +146,13 @@ namespace Tests.BackendTests.UnitTests.Controllers
                 .Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
             this._userManager
-                .Setup(x=> x.GetUserId(It.IsAny<ClaimsPrincipal>()))
+                .Setup(x => x.GetUserId(It.IsAny<ClaimsPrincipal>()))
                 .Returns(user.Id);
-            
+
             var result = await this._homeController.DeleteUserAsync();
-            
+
             result.Should().BeOfType<OkResult>();
-            this._userManager.Verify(x=> x.FindByIdAsync(user.Id), Times.Once);
+            this._userManager.Verify(x => x.FindByIdAsync(user.Id), Times.Once);
             this._signInManager.Verify(x => x.SignOutAsync(), Times.Once);
             this._userManager.Verify(x => x.DeleteAsync(user), Times.Once);
         }
@@ -162,7 +162,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             Action action = () => new HomeController(this._logger.Object, this._userRepo.Object,
                 this._userManager.Object, this._roleManager.Object, this._signInManager.Object);
-            
+
             action.Should().NotBeNull();
             action.Should().NotThrow();
         }
@@ -172,10 +172,10 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             string expectedNullParameterName = "logger";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-            
+
             Action action = () => new HomeController(null, this._userRepo.Object, this._userManager.Object,
                 this._roleManager.Object, this._signInManager.Object);
-            
+
             action.Should().NotBeNull();
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -187,10 +187,10 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             string expectedNullParameterName = "userRepository";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-            
+
             Action action = () => new HomeController(this._logger.Object, null, this._userManager.Object,
                 this._roleManager.Object, this._signInManager.Object);
-            
+
             action.Should().NotBeNull();
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -202,10 +202,10 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             string expectedNullParameterName = "userManager";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-            
+
             Action action = () => new HomeController(this._logger.Object, this._userRepo.Object,
                 null, this._roleManager.Object, this._signInManager.Object);
-            
+
             action.Should().NotBeNull();
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -217,10 +217,10 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             string expectedNullParameterName = "roleManager";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-            
+
             Action action = () => new HomeController(this._logger.Object, this._userRepo.Object,
                 this._userManager.Object, null, this._signInManager.Object);
-            
+
             action.Should().NotBeNull();
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -233,9 +233,9 @@ namespace Tests.BackendTests.UnitTests.Controllers
         {
             string expectedNullParameterName = "signInManager";
             string expectedExceptionMessageStart = "Value cannot be null.*";
-            
+
             Action action = () => new HomeController(this._logger.Object, this._userRepo.Object, this._userManager.Object, this._roleManager.Object, null);
-            
+
             action.Should().NotBeNull();
             action.Should().Throw<ArgumentNullException>()
                 .WithMessage(expectedExceptionMessageStart)
@@ -257,9 +257,9 @@ namespace Tests.BackendTests.UnitTests.Controllers
             };
 
             var paginatedList = new PaginatedList<AppUser>(users, users.Count, pageQueryParameters);
-            
+
             var headers = new HeaderDictionary();
-    
+
             this._mockHttpResponse.SetupGet(r => r.Headers).Returns(headers);
             this._mockHttpContext.SetupGet(a => a.Response).Returns(this._mockHttpResponse.Object);
 
@@ -274,7 +274,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
                 .Setup(x => x.GetRolesAsync(It.IsAny<AppUser>()))
                 .ReturnsAsync(new List<string>());
             var result = await this._homeController.ListUsersAsync(pageQueryParameters);
-            
+
             var objectResult = result.Result as OkObjectResult;
             objectResult.Should().NotBeNull();
 
@@ -287,7 +287,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
                 LastName = user.LastName,
                 Roles = new List<string>()
             }));
-            
+
             headers.Should().ContainKey("X-Pagination");
 
         }
@@ -301,11 +301,11 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
-            
+
             this._userManager
-                .Setup(rm => rm.AddToRoleAsync(It.IsAny<AppUser>(),It.IsAny<string>()))
+                .Setup(rm => rm.AddToRoleAsync(It.IsAny<AppUser>(), It.IsAny<string>()))
                 .Throws(exception);
-            
+
             var result = await this._homeController.GrantAdminAsync(user.Id);
 
             var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
@@ -314,7 +314,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
             objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
             objectResult.Value.ToString().Should().Contain(exceptionMessage);
         }
-        
+
         [Test]
         public async Task DeleteUserByAdminAsync_WhenAnErrorOccurs_ShouldReturnInternalServerError()
         {
@@ -324,11 +324,11 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
-            
+
             this._userManager
                 .Setup(rm => rm.DeleteAsync(It.IsAny<AppUser>()))
                 .Throws(exception);
-            
+
             var result = await this._homeController.DeleteUserByAdminAsync(user.Id);
 
             var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
@@ -337,7 +337,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
             objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
             objectResult.Value.ToString().Should().Contain(exceptionMessage);
         }
-        
+
         [Test]
         public async Task RemoveAdminAsync_WhenAnErrorOccurs_ShouldReturnInternalServerError()
         {
@@ -347,11 +347,11 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
-            
+
             this._userManager
-                .Setup(rm => rm.RemoveFromRoleAsync(It.IsAny<AppUser>(),It.IsAny<string>()))
+                .Setup(rm => rm.RemoveFromRoleAsync(It.IsAny<AppUser>(), It.IsAny<string>()))
                 .Throws(exception);
-            
+
             var result = await this._homeController.RemoveAdminAsync(user.Id);
 
             var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
@@ -371,11 +371,11 @@ namespace Tests.BackendTests.UnitTests.Controllers
                 PageSize = 1,
                 PageIndex = 1
             };
-            
+
             this._userRepo
                 .Setup(ur => ur.GetPaginatedAppUsersAsync(It.IsAny<PageQueryParameters>()))
                 .Throws(exception);
-            
+
             var result = await this._homeController.ListUsersAsync(pageQueryParameters);
 
             var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
@@ -390,29 +390,29 @@ namespace Tests.BackendTests.UnitTests.Controllers
             this._userManager
                 .Setup(x => x.FindByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync((AppUser)null!);
-            
+
             var result = await this._homeController.DeleteUserAsync();
 
             result.Should().BeOfType<BadRequestObjectResult>();
         }
-        
+
         [Test]
         public async Task DeleteUserAsync_WhenAnErrorOccurs_ShouldReturnInternalServerError()
         {
             var user = new AppUser { Id = "1231234", FirstName = "fName", LastName = "lName" };
             string exceptionMessage = "ur error";
             Exception exception = new Exception(exceptionMessage);
-            
+
             this._userManager
                 .Setup(x => x.FindByIdAsync(user.Id))
                 .ReturnsAsync(user);
             this._userManager
-                .Setup(x=> x.GetUserId(It.IsAny<ClaimsPrincipal>()))
+                .Setup(x => x.GetUserId(It.IsAny<ClaimsPrincipal>()))
                 .Returns(user.Id);
             this._signInManager
                 .Setup(sim => sim.SignOutAsync())
                 .Throws(exception);
-            
+
             var result = await this._homeController.DeleteUserAsync();
 
             var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
@@ -421,7 +421,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
             objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
             objectResult.Value.ToString().Should().Contain(exceptionMessage);
         }
-        
+
         [Theory]
         [TestCase("ListUsersAsync")]
         [TestCase("DeleteUserAsync")]
@@ -432,7 +432,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
         public void HomeController_MethodWithAuthorizeAttribute_ShouldReturnTrue(string methodName)
         {
             bool result = AttributeHelper.MethodHasAttributeOfType<HomeController, AuthorizeAttribute>(methodName);
-            
+
             result.Should().BeTrue();
         }
 
@@ -440,7 +440,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
         [TestCase("DeleteUserByAdminAsync")]
         [TestCase("GrantAdminAsync")]
         [TestCase("RemoveAdminAsync")]
-        public void HomeController_MethodWithAuthorizeAttributeWhichContainsAdminRole_ShouldReturnTrue(string methodName )
+        public void HomeController_MethodWithAuthorizeAttributeWhichContainsAdminRole_ShouldReturnTrue(string methodName)
         {
             string attributePropertyName = "Roles";
             string expectedPropertyValue = "Admin";
@@ -448,7 +448,7 @@ namespace Tests.BackendTests.UnitTests.Controllers
             bool result = AttributeHelper
                 .MethodHasAttributeWithPropertyValue<HomeController, AuthorizeAttribute, string>
                     (methodName, attributePropertyName, expectedPropertyValue);
-            
+
             result.Should().BeTrue();
         }
     }

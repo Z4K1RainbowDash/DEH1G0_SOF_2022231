@@ -11,7 +11,7 @@ public class PaginatedList<T> : List<T>, IPaginatedList<T> where T : class
     /// Gets the index of the current page.
     /// </summary>
     public int PageIndex { get; init; }
-    
+
     /// <summary>
     /// Gets the total number of pages.
     /// </summary>
