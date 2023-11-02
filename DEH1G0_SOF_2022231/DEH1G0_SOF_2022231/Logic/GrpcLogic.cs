@@ -62,7 +62,7 @@ public class GrpcLogic : IGrpcLogic
     {
         var request = new TorrentRequest { Id = id };
         var memoryStream = new MemoryStream();
-        
+
         using (var responseStream = this._client.TorrentDownload(request))
         {
             while (await responseStream.ResponseStream.MoveNext())

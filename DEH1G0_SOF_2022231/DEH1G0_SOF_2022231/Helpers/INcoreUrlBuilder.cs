@@ -6,19 +6,19 @@ namespace DEH1G0_SOF_2022231.Helpers;
 /// </summary>
 public interface INcoreUrlBuilder
 {
-    
+
     /// <summary>
     /// Builds a NcoreUrl with options.
     /// </summary>
     /// <returns>A <see cref="NcoreUrl"/> object.</returns>
     NcoreUrl Build();
-    
+
     /// <summary>
     /// Sets the properties to default values.
     /// </summary>
     /// <returns>The <see cref="NcoreUrlBuilder"/>.</returns>
     NcoreUrlBuilder Reset();
-    
+
     /// <summary>
     /// Sets music categories based on the input Books object.
     /// </summary>
@@ -26,7 +26,7 @@ public interface INcoreUrlBuilder
     /// <returns>The current <see cref="NcoreUrlBuilder"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown if the book parameter is null</exception>
     NcoreUrlBuilder SetBookCategories(Books books);
-    
+
     /// <summary>
     /// Sets music categories based on the input Games object.
     /// </summary>
@@ -34,7 +34,7 @@ public interface INcoreUrlBuilder
     /// <returns>The current <see cref="NcoreUrlBuilder"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown if the game parameter is null</exception>
     NcoreUrlBuilder SetGameCategories(Games games);
-    
+
     /// <summary>
     /// Sets movie categories based on the input Movies object.
     /// </summary>
@@ -42,7 +42,7 @@ public interface INcoreUrlBuilder
     /// <returns>The current <see cref="NcoreUrlBuilder"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown if the movies parameter is null</exception>
     NcoreUrlBuilder SetMovieCategories(Movies movies);
-    
+
     /// <summary>
     /// Sets music categories based on the input Music object.
     /// </summary>
@@ -50,7 +50,7 @@ public interface INcoreUrlBuilder
     /// <returns>The current <see cref="NcoreUrlBuilder"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown if the music parameter is null</exception>
     NcoreUrlBuilder SetMusicCategories(Music musics);
-    
+
     /// <summary>
     /// Sets programs categories based on the input Programs object.
     /// </summary>
@@ -58,20 +58,20 @@ public interface INcoreUrlBuilder
     /// <returns>The current <see cref="NcoreUrlBuilder"/>.</returns>
     /// <exception cref="ArgumentNullException">Thrown if the programs parameter is null</exception>
     NcoreUrlBuilder SetProgramCategories(Programs programs);
-    
+
     /// <summary>
     /// Sets the search text.
     /// </summary>
     /// <param name="searchText">This string will be the text to search for.</param>
     /// <returns>The <see cref="NcoreUrlBuilder"/>.</returns>
     NcoreUrlBuilder SetSearchText(string searchText);
-    
+
     /// <summary>
     /// Sets the search type.
     /// </summary>
     /// <returns>The <see cref="NcoreUrlBuilder"/>.</returns>
     NcoreUrlBuilder SetSearchType();
-    
+
     /// <summary>
     /// Sets series categories based on the input Series object.
     /// </summary>

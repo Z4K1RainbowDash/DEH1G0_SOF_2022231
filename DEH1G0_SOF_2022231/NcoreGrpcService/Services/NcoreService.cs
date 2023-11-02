@@ -7,7 +7,7 @@ namespace NcoreGrpcService.Services
     /// <summary>
     /// NcoreService is a class that implements the NcoreBase abstract class and serves as a service to search and download torrents.
     /// </summary>
-    public class NcoreService:Ncore.NcoreBase
+    public class NcoreService : Ncore.NcoreBase
     {
         private readonly ILogger<NcoreService> _logger;
         private readonly INcoreWebScraping _webScraping;
@@ -52,7 +52,7 @@ namespace NcoreGrpcService.Services
         {
             this._logger.LogInformation("Searching for torrents with URL: {0}", request.Url);
             var searchResults = this._webScraping.Searching(request);
-            
+
             foreach (TorrentDataReply r in searchResults)
             {
                 await responseStream.WriteAsync(r);

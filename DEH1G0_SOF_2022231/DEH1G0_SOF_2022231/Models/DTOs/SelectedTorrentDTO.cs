@@ -13,7 +13,7 @@ public class SelectedTorrentDto
     /// Gets the torrent's id.
     /// </summary>
     public string TorrentId { get; init; }
-    
+
     /// <summary>
     /// Gets the torrent's name.
     /// </summary>

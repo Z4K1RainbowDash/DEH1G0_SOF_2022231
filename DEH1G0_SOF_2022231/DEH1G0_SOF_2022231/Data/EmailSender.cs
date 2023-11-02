@@ -36,14 +36,14 @@ public class EmailSender : IEmailSender
     {
 
         string host = this._configuration["Email:Host"];
-        int port = int.Parse(this._configuration["Email:Port"]);      
+        int port = int.Parse(this._configuration["Email:Port"]);
         string userEmail = this._configuration["Email:UserEmail"];
         string userPw = this._configuration["Email:UserPassword"];
         string targetName = this._configuration["Email:TargetName"];
 
         using (SmtpClient client = new SmtpClient()
         {
-            
+
             Host = host,
             Port = port,
             UseDefaultCredentials = false,

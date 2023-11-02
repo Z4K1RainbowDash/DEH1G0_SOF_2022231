@@ -97,20 +97,20 @@ public class TorrentsController : ControllerBase
             {
                 throw new NullReferenceException("UserId not found");
             }
-            
+
             await this._torrentLogic.CreateIdentities(dto, user);
 
             var memoryStream = await this._grpcLogic.DownloadTorrent(dto.TorrentId);
-            string torrentName = dto.TorrentName.Replace('_',' ') + ".torrent";     
-            
+            string torrentName = dto.TorrentName.Replace('_', ' ') + ".torrent";
+
             if (memoryStream.Length != 0)
             {
                 return File(memoryStream, "application/octet-stream", torrentName);
             }
-            
+
             return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while downloading torrent: MemoryStream Length is 0!");
         }
-        catch(Exception ex) 
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError,
                 $"An error occurred while searching torrents: {ex.Message}");
@@ -182,7 +182,7 @@ public class TorrentsController : ControllerBase
 
             return Ok(sortedTorrents);
         }
-        catch(Exception ex) 
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError,
                 $"An error occurred while getting torrents: {ex.Message}");
@@ -217,7 +217,7 @@ public class TorrentsController : ControllerBase
             };
             return Ok(dto);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(StatusCodes.Status500InternalServerError,
                 $"An error occurred while getting torrent with users: {ex.Message}");
